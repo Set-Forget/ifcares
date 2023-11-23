@@ -1,5 +1,5 @@
 import { MealSiteContext } from "../mealSiteProvider/MealSiteProvider";
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 
 const MealCountMobile = () => {
     const {

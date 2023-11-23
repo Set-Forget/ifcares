@@ -2,31 +2,23 @@ import { LocalizationProvider, DatePicker, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 
-const DateTimePickerMobile = ( {}) => {
+const DateTimePickerMobile = () => {
     const {
-        studentData,
-        selectedSite,
         selectedDate,
         setSelectedDate,
         selectedTime1,
         setSelectedTime1,
         selectedTime2,
         setSelectedTime2,
-        selectedCheckboxData,
-        globalCounts,
-        formattedData,
-        setFormattedData,
-        isModalOpen,
-        setIsModalOpen,
         dateError,
         setDateError,
         time1Error,
         setTime1Error,
         time2Error,
         setTime2Error,
-        handleNextClick
+        
       } = useContext(MealSiteContext);
  
     return (

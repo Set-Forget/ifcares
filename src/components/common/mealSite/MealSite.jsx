@@ -3,7 +3,6 @@ import { Table } from 'flowbite-react';
 import MealSiteRow from '../mealSiteRow/MealSiteRow';
 import SitesDropdown from '../sitesDropdown/SitesDropdown';
 import axios from 'axios';
-import MealTable from '../mealTable/MealTable';
 import './MealSite.css';
 import useAuth from '../../../hooks/useAuth';
 import { ROLES } from '../../../constants';
@@ -24,7 +23,6 @@ const MealSite = () => {
     setLastTimeOut,
     siteData,
     setSiteData,
-    studentData,
     setStudentData,
   } = useContext(MealSiteContext);
 

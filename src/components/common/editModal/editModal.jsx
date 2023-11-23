@@ -25,7 +25,7 @@ const Input = ({ label, id, value, onChange }) => {
 }
 export default function EditModal({student, isOpen, onClose, onSave}) {
     const [editedStudent, setEditedStudent] = useState({ ...student });
-    const [openModal, setOpenModal] = useState(undefined);
+    // const [openModal, setOpenModal] = useState(undefined);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

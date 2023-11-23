@@ -9,7 +9,7 @@ import axios from 'axios';
 import SavingModal from '../savingModal/SavingModal';
 import { useEffect } from 'react';
 
-export default function StudentsRow({ student, handleEdit }) {
+export default function StudentsRow({ student }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedStudent, setEditedStudent] = useState({
@@ -18,6 +18,7 @@ export default function StudentsRow({ student, handleEdit }) {
     site: student.site,
   });
   const [openModal, setOpenModal] = useState(undefined);
+
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
@@ -34,7 +35,6 @@ export default function StudentsRow({ student, handleEdit }) {
       return () => clearTimeout(timer);
     }
   }, [toastType, toastMessage]);
-
 
   return (
     <>
@@ -98,16 +98,71 @@ export default function StudentsRow({ student, handleEdit }) {
             className="font-medium text-violet-500 hover:underline dark:text-violet-500 cursor-pointer"
             onClick={() => {
               if (isEditing) {
+                setLoading(true);
+                setOpenModal('pop-up');
 
-                handleEdit(student, editedStudent); 
+                const formattedData = {
+                  actionType: 'edit',
+                  values: [
+                    student.name,
+                    student.site,
+                    editedStudent.name,
+                    editedStudent.age,
+                    editedStudent.site,
+                  ],
+                };
 
+                console.log(formattedData);
+
+                const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+                const GAS_URL =
+                  'https://script.google.com/macros/s/AKfycbw9BaufYdgz2QPIoOGq-p8dN7G2wCnMAghYN2MJSW2IMZ2pZxSW8nDc6pDh3ZdIc4NI/exec';
+
+                axios
+                  .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'x-requested-with': 'XMLHttpRequest',
+                    },
+                  })
+                  .then((response) => {
+                    if (response.data.result === 'success') {
+                      setToastType('success');
+                      setToastMessage('Student edited successfully.');
+                    } else {
+                      setToastType('error');
+                      setToastMessage(
+                        response.data.message ||
+                          'Student could not be updated. Try again later.'
+                      );
+                    }
+                    setLoading(false);
+                    setOpenModal(toastType);
+                    setTimeout(() => {
+                      setOpenModal(null);
+                    }, 3000);
+                    setTimeout(() => window.location.reload(), 3000);
+                    // hacer lo del refresh
+                    // Handle successful response
+                  })
+                  .catch((error) => {
+                    setToastType('error');
+                    setToastMessage('An error occurred. Try again later.');
+                    console.log('error:', error);
+                    setLoading(false);
+                    setOpenModal('error');
+                    setTimeout(() => {
+                      setOpenModal(null); // Hide the toast after a few seconds
+                    }, 3000);
+                    setTimeout(() => window.location.reload(), 3000);
+                    // Handle errors
+                  });
               }
               setIsEditing(!isEditing);
             }}
           >
             <span className="editing-style">{isEditing ? 'SAVE' : 'EDIT'}</span>
           </p>
-
         </Table.Cell>
         <Table.Cell>
           <button

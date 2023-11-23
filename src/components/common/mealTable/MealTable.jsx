@@ -1,8 +1,8 @@
-import MealTableModal from '../mealTableModal/MealTableModal';
+
 import { Table } from 'flowbite-react';
 import MealTableRow from '../mealTableRow/MealTableRow';
 import { Button } from '@mui/material';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import MealTableCount from '../mealTableZCount/MealTableCount';
 import './MealTable.css';
 import dayjs from 'dayjs';
@@ -28,12 +28,7 @@ const MealTable = () => {
     setSelectedTime1,
     selectedTime2,
     setSelectedTime2,
-    selectedCheckboxData,
     globalCounts,
-    formattedData,
-    setFormattedData,
-    isModalOpen,
-    setIsModalOpen,
     dateError,
     setDateError,
     time1Error,

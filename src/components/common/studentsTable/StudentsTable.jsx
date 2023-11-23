@@ -32,7 +32,6 @@ const StudentsTable = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openModal, setOpenModal] = useState(undefined);
 
-
   const paginate = pageNumber => setCurrentPage(pageNumber);
   const { auth } = useAuth();
 
@@ -44,7 +43,8 @@ const StudentsTable = () => {
   const handleEdit = (originalStudent, editedStudentData) => {
     setLoading(true);
     setOpenModal("pop-up");
-
+    setStudentsPerPage(10)
+    
     const formattedData = {
       actionType: "edit",
       values: [
@@ -204,7 +204,7 @@ const StudentsTable = () => {
                       <StudentsRow
                         student={student}
                         key={student.name}
-                        handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
+                        // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
                     ))}
                 </Table.Body>
@@ -278,6 +278,7 @@ const StudentsTable = () => {
             isOpen={isEditModalOpen}
             onClose={() => setIsEditModalOpen(false)}
             onSave={handleEdit}
+            openModal={openModal}
 
           />
         )}

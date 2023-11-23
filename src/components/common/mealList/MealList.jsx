@@ -1,7 +1,6 @@
 import useIsMobile from "../../../hooks/useIsMobile";
 import MealTable from "../mealTable/MealTable";
-import React, { useState, useContext } from 'react';
-import MealTableCount from "../mealTableZCount/MealTableCount";
+import React, { useContext } from 'react';
 import MealTableModal from "../mealTableModal/MealTableModal";
 import MealCountMobile from "../mealCountMobile/MealCountMobile";
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
