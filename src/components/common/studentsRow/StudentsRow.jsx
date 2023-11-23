@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import { Table } from "flowbite-react";
-import "./StudentsRow.css";
-import DeleteModal from "../deleteModal/DeleteModal";
-import { useState } from "react";
-import SitesSelect from "../sitesSelect/SitesSelect";
-import axios from "axios";
-import SavingModal from "../savingModal/SavingModal";
+import { Table } from 'flowbite-react';
+import './StudentsRow.css';
+import DeleteModal from '../deleteModal/DeleteModal';
+import { useState } from 'react';
+import SitesSelect from '../sitesSelect/SitesSelect';
+import axios from 'axios';
+import SavingModal from '../savingModal/SavingModal';
+import { useEffect } from 'react';
 
 export default function StudentsRow({ student, handleEdit }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -18,6 +19,21 @@ export default function StudentsRow({ student, handleEdit }) {
   });
   const [openModal, setOpenModal] = useState(undefined);
   const [loading, setLoading] = useState(false);
+  const [toastType, setToastType] = useState(null);
+  const [toastMessage, setToastMessage] = useState('');
+
+  useEffect(() => {
+    if (toastType) {
+      setOpenModal(toastType);
+      // Reset the toast after a delay
+      const timer = setTimeout(() => {
+        setOpenModal(null);
+        window.location.reload();
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [toastType, toastMessage]);
 
 
   return (
@@ -26,6 +42,8 @@ export default function StudentsRow({ student, handleEdit }) {
         openModal={openModal}
         setOpenModal={setOpenModal}
         loading={loading}
+        type={toastType} // Passed to SavingModal
+        message={toastMessage} // Passed to SavingModal
       />
 
       <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
@@ -80,12 +98,14 @@ export default function StudentsRow({ student, handleEdit }) {
             className="font-medium text-violet-500 hover:underline dark:text-violet-500 cursor-pointer"
             onClick={() => {
               if (isEditing) {
+
                 handleEdit(student, editedStudent); 
+
               }
               setIsEditing(!isEditing);
             }}
           >
-            <span className="editing-style">{isEditing ? "SAVE" : "EDIT"}</span>
+            <span className="editing-style">{isEditing ? 'SAVE' : 'EDIT'}</span>
           </p>
 
         </Table.Cell>

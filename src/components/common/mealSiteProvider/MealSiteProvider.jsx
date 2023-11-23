@@ -5,6 +5,10 @@ export const MealSiteContext = createContext();
 export const MealSiteProvider = ({ children }) => {
   const [selectedSite, setSelectedSite] = useState('');
   const [siteData, setSiteData] = useState('');
+
+  const [lastTimeIn, setLastTimeIn] = useState(null);
+  const [lastTimeOut, setLastTimeOut] = useState(null);
+
   const [studentData, setStudentData] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime1, setSelectedTime1] = useState(null);
@@ -17,16 +21,22 @@ export const MealSiteProvider = ({ children }) => {
     snack: 0,
     supper: 0,
   });
+
   const [formattedData, setFormattedData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [time1Error, setTime1Error] = useState(false);
   const [time2Error, setTime2Error] = useState(false);
+  const [dateValidationError, setDateValidationError] = useState('');
+
 
   const updateGlobalCount = (category, isChecked) => {
     setGlobalCounts((prevCounts) => ({
       ...prevCounts,
-      [category]: isChecked ? prevCounts[category] + 1 : prevCounts[category] - 1,
+      [category]: isChecked
+        ? prevCounts[category] + 1
+        : prevCounts[category] - 1,
+
     }));
   };
 
@@ -35,6 +45,7 @@ export const MealSiteProvider = ({ children }) => {
       ...prevState,
       [studentNumber]: checkboxState,
     }));
+
   };
 
   const handleNextClick = (validStudentData) => {
@@ -42,7 +53,7 @@ export const MealSiteProvider = ({ children }) => {
     setTime1Error(!selectedTime1);
     setTime2Error(!selectedTime2);
 
-    if (!selectedDate || !selectedTime1 || !selectedTime2) {
+    if (dateValidationError || !selectedDate || !selectedTime1 || !selectedTime2) {
       return;
     }
     // Initialize an array to store the formatted data for each student
@@ -83,7 +94,13 @@ export const MealSiteProvider = ({ children }) => {
       setTime1Error,
       time2Error,
       setTime2Error,
-      handleNextClick, }}>
+      handleNextClick,
+      lastTimeIn,
+      setLastTimeIn,
+      lastTimeOut,
+      setLastTimeOut,
+      dateValidationError,
+      setDateValidationError}}>
       {children}
     </MealSiteContext.Provider>
   );

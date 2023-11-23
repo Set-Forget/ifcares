@@ -8,20 +8,34 @@ import './MealSite.css';
 import useAuth from '../../../hooks/useAuth';
 import { ROLES } from '../../../constants';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
+
 import useIsMobile from "../../../hooks/useIsMobile";
 import MealList from '../mealList/MealList';
+
 
 const MealSite = () => {
   const [sites, setSites] = useState([]);
   const { auth } = useAuth();
-  const { selectedSite, setSelectedSite, siteData, setSiteData, studentData, setStudentData } = useContext(MealSiteContext);
+
+  const {
+    selectedSite,
+    setSelectedSite,
+    setLastTimeIn,
+    setLastTimeOut,
+    siteData,
+    setSiteData,
+    studentData,
+    setStudentData,
+  } = useContext(MealSiteContext);
+
   const isMobile = useIsMobile();
 
+
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec';
+    'https://script.google.com/macros/s/AKfycbzNhZUKyRekUop9dRW-vB0T2vIyPvnOUYWFuB_DI8PuJYvad0WAZBvYsM9Wj-4uyZpF/exec';
 
   useEffect(() => {
-    console.log(selectedSite);
+    // console.log(selectedSite);
     if (selectedSite) {
       fetchDataForSelectedSite(selectedSite);
       fetchStudentForSelectedSite(selectedSite);
@@ -30,9 +44,12 @@ const MealSite = () => {
       Promise.all([axios.get(GAS_URL + '?type=sites')])
         .then(([sitesResponse]) => {
           if (auth.role !== ROLES.Admin) {
-            console.log("Sites: ", sitesResponse.data)
-            const sites = sitesResponse.data.filter(item => item.name === auth.assignedSite)
-            setSites(sites)
+            console.log('Sites: ', sitesResponse.data);
+            const sites = sitesResponse.data.filter(
+              (item) => item.name === auth.assignedSite
+            );
+            setSites(sites);
+
           } else {
             setSites(sitesResponse.data);
           }
@@ -49,6 +66,8 @@ const MealSite = () => {
       .get(GAS_URL + `?type=siteData&site=${site}`)
       .then((response) => {
         setSiteData(response.data);
+        setLastTimeIn(response.data.lastTimeIn); // Assuming these fields exist in your response
+        setLastTimeOut(response.data.lastTimeOut);
       })
       .catch((error) => {
         console.error('Error fetching site data:', error);

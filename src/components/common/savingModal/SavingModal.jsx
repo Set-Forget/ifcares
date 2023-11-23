@@ -1,26 +1,28 @@
-import React from "react";
-import { Modal } from "flowbite-react";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import "./SavingModal.css";
-import SavingToast from "../savingToast/SavingToast";
+import React from 'react';
+import { Modal } from 'flowbite-react';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import './SavingModal.css';
+import SavingToast from '../savingToast/SavingToast';
 
-const SavingModal = (props) => {
+const SavingModal = ({ openModal, setOpenModal, loading, message }) => {
   return (
     <>
       <Modal
-        show={!!props.openModal}
+        show={!!openModal}
         size="md"
         popup
-        onClose={() => props.setOpenModal(undefined)}
+        onClose={() => setOpenModal(undefined)}
       >
         <Modal.Body className="modal-body">
-          {props.loading && (
+          {loading && (
             <div className="saving-spinner">
               <LoadingSpinner />
             </div>
           )}
-          {props.openModal === "success" && <SavingToast type="success" />}
-          {props.openModal === "error" && <SavingToast type="error" />}
+          {openModal === 'success' && <SavingToast type="success" />}
+          {openModal === 'error' && (
+            <SavingToast type="error" message={message} />
+          )}
         </Modal.Body>
       </Modal>
     </>

@@ -18,6 +18,7 @@ const Form = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [toastType, setToastType] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
 
   const onSubmit = (data) => {
     setSubmitting(true);
@@ -50,6 +51,7 @@ const Form = () => {
         } else {
           console.error('Error in sending data:', response.data.message);
           setToastType('error');
+          setToastMessage(response.data.message)
           setSubmitting(false);
         }
       })
@@ -132,12 +134,12 @@ const Form = () => {
           <div className="toast-container">
             {toastType === 'success' && (
               <div className="your-toast-wrapper-class">
-                <FormToast type={toastType} />
+                <FormToast type={toastType} message={toastMessage}/>
               </div>
             )}
             {toastType === 'error' && (
               <div className="your-toast-wrapper-class">
-                <FormToast type={toastType} />
+                <FormToast type={toastType} message={toastMessage}/>
               </div>
             )}
           </div>

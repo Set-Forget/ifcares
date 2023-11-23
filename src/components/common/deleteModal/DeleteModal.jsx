@@ -27,7 +27,7 @@ const DeleteModal = ({ onClose, student }) => {
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_DELETE_URL =
-      'https://script.google.com/macros/s/AKfycbyQX7V9R8g1VEMAww_G8UMW9iTQyewe1CcZi90-SU0YFne3xTg5Qa_40lbqWp2w6Tlu/exec';
+      'https://script.google.com/macros/s/AKfycbwLcspdR88ur4JvKvDb3u6Z72z9Uk_N985-7W_CSjT61Nvs7thHlKFd1jhvBdxKaj5V/exec';
 
     axios
       .post(PROXY_URL + GAS_DELETE_URL, JSON.stringify(deleteData), {
