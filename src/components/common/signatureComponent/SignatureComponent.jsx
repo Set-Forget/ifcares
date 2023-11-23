@@ -5,11 +5,13 @@ import React, {
   forwardRef,
 } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
+import useIsMobile from '../../../hooks/useIsMobile';
 
 const SignatureComponent = ({ onGenerateSign }, ref) => {
   //   const [sign, setSign] = useState();
   // const [url, setURL] = useState();
   const signatureRef = useRef();
+  const isMobile = useIsMobile();
 
   useImperativeHandle(ref, () => ({
     generateSign: () => {
@@ -29,12 +31,12 @@ const SignatureComponent = ({ onGenerateSign }, ref) => {
       <div
         style={{
           border: 'solid black 1px',
-          width: '350px',
+          width: '100%',
           margin: '0 auto',
         }}
       >
         <SignatureCanvas
-          canvasProps={{ width: 400, height: 150, className: 'sigCanvas' }}
+          canvasProps={{ width: isMobile? 150: 400, height: 150, className: 'sigCanvas' }}
           ref={signatureRef}
         />
       </div>

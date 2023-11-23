@@ -20,6 +20,12 @@
   font-size: 1rem !important; /* 16px */ 
 }
 
+@media (max-width: 769px) {
+  .table-container{
+    padding-bottom: 25%;
+
+  }
+}
 .table-container {
   position: relative;
   left: 50%;

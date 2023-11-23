@@ -9,9 +9,14 @@ import useAuth from '../../../hooks/useAuth';
 import { ROLES } from '../../../constants';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
+import useIsMobile from "../../../hooks/useIsMobile";
+import MealList from '../mealList/MealList';
+
+
 const MealSite = () => {
   const [sites, setSites] = useState([]);
   const { auth } = useAuth();
+
   const {
     selectedSite,
     setSelectedSite,
@@ -23,6 +28,9 @@ const MealSite = () => {
     setStudentData,
   } = useContext(MealSiteContext);
 
+  const isMobile = useIsMobile();
+
+
   const GAS_URL =
     'https://script.google.com/macros/s/AKfycbzNhZUKyRekUop9dRW-vB0T2vIyPvnOUYWFuB_DI8PuJYvad0WAZBvYsM9Wj-4uyZpF/exec';
 
@@ -32,6 +40,7 @@ const MealSite = () => {
       fetchDataForSelectedSite(selectedSite);
       fetchStudentForSelectedSite(selectedSite);
     } else {
+
       Promise.all([axios.get(GAS_URL + '?type=sites')])
         .then(([sitesResponse]) => {
           if (auth.role !== ROLES.Admin) {
@@ -40,6 +49,7 @@ const MealSite = () => {
               (item) => item.name === auth.assignedSite
             );
             setSites(sites);
+
           } else {
             setSites(sitesResponse.data);
           }
@@ -99,23 +109,45 @@ const MealSite = () => {
         disableAllSites={true}
       />
       <br />
-      <Table>
-        <Table.Head>
-          <Table.HeadCell className="mealSite-headcell">
-            Name of Contracting Entity (CE)
-          </Table.HeadCell>
-          <Table.HeadCell className="mealSite-headcell">CE ID</Table.HeadCell>
-          <Table.HeadCell className="mealSite-headcell">
-            Name of Site
-          </Table.HeadCell>
-          <Table.HeadCell className="mealSite-headcell">Site #</Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
-          <MealSiteRow siteData={siteData} />
-        </Table.Body>
-      </Table>
+      {isMobile ? (
+        <div className="w-full rounded-lg bg-white mb-4 shadow p-4">
+          <p className="font-bold text-lg"> Name of Contracting Entity (CE)</p>
+          <p className="text-lg">{siteData.name}</p>
+          <br />
+
+          <p className="font-bold text-lg">CE ID</p>
+          <p className="text-lg">{siteData.ceId}</p>
+          <br />
+
+          <p className="font-bold text-lg"> Name of Site</p>
+          <p className="text-lg">{siteData.siteName}</p>
+          <br />
+
+          <p className="font-bold text-lg">Site #</p>
+          <p className="text-lg">{siteData.siteNumber}</p>
+          <br />
+        </div>
+      ) : (
+
+        <Table>
+          <Table.Head>
+            <Table.HeadCell className="mealSite-headcell">
+              Name of Contracting Entity (CE)
+            </Table.HeadCell>
+            <Table.HeadCell className="mealSite-headcell">CE ID</Table.HeadCell>
+            <Table.HeadCell className="mealSite-headcell">
+              Name of Site
+            </Table.HeadCell>
+            <Table.HeadCell className="mealSite-headcell">Site #</Table.HeadCell>
+          </Table.Head>
+          <Table.Body className="divide-y">
+            <MealSiteRow siteData={siteData} />
+          </Table.Body>
+        </Table>
+      )}
+
       <br />
-      <MealTable studentData={studentData} selectedSite={selectedSite} />
+      <MealList></MealList>
     </div>
   );
 };

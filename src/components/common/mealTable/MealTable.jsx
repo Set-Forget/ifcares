@@ -30,19 +30,24 @@ const MealTable = () => {
     setSelectedTime2,
     selectedCheckboxData,
     globalCounts,
+    formattedData,
+    setFormattedData,
+    isModalOpen,
+    setIsModalOpen,
+    dateError,
+    setDateError,
+    time1Error,
+    setTime1Error,
+    time2Error,
+    setTime2Error,
+    handleNextClick,
+    dateValidationError,
+    setDateValidationError
   } = useContext(MealSiteContext);
   const validStudentData = Array.isArray(studentData) ? studentData : [];
 
-  const [formattedData, setFormattedData] = useState([]);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [dateError, setDateError] = useState(false);
-  const [time1Error, setTime1Error] = useState(false);
-  const [time2Error, setTime2Error] = useState(false);
-
-  const [dateValidationError, setDateValidationError] = useState('');
-
+  
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
   // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
 
@@ -131,45 +136,6 @@ const MealTable = () => {
     }
   };
 
-  const handleNextClick = () => {
-    setDateError(!selectedDate);
-    setTime1Error(!selectedTime1);
-    setTime2Error(!selectedTime2);
-
-    if (
-      dateValidationError ||
-      !selectedDate ||
-      !selectedTime1 ||
-      !selectedTime2
-    ) {
-      return;
-    }
-    // Initialize an array to store the formatted data for each student
-    const formattedData = validStudentData.map((student) => {
-      const validStudentData = [student.number, student.name, student.age];
-
-      // Check if selectedCheckboxData exists for this student
-      if (selectedCheckboxData[student.number]) {
-        // Add checkbox values to the array
-        validStudentData.push(
-          selectedCheckboxData[student.number].attendance,
-          selectedCheckboxData[student.number].breakfast,
-          selectedCheckboxData[student.number].lunch,
-          selectedCheckboxData[student.number].snack,
-          selectedCheckboxData[student.number].supper
-        );
-      } else {
-        // If selectedCheckboxData doesn't exist, add false values for checkboxes
-        validStudentData.push(false, false, false, false, false);
-      }
-
-      return validStudentData;
-    });
-
-    setFormattedData(formattedData);
-
-    setIsModalOpen(true);
-  };
 
   return (
     <>
@@ -264,7 +230,7 @@ const MealTable = () => {
 
       <br />
       <Table hoverable>
-        <Table.Head>
+        <Table.Head >
           <Table.HeadCell className="mealTable-headcell">#</Table.HeadCell>
           <Table.HeadCell className="mealTable-headcell">
             Participant's Name
@@ -304,7 +270,7 @@ const MealTable = () => {
             minHeight: '40px',
             boxShadow: 'none',
           }}
-          onClick={handleNextClick}
+          onClick={() => handleNextClick(validStudentData)}
         >
           Next
         </Button>
@@ -317,17 +283,6 @@ const MealTable = () => {
         snackCount={globalCounts.snack}
         supperCount={globalCounts.supper}
       />
-      {isModalOpen && (
-        <MealTableModal
-          isOpen={isModalOpen}
-          closeModal={() => setIsModalOpen(false)}
-          formattedData={formattedData}
-          selectedDate={selectedDate}
-          selectedTime1={selectedTime1}
-          selectedTime2={selectedTime2}
-          selectedSite={selectedSite}
-        />
-      )}
     </>
   );
 };

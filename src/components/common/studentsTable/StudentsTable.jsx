@@ -10,8 +10,10 @@ import useAuth from "../../../hooks/useAuth";
 import StudentsRow from "../studentsRow/StudentsRow";
 import SitesDropdown from "../sitesDropdown/SitesDropdown";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-
+import Pagination from "../pagination/pagination";
 import { ROLES } from "../../../constants";
+import EditModal from "../editModal/editModal";
+import useIsMobile from "../../../hooks/useIsMobile";
 
 import "./StudentsTable.css";
 
@@ -20,8 +22,71 @@ const StudentsTable = () => {
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState("");
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [studentsPerPage, setStudentsPerPage] = useState(10); // You can adjust this number
+  const indexOfLastStudent = currentPage * studentsPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
+  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
+  const isMobile = useIsMobile();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [openModal, setOpenModal] = useState(undefined);
 
+
+  const paginate = pageNumber => setCurrentPage(pageNumber);
   const { auth } = useAuth();
+
+  const handleRowClick = (student) => {
+    setSelectedStudent(student);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEdit = (originalStudent, editedStudentData) => {
+    setLoading(true);
+    setOpenModal("pop-up");
+
+    const formattedData = {
+      actionType: "edit",
+      values: [
+        originalStudent.name,
+        originalStudent.site,
+        editedStudentData.name,
+        editedStudentData.age,
+        editedStudentData.site,
+      ],
+    };
+
+    console.log(formattedData);
+
+    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/'
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec'
+
+    axios
+      .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
+        headers: {
+          "Content-Type": "application/json",
+          "x-requested-with": "XMLHttpRequest",
+        },
+      })
+      .then((response) => {
+        console.log("success:", response);
+        setLoading(false);
+        setOpenModal("success");
+        setTimeout(() => {
+          setOpenModal(null);
+        }, 3000);
+        setTimeout(() => window.location.reload(), 3000);
+      })
+      .catch((error) => {
+        console.log("error:", error);
+        setLoading(false);
+        setOpenModal("error");
+        setTimeout(() => {
+          setOpenModal(null);
+        }, 3000);
+        setTimeout(() => window.location.reload(), 3000);
+      });
+  };
 
   const GAS_URL =
     "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec";
@@ -53,7 +118,7 @@ const StudentsTable = () => {
         setLoading(false);
       });
   }, []);
-  
+
   return (
     <div className="body-container">
       <div className="table-container">
@@ -130,20 +195,24 @@ const StudentsTable = () => {
                   </Table.HeadCell>
                 </Table.Head>
                 <Table.Body className="divide-y">
-                  {students
+                  {currentStudents
                     .filter(
                       (student) =>
                         !selectedSite || student.site === selectedSite
                     )
                     .map((student) => (
-                      <StudentsRow student={student} key={student.name} />
+                      <StudentsRow
+                        student={student}
+                        key={student.name}
+                        handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
+                      />
                     ))}
                 </Table.Body>
               </Table>
             </div>
             <div className="block sm:hidden ">
               {/* Mobile-friendly list */}
-              {students
+              {currentStudents
                 .filter(
                   (student) => !selectedSite || student.site === selectedSite
                 )
@@ -159,6 +228,17 @@ const StudentsTable = () => {
                     <span className='text-lg'>Site: {student.site}</span>
                     <div className="flex justify-end font-semibold">
                       <Button
+                        onClick={() => {
+                          console.log("is mobile", isMobile)
+
+                          if (isMobile) {
+                            // Abrir editModal
+                            console.log("Abrir modal");
+                            handleRowClick(student)
+                            console.log("isEditModalOpen", isEditModalOpen)
+                          }
+                          console.log("logeando");
+                        }}
                         style={{
                           marginTop: "-65px",
                           fontWeight: "semibold",
@@ -182,8 +262,26 @@ const StudentsTable = () => {
                   </div>
                 ))}
             </div>
+            <Pagination
+              studentsPerPage={studentsPerPage}
+              totalStudents={students.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
+
+
           </>
         )}
+        {isEditModalOpen && (
+          <EditModal
+            student={selectedStudent}
+            isOpen={isEditModalOpen}
+            onClose={() => setIsEditModalOpen(false)}
+            onSave={handleEdit}
+
+          />
+        )}
+
       </div>
     </div>
   );
