@@ -1,4 +1,3 @@
-
 import { Table } from 'flowbite-react';
 import MealTableRow from '../mealTableRow/MealTableRow';
 import { Button } from '@mui/material';
@@ -37,12 +36,10 @@ const MealTable = () => {
     setTime2Error,
     handleNextClick,
     dateValidationError,
-    setDateValidationError
+    setDateValidationError,
   } = useContext(MealSiteContext);
   const validStudentData = Array.isArray(studentData) ? studentData : [];
 
-
-  
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
   // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
 
@@ -130,7 +127,6 @@ const MealTable = () => {
       }
     }
   };
-
 
   return (
     <>
@@ -225,7 +221,7 @@ const MealTable = () => {
 
       <br />
       <Table hoverable>
-        <Table.Head >
+        <Table.Head>
           <Table.HeadCell className="mealTable-headcell">#</Table.HeadCell>
           <Table.HeadCell className="mealTable-headcell">
             Participant's Name

@@ -24,10 +24,21 @@ const MealSite = () => {
     siteData,
     setSiteData,
     setStudentData,
+    resetGlobalCounts,
+    resetSelectedCheckboxData,
+    resetSelectedDate ,
+    resetDateValidationError
   } = useContext(MealSiteContext);
 
   const isMobile = useIsMobile();
 
+  const handleSiteChange = (newSite) => {
+    setSelectedSite(newSite);
+    resetGlobalCounts(); // Reset the counts when the site changes
+    resetSelectedCheckboxData();
+    resetSelectedDate(); // Reset the date picker value
+    resetDateValidationError();
+  };
 
   const GAS_URL =
     'https://script.google.com/macros/s/AKfycbzNhZUKyRekUop9dRW-vB0T2vIyPvnOUYWFuB_DI8PuJYvad0WAZBvYsM9Wj-4uyZpF/exec';
@@ -101,7 +112,7 @@ const MealSite = () => {
     <div className="master-table-container">
       <SitesDropdown
         sites={sites}
-        onSiteSelected={setSelectedSite}
+        onSiteSelected={handleSiteChange}
         selectedSite={selectedSite}
         additionalStyles={{ border: 'solid 1px #3DED97' }}
         disableAllSites={true}

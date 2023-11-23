@@ -22,6 +22,28 @@ export const MealSiteProvider = ({ children }) => {
     supper: 0,
   });
 
+  const resetGlobalCounts = () => {
+    setGlobalCounts({
+      attendance: 0,
+      breakfast: 0,
+      lunch: 0,
+      snack: 0,
+      supper: 0,
+    });
+  };
+
+  const resetSelectedCheckboxData = () => {
+    setSelectedCheckboxData({});
+  };
+
+  const resetSelectedDate = () => {
+    setSelectedDate(null);
+  };
+
+  const resetDateValidationError = () => {
+    setDateValidationError('');
+  };
+
   const [formattedData, setFormattedData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dateError, setDateError] = useState(false);
@@ -29,14 +51,12 @@ export const MealSiteProvider = ({ children }) => {
   const [time2Error, setTime2Error] = useState(false);
   const [dateValidationError, setDateValidationError] = useState('');
 
-
   const updateGlobalCount = (category, isChecked) => {
     setGlobalCounts((prevCounts) => ({
       ...prevCounts,
       [category]: isChecked
         ? prevCounts[category] + 1
         : prevCounts[category] - 1,
-
     }));
   };
 
@@ -45,7 +65,6 @@ export const MealSiteProvider = ({ children }) => {
       ...prevState,
       [studentNumber]: checkboxState,
     }));
-
   };
 
   const handleNextClick = (validStudentData) => {
@@ -53,7 +72,12 @@ export const MealSiteProvider = ({ children }) => {
     setTime1Error(!selectedTime1);
     setTime2Error(!selectedTime2);
 
-    if (dateValidationError || !selectedDate || !selectedTime1 || !selectedTime2) {
+    if (
+      dateValidationError ||
+      !selectedDate ||
+      !selectedTime1 ||
+      !selectedTime2
+    ) {
       return;
     }
     // Initialize an array to store the formatted data for each student
@@ -84,23 +108,47 @@ export const MealSiteProvider = ({ children }) => {
   };
 
   return (
-    <MealSiteContext.Provider value={{ selectedSite, setSelectedSite, siteData, setSiteData, studentData, setStudentData, selectedDate, setSelectedDate, selectedTime1, setSelectedTime1, selectedTime2, setSelectedTime2, selectedCheckboxData, handleCheckboxChange, updateGlobalCount, globalCounts,     formattedData,
-      setFormattedData,
-      isModalOpen,
-      setIsModalOpen,
-      dateError,
-      setDateError,
-      time1Error,
-      setTime1Error,
-      time2Error,
-      setTime2Error,
-      handleNextClick,
-      lastTimeIn,
-      setLastTimeIn,
-      lastTimeOut,
-      setLastTimeOut,
-      dateValidationError,
-      setDateValidationError}}>
+    <MealSiteContext.Provider
+      value={{
+        selectedSite,
+        setSelectedSite,
+        siteData,
+        setSiteData,
+        studentData,
+        setStudentData,
+        selectedDate,
+        setSelectedDate,
+        selectedTime1,
+        setSelectedTime1,
+        selectedTime2,
+        setSelectedTime2,
+        selectedCheckboxData,
+        handleCheckboxChange,
+        updateGlobalCount,
+        globalCounts,
+        resetGlobalCounts,
+        resetSelectedCheckboxData,
+        resetSelectedDate,
+        resetDateValidationError,
+        formattedData,
+        setFormattedData,
+        isModalOpen,
+        setIsModalOpen,
+        dateError,
+        setDateError,
+        time1Error,
+        setTime1Error,
+        time2Error,
+        setTime2Error,
+        handleNextClick,
+        lastTimeIn,
+        setLastTimeIn,
+        lastTimeOut,
+        setLastTimeOut,
+        dateValidationError,
+        setDateValidationError,
+      }}
+    >
       {children}
     </MealSiteContext.Provider>
   );
