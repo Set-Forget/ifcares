@@ -37,7 +37,9 @@ const MealTable = () => {
     handleNextClick,
     dateValidationError,
     setDateValidationError,
+    topRef
   } = useContext(MealSiteContext);
+
   const validStudentData = Array.isArray(studentData) ? studentData : [];
 
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
@@ -130,6 +132,7 @@ const MealTable = () => {
 
   return (
     <>
+      <div ref={topRef}></div>
       <Table>
         <Table.Head>
           <Table.HeadCell className="mealTable-headcell">Date</Table.HeadCell>

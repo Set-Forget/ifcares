@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useRef } from 'react';
 
 export const MealSiteContext = createContext();
 
@@ -67,6 +67,8 @@ export const MealSiteProvider = ({ children }) => {
     }));
   };
 
+  const topRef = useRef(null); // Create a ref for the top of the component
+
   const handleNextClick = (validStudentData) => {
     setDateError(!selectedDate);
     setTime1Error(!selectedTime1);
@@ -78,6 +80,7 @@ export const MealSiteProvider = ({ children }) => {
       !selectedTime1 ||
       !selectedTime2
     ) {
+      topRef.current?.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     // Initialize an array to store the formatted data for each student
@@ -147,6 +150,7 @@ export const MealSiteProvider = ({ children }) => {
         setLastTimeOut,
         dateValidationError,
         setDateValidationError,
+        topRef
       }}
     >
       {children}

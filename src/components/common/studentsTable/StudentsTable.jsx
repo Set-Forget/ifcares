@@ -1,39 +1,61 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import { Table } from "flowbite-react";
-import { Button } from "@mui/material";
+import { Table } from 'flowbite-react';
+import { Button } from '@mui/material';
 
-import useAuth from "../../../hooks/useAuth";
+import useAuth from '../../../hooks/useAuth';
 
-import StudentsRow from "../studentsRow/StudentsRow";
-import SitesDropdown from "../sitesDropdown/SitesDropdown";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import Pagination from "../pagination/pagination";
-import { ROLES } from "../../../constants";
-import EditModal from "../editModal/editModal";
-import useIsMobile from "../../../hooks/useIsMobile";
+import StudentsRow from '../studentsRow/StudentsRow';
+import SitesDropdown from '../sitesDropdown/SitesDropdown';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import Pagination from '../pagination/pagination';
+import { ROLES } from '../../../constants';
+import EditModal from '../editModal/editModal';
+import useIsMobile from '../../../hooks/useIsMobile';
 
-import "./StudentsTable.css";
+import './StudentsTable.css';
 
 const StudentsTable = () => {
   const [students, setStudents] = useState([]);
   const [sites, setSites] = useState([]);
-  const [selectedSite, setSelectedSite] = useState("");
+  const [selectedSite, setSelectedSite] = useState('');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage, setStudentsPerPage] = useState(10); // You can adjust this number
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-  const currentStudents = students.slice(indexOfFirstStudent, indexOfLastStudent);
+
   const isMobile = useIsMobile();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openModal, setOpenModal] = useState(undefined);
 
-  const paginate = pageNumber => setCurrentPage(pageNumber);
   const { auth } = useAuth();
+
+  const paginate = (pageNumber) => {
+    // Ensures the page number stays within valid bounds
+    const newPageNumber = Math.max(1, Math.min(pageNumber, totalNumberOfPages));
+    setCurrentPage(newPageNumber);
+  };
+
+  const filteredStudents = selectedSite
+    ? students.filter((student) => student.site === selectedSite)
+    : students;
+
+  const totalNumberOfPages = Math.ceil(students.length / studentsPerPage);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedSite]);
+
+  const currentStudents = filteredStudents.slice(
+    indexOfFirstStudent,
+    indexOfLastStudent
+  );
+
+  // ... rest of your component
 
   const handleRowClick = (student) => {
     setSelectedStudent(student);
@@ -42,11 +64,11 @@ const StudentsTable = () => {
 
   const handleEdit = (originalStudent, editedStudentData) => {
     setLoading(true);
-    setOpenModal("pop-up");
-    setStudentsPerPage(10)
-    
+    setOpenModal('pop-up');
+    setStudentsPerPage(10);
+
     const formattedData = {
-      actionType: "edit",
+      actionType: 'edit',
       values: [
         originalStudent.name,
         originalStudent.site,
@@ -58,29 +80,30 @@ const StudentsTable = () => {
 
     console.log(formattedData);
 
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/'
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec'
+    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+    const GAS_URL =
+      'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec';
 
     axios
       .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
         headers: {
-          "Content-Type": "application/json",
-          "x-requested-with": "XMLHttpRequest",
+          'Content-Type': 'application/json',
+          'x-requested-with': 'XMLHttpRequest',
         },
       })
       .then((response) => {
-        console.log("success:", response);
+        console.log('success:', response);
         setLoading(false);
-        setOpenModal("success");
+        setOpenModal('success');
         setTimeout(() => {
           setOpenModal(null);
         }, 3000);
         setTimeout(() => window.location.reload(), 3000);
       })
       .catch((error) => {
-        console.log("error:", error);
+        console.log('error:', error);
         setLoading(false);
-        setOpenModal("error");
+        setOpenModal('error');
         setTimeout(() => {
           setOpenModal(null);
         }, 3000);
@@ -89,12 +112,12 @@ const StudentsTable = () => {
   };
 
   const GAS_URL =
-    "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec";
+    'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec';
 
   useEffect(() => {
     Promise.all([
-      axios.get(GAS_URL + "?type=students"),
-      axios.get(GAS_URL + "?type=sites"),
+      axios.get(GAS_URL + '?type=students'),
+      axios.get(GAS_URL + '?type=sites'),
     ])
       .then(([studentsResponse, sitesResponse]) => {
         if (auth.role !== ROLES.Admin) {
@@ -114,7 +137,7 @@ const StudentsTable = () => {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
         setLoading(false);
       });
   }, []);
@@ -130,13 +153,13 @@ const StudentsTable = () => {
                 variant="contained"
                 className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn"
                 style={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  backgroundColor: "#3DED97",
-                  borderRadius: "13px",
-                  minWidth: "130px",
-                  minHeight: "40px",
-                  boxShadow: "none",
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#3DED97',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
                 }}
               >
                 Meal Count
@@ -158,13 +181,13 @@ const StudentsTable = () => {
                 className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn"
                 variant="contained"
                 style={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  backgroundColor: "#5D24FF",
-                  borderRadius: "13px",
-                  minWidth: "130px",
-                  minHeight: "40px",
-                  boxShadow: "none",
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#5D24FF',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
                 }}
               >
                 Add Student
@@ -224,36 +247,36 @@ const StudentsTable = () => {
                     <span className="font-bold bg-white rounded-lg text-xl">
                       {student.name}
                     </span>
-                    <span className='text-lg'>Age: {student.age}</span>
-                    <span className='text-lg'>Site: {student.site}</span>
+                    <span className="text-lg">Age: {student.age}</span>
+                    <span className="text-lg">Site: {student.site}</span>
                     <div className="flex justify-end font-semibold">
                       <Button
                         onClick={() => {
-                          console.log("is mobile", isMobile)
+                          console.log('is mobile', isMobile);
 
                           if (isMobile) {
                             // Abrir editModal
-                            console.log("Abrir modal");
-                            handleRowClick(student)
-                            console.log("isEditModalOpen", isEditModalOpen)
+                            console.log('Abrir modal');
+                            handleRowClick(student);
+                            console.log('isEditModalOpen', isEditModalOpen);
                           }
-                          console.log("logeando");
+                          console.log('logeando');
                         }}
                         style={{
-                          marginTop: "-65px",
-                          fontWeight: "semibold",
-                          color: "#5D24FF",
-                          fontSize: '1.2rem'
+                          marginTop: '-65px',
+                          fontWeight: 'semibold',
+                          color: '#5D24FF',
+                          fontSize: '1.2rem',
                         }}
                       >
                         Edit
                       </Button>
                       <Button
                         style={{
-                          marginTop: "-65px",
-                          fontWeight: "semibold",
-                          color: "#E02424",
-                          fontSize: '1.2rem'
+                          marginTop: '-65px',
+                          fontWeight: 'semibold',
+                          color: '#E02424',
+                          fontSize: '1.2rem',
                         }}
                       >
                         Delete
@@ -264,12 +287,10 @@ const StudentsTable = () => {
             </div>
             <Pagination
               studentsPerPage={studentsPerPage}
-              totalStudents={students.length}
+              totalStudents={filteredStudents.length}
               paginate={paginate}
               currentPage={currentPage}
             />
-
-
           </>
         )}
         {isEditModalOpen && (
@@ -279,10 +300,8 @@ const StudentsTable = () => {
             onClose={() => setIsEditModalOpen(false)}
             onSave={handleEdit}
             openModal={openModal}
-
           />
         )}
-
       </div>
     </div>
   );
