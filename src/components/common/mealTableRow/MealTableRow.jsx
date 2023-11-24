@@ -18,7 +18,20 @@ const MealTableRow = ({ student }) => {
   const handleLocalCheckboxChange = (category, checked) => {
     // If trying to update attendance, always allow
     if (category === 'attendance') {
+      // Update the state for attendance checkbox
       updateCheckboxState(category, checked);
+      // If attendance is unchecked, reset all other checkboxes
+      if (!checked) {
+        const resetCheckboxState = {
+          attendance: false,
+          breakfast: false,
+          lunch: false,
+          snack: false,
+          supper: false,
+        };
+        handleCheckboxChange(student.number, resetCheckboxState);
+        updateGlobalCountsBasedOnAttendance(checkboxState, resetCheckboxState);
+      }
     } else {
       // For other categories, check if attendance is true
       if (checkboxState.attendance) {
@@ -34,6 +47,20 @@ const MealTableRow = ({ student }) => {
     };
     handleCheckboxChange(student.number, newCheckboxState);
     updateGlobalCount(category, checked);
+  };
+
+  const updateGlobalCountsBasedOnAttendance = (
+    previousCheckboxState,
+    resetCheckboxState
+  ) => {
+    // Loop through each category except 'attendance'
+    ['breakfast', 'lunch', 'snack', 'supper'].forEach((category) => {
+      // Check if the checkbox was previously checked
+      if (previousCheckboxState[category]) {
+        // Decrement the global count only if it was checked
+        updateGlobalCount(category, false);
+      }
+    });
   };
 
   // // Update the local state
