@@ -37,7 +37,7 @@ const MealTable = () => {
     handleNextClick,
     dateValidationError,
     setDateValidationError,
-    topRef
+    topRef,
   } = useContext(MealSiteContext);
 
   const validStudentData = Array.isArray(studentData) ? studentData : [];
@@ -252,6 +252,15 @@ const MealTable = () => {
         </Table.Body>
       </Table>
       <br />
+
+      <MealTableCount
+        attendanceCount={globalCounts.attendance}
+        breakfastCount={globalCounts.breakfast}
+        lunchCount={globalCounts.lunch}
+        snackCount={globalCounts.snack}
+        supperCount={globalCounts.supper}
+      />
+      <br />
       <div className="button-container">
         <Button
           variant="contained"
@@ -263,20 +272,14 @@ const MealTable = () => {
             minWidth: '130px',
             minHeight: '40px',
             boxShadow: 'none',
+            marginBottom: '100px',
+            marginTop: '10px'
           }}
           onClick={() => handleNextClick(validStudentData)}
         >
           Next
         </Button>
       </div>
-      <br />
-      <MealTableCount
-        attendanceCount={globalCounts.attendance}
-        breakfastCount={globalCounts.breakfast}
-        lunchCount={globalCounts.lunch}
-        snackCount={globalCounts.snack}
-        supperCount={globalCounts.supper}
-      />
     </>
   );
 };

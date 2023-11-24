@@ -9,7 +9,7 @@ import axios from 'axios';
 import SavingModal from '../savingModal/SavingModal';
 import { useEffect } from 'react';
 
-export default function StudentsRow({ student }) {
+export default function StudentsRow({ student, showSiteColumn }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedStudent, setEditedStudent] = useState({
@@ -36,6 +36,11 @@ export default function StudentsRow({ student }) {
     }
   }, [toastType, toastMessage]);
 
+  // age cell style modifications
+  const ageCellStyle = showSiteColumn
+    ? "row-style" // Default style class
+    : "row-style-big"; // Apply a different style when site column is not shown
+
   return (
     <>
       <SavingModal
@@ -61,7 +66,7 @@ export default function StudentsRow({ student }) {
             student.name
           )}
         </Table.Cell>
-        <Table.Cell className="row-style">
+        <Table.Cell className={ageCellStyle}>
           {isEditing ? (
             <input
               type="number"
@@ -76,6 +81,7 @@ export default function StudentsRow({ student }) {
             student.age
           )}
         </Table.Cell>
+        {showSiteColumn && (
         <Table.Cell className="row-style">
           {isEditing ? (
             <SitesSelect
@@ -93,6 +99,7 @@ export default function StudentsRow({ student }) {
             student.site
           )}
         </Table.Cell>
+        )}
         <Table.Cell>
           <p
             className="font-medium text-violet-500 hover:underline dark:text-violet-500 cursor-pointer"

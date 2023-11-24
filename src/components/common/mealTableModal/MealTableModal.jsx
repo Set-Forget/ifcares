@@ -141,10 +141,12 @@ const MealTableModal = ({
                   in prosecution under applicable state or federal laws.
                 </b>
               </h3>
+              
               <SignatureComponent
                 onGenerateSign={generateSign}
                 ref={signatureComponentRef}
               />
+              
               <br />
               <br />
               <div className="flex justify-center gap-4">

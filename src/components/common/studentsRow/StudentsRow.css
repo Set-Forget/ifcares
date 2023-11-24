@@ -6,6 +6,15 @@
   line-height: 130%;
 }
 
+.row-style-big {
+  color: #000000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%;
+  width: 40%;
+}
+
 .editing-style {
   color: #5d24ff;
   font-size: 14px;

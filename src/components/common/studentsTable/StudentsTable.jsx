@@ -209,7 +209,9 @@ const StudentsTable = () => {
                     Student Name
                   </Table.HeadCell>
                   <Table.HeadCell className="headcell">Age</Table.HeadCell>
-                  <Table.HeadCell className="headcell">Site</Table.HeadCell>
+                  {auth.role === ROLES.Admin && (
+                    <Table.HeadCell className="headcell">Site</Table.HeadCell>
+                  )}
                   <Table.HeadCell className="headcell">
                     <span className="sr-only">Edit</span>
                   </Table.HeadCell>
@@ -227,6 +229,7 @@ const StudentsTable = () => {
                       <StudentsRow
                         student={student}
                         key={student.name}
+                        showSiteColumn={auth.role === ROLES.Admin}
                         // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
                     ))}

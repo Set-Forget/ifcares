@@ -51,7 +51,7 @@ const Form = () => {
         } else {
           console.error('Error in sending data:', response.data.message);
           setToastType('error');
-          setToastMessage(response.data.message)
+          setToastMessage(response.data.message);
           setSubmitting(false);
         }
       })
@@ -85,6 +85,28 @@ const Form = () => {
         </div>
       ) : (
         <>
+          <div className="form-header">
+            <div className="button-container">
+              <Link to="/home">
+                <Button
+                  variant="contained"
+                  size="small"
+                  style={{
+                    fontSize: '16px',
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
+                    backgroundColor: '#5D24FF',
+                    borderRadius: '13px',
+                    minWidth: '130px',
+                    minHeight: '40px',
+                    boxShadow: 'none',
+                  }}
+                >
+                  Back
+                </Button>
+              </Link>
+            </div>
+          </div>
           <form className="form-container" onSubmit={handleSubmit}>
             <h2 className="title">Add a New Student</h2>
             <TextField
@@ -134,34 +156,14 @@ const Form = () => {
           <div className="toast-container">
             {toastType === 'success' && (
               <div className="your-toast-wrapper-class">
-                <FormToast type={toastType} message={toastMessage}/>
+                <FormToast type={toastType} message={toastMessage} />
               </div>
             )}
             {toastType === 'error' && (
               <div className="your-toast-wrapper-class">
-                <FormToast type={toastType} message={toastMessage}/>
+                <FormToast type={toastType} message={toastMessage} />
               </div>
             )}
-          </div>
-
-          <div className="button-container">
-            <Link to="/home">
-              <Button
-                variant="contained"
-                size="small"
-                style={{
-                  textTransform: 'capitalize',
-                  fontWeight: 'bold',
-                  width: '80px',
-                  height: '31px',
-                  fontSize: '13px',
-                  background: '#5D24FF',
-                  boxShadow: '0px 4px 10px 2px rgba(0, 0, 0, 0.25)',
-                }}
-              >
-                Back
-              </Button>
-            </Link>
           </div>
         </>
       )}
