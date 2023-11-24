@@ -273,7 +273,10 @@ const MealTable = () => {
             minHeight: '40px',
             boxShadow: 'none',
             marginBottom: '100px',
-            marginTop: '10px'
+            marginTop: '10px',
+            position: 'relative',
+            left: '50%',
+            translate: '-50%',
           }}
           onClick={() => handleNextClick(validStudentData)}
         >
