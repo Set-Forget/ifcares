@@ -6,6 +6,8 @@ export const MealSiteProvider = ({ children }) => {
   const [selectedSite, setSelectedSite] = useState('');
   const [siteData, setSiteData] = useState('');
 
+  const [isDataFetched, setIsDataFetched] = useState(false);
+
   const [lastTimeIn, setLastTimeIn] = useState(null);
   const [lastTimeOut, setLastTimeOut] = useState(null);
 
@@ -117,6 +119,8 @@ export const MealSiteProvider = ({ children }) => {
         setSelectedSite,
         siteData,
         setSiteData,
+        isDataFetched,
+        setIsDataFetched,
         studentData,
         setStudentData,
         selectedDate,
@@ -150,7 +154,7 @@ export const MealSiteProvider = ({ children }) => {
         setLastTimeOut,
         dateValidationError,
         setDateValidationError,
-        topRef
+        topRef,
       }}
     >
       {children}

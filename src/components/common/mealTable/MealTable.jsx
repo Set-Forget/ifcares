@@ -54,7 +54,7 @@ const MealTable = () => {
 
       const timeInFormatted = formatTimeForPicker(lastTimeIn);
       setSelectedTime1(timeInFormatted);
-      console.log(timeInFormatted);
+      // console.log(timeInFormatted);
     }
     if (lastTimeOut) {
       // console.log(lastTimeOut);
@@ -63,7 +63,7 @@ const MealTable = () => {
       // setSelectedTime2(timeOutFormatted);
       const timeOutFormatted = formatTimeForPicker(lastTimeOut);
       setSelectedTime2(timeOutFormatted);
-      console.log(timeOutFormatted);
+      // console.log(timeOutFormatted);
     }
   }, [lastTimeIn, lastTimeOut]);
 

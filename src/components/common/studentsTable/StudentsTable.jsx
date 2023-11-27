@@ -35,6 +35,10 @@ const StudentsTable = () => {
   const { auth } = useAuth();
 
   const paginate = (pageNumber) => {
+    // Calculate the total number of pages based on the filtered students
+    const totalNumberOfPages = Math.ceil(
+      filteredStudents.length / studentsPerPage
+    );
     // Ensures the page number stays within valid bounds
     const newPageNumber = Math.max(1, Math.min(pageNumber, totalNumberOfPages));
     setCurrentPage(newPageNumber);
@@ -48,7 +52,7 @@ const StudentsTable = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedSite]);
+  }, [selectedSite, students]);
 
   const currentStudents = filteredStudents.slice(
     indexOfFirstStudent,

@@ -27,6 +27,8 @@ const MealSite = () => {
     resetSelectedCheckboxData,
     resetSelectedDate,
     resetDateValidationError,
+    isDataFetched,
+    setIsDataFetched,
   } = useContext(MealSiteContext);
 
   const isMobile = useIsMobile();
@@ -72,30 +74,33 @@ const MealSite = () => {
 
   // --> new useEffect
   useEffect(() => {
-    const fetchSites = async () => {
-      try {
-        const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
+    if (!isDataFetched) {
+      const fetchSites = async () => {
+        try {
+          const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-        if (auth.role === ROLES.Admin) {
-          // Admins get access to all sites
-          setSites(sitesData);
-        } else {
-          // Non-admin users get access only to their assigned site
-          const userSite = sitesData.find(
-            (site) => site.name === auth.assignedSite
-          );
-          if (userSite) {
-            setSites([userSite]);
-            handleSiteChange(userSite.name); // Automatically select the site
+          if (auth.role === ROLES.Admin) {
+            // Admins get access to all sites
+            setSites(sitesData);
+          } else {
+            // Non-admin users get access only to their assigned site
+            const userSite = sitesData.find(
+              (site) => site.name === auth.assignedSite
+            );
+            if (userSite) {
+              setSites([userSite]);
+              handleSiteChange(userSite.name); // Automatically select the site
+            }
           }
+        } catch (error) {
+          console.error('Error fetching sites:', error);
         }
-      } catch (error) {
-        console.error('Error fetching sites:', error);
-      }
-    };
+      };
 
-    fetchSites();
-  }, [selectedSite]);
+      fetchSites();
+      setIsDataFetched(true);
+    }
+  }, [selectedSite, isDataFetched, setIsDataFetched]);
 
   const fetchDataForSelectedSite = (site) => {
     // Make an API request with the selected site as a parameter
