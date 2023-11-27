@@ -28,7 +28,7 @@ const Pagination = ({
 }) => {
   const pageNumbers = [];
   const totalNumberOfPages = Math.ceil(totalStudents / studentsPerPage);
-  console.log(totalNumberOfPages)
+
   for (let i = 1; i <= totalNumberOfPages; i++) {
     pageNumbers.push(i);
   }
