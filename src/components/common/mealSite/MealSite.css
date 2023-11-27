@@ -1,3 +1,8 @@
+.disabled-dropdown {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .master-table-container {
   position: relative;
   left: 50%;
@@ -12,6 +17,6 @@
   font-weight: 700;
   line-height: 130%;
   min-height: 85px;
-  background-color: #E8FDF5;
+  background-color: #e8fdf5;
   border-bottom: solid 2px black;
 }

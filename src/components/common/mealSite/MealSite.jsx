@@ -141,13 +141,21 @@ const MealSite = () => {
     }
   }, [selectedSite]);
 
+  const dropdownDisabled = auth.role !== ROLES.Admin;
+
   return (
     <div className="master-table-container">
       <SitesDropdown
         sites={sites}
         onSiteSelected={handleSiteChange}
         selectedSite={selectedSite}
-        additionalStyles={{ border: 'solid 1px #3DED97' }}
+        additionalStyles={{
+          border: 'solid 1px #3DED97',
+          // backgroundColor: '#D3D3D3',
+          pointerEvents: dropdownDisabled ? 'none' : 'auto', // Disable pointer events if dropdown is disabled
+          cursor: dropdownDisabled ? 'not-allowed' : 'default',
+          // opacity: dropdownDisabled ? 0.4 : 1,
+        }}
         disableAllSites={true}
       />
       <br />

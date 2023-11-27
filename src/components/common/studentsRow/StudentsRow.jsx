@@ -38,8 +38,8 @@ export default function StudentsRow({ student, showSiteColumn }) {
 
   // age cell style modifications
   const ageCellStyle = showSiteColumn
-    ? "row-style" // Default style class
-    : "row-style-big"; // Apply a different style when site column is not shown
+    ? 'row-style' // Default style class
+    : 'row-style-big'; // Apply a different style when site column is not shown
 
   return (
     <>
@@ -82,23 +82,23 @@ export default function StudentsRow({ student, showSiteColumn }) {
           )}
         </Table.Cell>
         {showSiteColumn && (
-        <Table.Cell className="row-style">
-          {isEditing ? (
-            <SitesSelect
-              isStudentsRow={true}
-              className="edit-select"
-              selectedSiteValue={editedStudent.site}
-              onSiteSelected={(site) =>
-                setEditedStudent((prevStudent) => ({
-                  ...prevStudent,
-                  site: site,
-                }))
-              }
-            />
-          ) : (
-            student.site
-          )}
-        </Table.Cell>
+          <Table.Cell className="row-style">
+            {isEditing ? (
+              <SitesSelect
+                isStudentsRow={true}
+                className="edit-select"
+                selectedSiteValue={editedStudent.site}
+                onSiteSelected={(site) =>
+                  setEditedStudent((prevStudent) => ({
+                    ...prevStudent,
+                    site: site,
+                  }))
+                }
+              />
+            ) : (
+              student.site
+            )}
+          </Table.Cell>
         )}
         <Table.Cell>
           <p
@@ -123,7 +123,7 @@ export default function StudentsRow({ student, showSiteColumn }) {
 
                 const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
                 const GAS_URL =
-                  'https://script.google.com/macros/s/AKfycbw9BaufYdgz2QPIoOGq-p8dN7G2wCnMAghYN2MJSW2IMZ2pZxSW8nDc6pDh3ZdIc4NI/exec';
+                  'https://script.google.com/macros/s/AKfycbzzhESEoc09LonCaln9zYssJQg2ZWdLAr2shV1jBJ_ktMOpdMyOyWWcD_VvALLMNJW2/exec';
 
                 axios
                   .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
