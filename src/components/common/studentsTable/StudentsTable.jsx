@@ -39,6 +39,7 @@ const StudentsTable = () => {
     const totalNumberOfPages = Math.ceil(
       filteredStudents.length / studentsPerPage
     );
+    console.log(totalNumberOfPages);
     // Ensures the page number stays within valid bounds
     const newPageNumber = Math.max(1, Math.min(pageNumber, totalNumberOfPages));
     setCurrentPage(newPageNumber);
