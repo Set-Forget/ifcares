@@ -41,6 +41,20 @@
 
 .text-field {
   width: 75%;
+  overflow: auto;
+}
+
+.text-field .MuiInputLabel-outlined.MuiInputLabel-shrink {
+  /* Adjust the label position when focused so it doesn't overlap */
+  transform: translate(14px, -4px) scale(0.70);
+}
+
+.datepicker-container{
+  width: 75%;
+}
+
+.datepicker-item{
+  width: 100%;
 }
 
 .button-container {
@@ -56,9 +70,8 @@
 }
 
 .toast-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: 25%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 90px;
 }

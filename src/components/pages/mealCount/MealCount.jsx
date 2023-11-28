@@ -9,7 +9,7 @@ const MealCount = () => {
   return (
     <div className="mealCount-body">
       <div className="navigation-container">
-        <h2 className="title">Daily Meal Count and Attendance Record</h2>
+        <h2 className="title">Meal Count</h2>
         <Link to="/home">
           <Button
             variant="contained"

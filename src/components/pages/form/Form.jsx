@@ -8,6 +8,11 @@ import axios from 'axios';
 import LoadingSpinner from '../../common/loadingSpinner/LoadingSpinner';
 import { useState } from 'react';
 import FormToast from '../../common/formToast/FormToast';
+// Date picker imports
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const Form = () => {
   let initialValues = {
@@ -66,11 +71,15 @@ const Form = () => {
     useFormik({
       initialValues,
       validationSchema: Yup.object({
-        name: Yup.string().required('Please enter a name.'),
+        name: Yup.string()
+          .matches(/^[A-Za-z ]+$/, 'Name can only contain letters and spaces.')
+          .required('Please enter a name.'),
         age: Yup.number().required('Please enter an age.').positive().integer(),
         site: Yup.string().required('Please select a Site.'),
       }),
       onSubmit,
+      validateOnBlur: false,
+      validateOnChange: false,
     });
 
   const handleSiteSelection = (selectedSite) => {
@@ -119,6 +128,13 @@ const Form = () => {
               error={!!errors.name}
               helperText={errors.name}
             />
+            <div className="datepicker-container">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                  <DatePicker className='datepicker-item' />
+                </DemoContainer>
+              </LocalizationProvider>
+            </div>
             <TextField
               className="text-field"
               name="age"

@@ -22,6 +22,17 @@ const SitesSelect = ({
 
   const { auth } = useAuth()
 
+  const isUser = auth.role !== ROLES.Admin
+  console.log(isUser)
+
+  useEffect(() => {
+    // Set default site for normal users
+    if (auth.role !== ROLES.Admin && auth.assignedSite) {
+      setSelectedSite(auth.assignedSite);
+      if (onSiteSelected) onSiteSelected(auth.assignedSite);
+    }
+  }, [auth]);
+
   useEffect(() => {
     setSelectedSite(selectedSiteValue);
   }, [selectedSiteValue]);
@@ -67,11 +78,14 @@ const SitesSelect = ({
         value={selectedSite}
         label="site"
         onChange={handleChange}
+        disabled={isUser}
         style={{
           // conditional styling based on the page
           backgroundColor: isStudentsRow ? "#FFFFFF" : "inherit",
           // border: isStudentsRow ? "solid #e2e8f0 1px" : "inherit",
           // borderRadius: isStudentsRow ? "0.375rem" : "inherit"
+          // display: disableSites ? 'none' : 'inline-block'
+          cursor: isUser ? 'not-allowed' : 'default',
         }}
       >
         {sites.map((site) => (
