@@ -29,7 +29,7 @@ const MealList = () => {
       {isMobile ? (
         <>
           <DateTimePickerMobile></DateTimePickerMobile>
-          <div className="flex flex-col gap-10 justify-center items-center w-full">
+          <div className="flex flex-col gap-0 justify-center items-center w-full">
             {validStudentData.map((student) => (
               <MealCard student={student} key={student.name} />
             ))}
