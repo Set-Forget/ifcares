@@ -40,7 +40,7 @@ const Form = () => {
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
       PROXY_URL +
-      'https://script.google.com/macros/s/AKfycbyWz46LKg4f-voX_3_md70ceFv-AZV6Em5QM8UwIg7wR8f9KFXqG1HlQjAyJA6NKiBm/exec';
+      'https://script.google.com/macros/s/AKfycbwOJ9K9Adc7lUwAyJl3b71Vfk0Qo0ghjiptEY_IQ4wiNVZUTahxGkIg8ozMg--NQsOH/exec';
 
     // Format the date
     const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
@@ -102,7 +102,9 @@ const Form = () => {
             return true;
           } else {
             return new Yup.ValidationError(
-              'Please enter either an age or a birthdate.', null, 'birthdateOrAge'
+              'Please enter either an age or a birthdate.',
+              null,
+              'birthdateOrAge'
             );
           }
         }
@@ -200,7 +202,9 @@ const Form = () => {
               error={!!errors.age}
               helperText={errors.age}
             />
-            {errors.birthdateOrAge && <div className="error-message">{errors.birthdateOrAge}</div>}
+            {errors.birthdateOrAge && (
+              <div className="error-message">{errors.birthdateOrAge}</div>
+            )}
             <SitesSelect
               onSiteSelected={handleSiteSelection}
               error={!!errors.site}
