@@ -153,7 +153,7 @@ const MealSite = () => {
           border: 'solid 1px #3DED97',
           // backgroundColor: '#D3D3D3',
           pointerEvents: dropdownDisabled ? 'none' : 'auto', // Disable pointer events if dropdown is disabled
-          cursor: dropdownDisabled ? 'not-allowed' : 'default',
+          // cursor: dropdownDisabled ? 'not-allowed' : 'default',
           // opacity: dropdownDisabled ? 0.4 : 1,
         }}
         disableAllSites={true}

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import SitesSelect from '../../common/sitesSelect/SitesSelect';
 import axios from 'axios';
 import LoadingSpinner from '../../common/loadingSpinner/LoadingSpinner';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import FormToast from '../../common/formToast/FormToast';
 // Date picker imports
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -17,25 +17,37 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 const Form = () => {
   let initialValues = {
     name: '',
+    birthdate: null,
     age: '',
     site: '',
+    customError: '',
   };
 
   const [submitting, setSubmitting] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const handleDateChange = (newValue) => {
+    setSelectedDate(newValue);
+    setFieldValue('birthdate', newValue);
+    setFieldValue('customError', '');
+  };
 
   const onSubmit = (data) => {
     setSubmitting(true);
-    console.log(data);
+    // console.log(data);
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
       PROXY_URL +
       'https://script.google.com/macros/s/AKfycbyWz46LKg4f-voX_3_md70ceFv-AZV6Em5QM8UwIg7wR8f9KFXqG1HlQjAyJA6NKiBm/exec';
 
+    // Format the date
+    const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
+
     const formattedData = {
       actionType: 'add',
-      values: [data.name, data.age, data.site],
+      values: [data.name, data.age, data.site, formattedDate],
     };
 
     console.log(formattedData);
@@ -74,9 +86,27 @@ const Form = () => {
         name: Yup.string()
           .matches(/^[A-Za-z ]+$/, 'Name can only contain letters and spaces.')
           .required('Please enter a name.'),
-        age: Yup.number().required('Please enter an age.').positive().integer(),
+        birthdate: Yup.date()
+          .nullable()
+          .transform((value, originalValue) =>
+            originalValue === '' ? null : value
+          ),
+        age: Yup.number().positive().integer().nullable(),
         site: Yup.string().required('Please select a Site.'),
-      }),
+      }).test(
+        'birthdateOrAge',
+        'Please enter either an age or a birthdate.',
+        function (values) {
+          const { birthdate, age } = values;
+          if (birthdate || age) {
+            return true;
+          } else {
+            return new Yup.ValidationError(
+              'Please enter either an age or a birthdate.', null, 'birthdateOrAge'
+            );
+          }
+        }
+      ),
       onSubmit,
       validateOnBlur: false,
       validateOnChange: false,
@@ -85,6 +115,19 @@ const Form = () => {
   const handleSiteSelection = (selectedSite) => {
     setFieldValue('site', selectedSite);
   };
+
+  // Function to clear the birthdate component
+  const [cleared, setCleared] = React.useState(false);
+  React.useEffect(() => {
+    if (cleared) {
+      const timeout = setTimeout(() => {
+        setCleared(false);
+      }, 1500);
+
+      return () => clearTimeout(timeout);
+    }
+    return () => {};
+  }, [cleared]);
 
   return (
     <div className="body">
@@ -131,7 +174,19 @@ const Form = () => {
             <div className="datepicker-container">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
-                  <DatePicker className='datepicker-item' />
+                  <DatePicker
+                    label="Birthdate"
+                    className="datepicker-item"
+                    value={values.birthdate}
+                    onChange={handleDateChange}
+                    slotProps={{
+                      field: {
+                        clearable: true,
+                        onClear: () => setCleared(true),
+                      },
+                    }}
+                    disableFuture
+                  />
                 </DemoContainer>
               </LocalizationProvider>
             </div>
@@ -145,6 +200,7 @@ const Form = () => {
               error={!!errors.age}
               helperText={errors.age}
             />
+            {errors.birthdateOrAge && <div className="error-message">{errors.birthdateOrAge}</div>}
             <SitesSelect
               onSiteSelected={handleSiteSelection}
               error={!!errors.site}

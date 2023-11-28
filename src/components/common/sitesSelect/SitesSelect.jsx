@@ -23,7 +23,7 @@ const SitesSelect = ({
   const { auth } = useAuth()
 
   const isUser = auth.role !== ROLES.Admin
-  console.log(isUser)
+  // console.log(isUser)
 
   useEffect(() => {
     // Set default site for normal users

@@ -25,8 +25,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  width: 500px;
-  height: 450px;
+  width: 550px;
+  height: 550px;
   border-radius: 25px;
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25);
 }
@@ -55,6 +55,21 @@
 
 .datepicker-item{
   width: 100%;
+  overflow: auto; 
+}
+
+.datepicker-item .MuiInputLabel-outlined.MuiInputLabel-shrink {
+  /* Adjust the label position when focused so it doesn't overlap */
+  transform: translate(14px, -4px) scale(0.70);
+}
+
+.error-message{
+  color: #C23F38;
+  width: 75%;
+  font-size: 12px;
+  padding-left: 15px;
+  position: relative;
+  bottom: 10px;
 }
 
 .button-container {
