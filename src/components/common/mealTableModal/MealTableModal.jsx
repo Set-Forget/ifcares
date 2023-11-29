@@ -123,6 +123,7 @@ const MealTableModal = ({
           {isLoading ? (
             <div className="loadingSpinner-container">
               <LoadingSpinner />
+              <h2>Sending Data...</h2>
             </div>
           ) : toastType ? (
             <div className="container-confirmationToast">

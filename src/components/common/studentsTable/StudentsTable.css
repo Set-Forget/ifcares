@@ -15,15 +15,21 @@
   align-items: center;
 }
 
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
 .drop-button-container {
   display: flex;
-  font-size: 1rem !important; /* 16px */ 
+  font-size: 1rem !important; /* 16px */
 }
 
 @media (max-width: 769px) {
-  .table-container{
+  .table-container {
     padding-bottom: 25%;
-
   }
 }
 .table-container {
@@ -48,43 +54,47 @@
 }
 
 .meal-count-btn {
-  font-size: 1rem !important; /* 16px */ 
+  font-size: 1rem !important; /* 16px */
 }
 
 .edit-delete-btn {
-  font-size: 1rem !important; /* 16px */ 
+  font-size: 1rem !important; /* 16px */
 }
 
 /* Font size for phone devices */
-@media (max-width: 640px) { /* Adjust this breakpoint as needed */
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
   .edit-delete-btn {
-    font-size: 1.50rem !important; /* 20px */
+    font-size: 1.5rem !important; /* 20px */
   }
 }
 
-@media (max-width: 640px) { /* Adjust this breakpoint as needed */
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
   .meal-count-btn {
-    font-size: 1.50rem !important; /* 20px */
+    font-size: 1.5rem !important; /* 20px */
   }
 }
 
 .dropdown-label {
-  font-size: 1rem !important; /* 16px */ 
+  font-size: 1rem !important; /* 16px */
 }
 
-@media (max-width: 640px) { /* Adjust this breakpoint as needed */
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
   .dropdown-label {
-    font-size: 1.50rem !important; /* 20px */
+    font-size: 1.5rem !important; /* 20px */
     height: 120px !important;
   }
 }
 
 label {
-  font-size: 1rem !important; /* 16px */ 
+  font-size: 1rem !important; /* 16px */
 }
 
-@media (max-width: 640px) { /* Adjust this breakpoint as needed */
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
   label {
-    font-size: 1.50rem !important; /* 20px */
+    font-size: 1.5rem !important; /* 20px */
   }
 }

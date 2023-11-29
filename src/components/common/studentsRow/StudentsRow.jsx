@@ -9,7 +9,7 @@ import axios from 'axios';
 import SavingModal from '../savingModal/SavingModal';
 import { useEffect } from 'react';
 
-export default function StudentsRow({ student, showSiteColumn }) {
+export default function StudentsRow({ student, showSiteColumn, birthdate }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedStudent, setEditedStudent] = useState({
@@ -22,6 +22,8 @@ export default function StudentsRow({ student, showSiteColumn }) {
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
+
+  const disableAgeInput = birthdate !== '';
 
   useEffect(() => {
     if (toastType) {
@@ -76,6 +78,7 @@ export default function StudentsRow({ student, showSiteColumn }) {
               onChange={(e) =>
                 setEditedStudent({ ...editedStudent, age: e.target.value })
               }
+              disabled={disableAgeInput}
             />
           ) : (
             student.age
@@ -123,7 +126,7 @@ export default function StudentsRow({ student, showSiteColumn }) {
 
                 const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
                 const GAS_URL =
-                  'https://script.google.com/macros/s/AKfycbzzhESEoc09LonCaln9zYssJQg2ZWdLAr2shV1jBJ_ktMOpdMyOyWWcD_VvALLMNJW2/exec';
+                  'https://script.google.com/macros/s/AKfycbw_FUgXjWIDjcRnM5rtwxVJYYZ2JPVNXljX08Haw9A4_JrPZmIuJJSXYLBmE-_zvos7/exec';
 
                 axios
                   .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {

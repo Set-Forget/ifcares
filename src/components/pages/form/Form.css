@@ -64,7 +64,8 @@
 }
 
 .error-message{
-  color: #C23F38;
+  color: #d32f2f;
+  font-weight: 400;
   width: 75%;
   font-size: 12px;
   padding-left: 15px;

@@ -40,7 +40,7 @@ const Form = () => {
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
       PROXY_URL +
-      'https://script.google.com/macros/s/AKfycbwOJ9K9Adc7lUwAyJl3b71Vfk0Qo0ghjiptEY_IQ4wiNVZUTahxGkIg8ozMg--NQsOH/exec';
+      'https://script.google.com/macros/s/AKfycby-a-e3_HPrtTWps2Sa0PAww03XHbqWNX2RHTrRFeZjoLMLIp7GqZXh5mDYKejjgUOh/exec';
 
     // Format the date
     const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
@@ -136,6 +136,7 @@ const Form = () => {
       {submitting ? (
         <div className="loading-spinner">
           <LoadingSpinner />
+          <h2>Adding Student...</h2>
         </div>
       ) : (
         <>

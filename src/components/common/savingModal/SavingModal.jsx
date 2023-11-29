@@ -17,6 +17,7 @@ const SavingModal = ({ openModal, setOpenModal, loading, message }) => {
           {loading && (
             <div className="saving-spinner">
               <LoadingSpinner />
+              <h2>Editing Student...</h2>
             </div>
           )}
           {openModal === 'success' && <SavingToast type="success" />}

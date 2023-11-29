@@ -1,11 +1,16 @@
-import useAuth from "../../../hooks/useAuth";
+import { useContext } from 'react';
+import useAuth from '../../../hooks/useAuth';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 export default function Header() {
+  const { resetAllStates } = useContext(MealSiteContext);
+
   const { auth, setAuth } = useAuth();
   const { name, lastname, email } = auth;
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    resetAllStates()
+    localStorage.removeItem('user');
     setAuth({});
   };
 

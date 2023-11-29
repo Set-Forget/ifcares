@@ -1,7 +1,7 @@
 import { Table } from 'flowbite-react';
 import MealTableRow from '../mealTableRow/MealTableRow';
 import { Button } from '@mui/material';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MealTableCount from '../mealTableZCount/MealTableCount';
 import './MealTable.css';
 import dayjs from 'dayjs';
@@ -14,6 +14,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 import axios from 'axios';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
 const MealTable = () => {
   const {
@@ -41,6 +42,7 @@ const MealTable = () => {
   } = useContext(MealSiteContext);
 
   const validStudentData = Array.isArray(studentData) ? studentData : [];
+  const [isLoading, setIsLoading] = useState(false);
 
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
   // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
@@ -82,6 +84,7 @@ const MealTable = () => {
 
   // post request with the dates
   const postSelectedDate = async (date) => {
+    setIsLoading(true);
     if (selectedSite && date) {
       setSelectedDate(date);
 
@@ -128,6 +131,7 @@ const MealTable = () => {
         setDateValidationError('Error occurred while validating the date');
       }
     }
+    setIsLoading(false);
   };
 
   return (
@@ -143,29 +147,34 @@ const MealTable = () => {
           <Table.Cell>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']}>
-                <div className="dateTimeError-container">
-                  <div
-                    className={
-                      dateError || dateValidationError ? 'input-error' : ''
-                    }
-                  >
-                    <DatePicker
-                      className="datepicker-input"
-                      value={selectedDate}
-                      onChange={(date) => {
-                        setSelectedDate(date);
-                        setDateError(false); // reset error when a date is selected
-                        postSelectedDate(date); // Make the POST request with the new date
-                      }}
-                      required
-                      error={Boolean(dateValidationError)}
-                      helperText={dateValidationError}
-                    />
+                <div className="datepicker-loading">
+                  <div className="dateTimeError-container">
+                    <div
+                      className={
+                        dateError || dateValidationError ? 'input-error' : ''
+                      }
+                    >
+                      <DatePicker
+                        className="datepicker-input"
+                        value={selectedDate}
+                        onChange={(date) => {
+                          setSelectedDate(date);
+                          setDateError(false); // reset error when a date is selected
+                          postSelectedDate(date); // Make the POST request with the new date
+                        }}
+                        required
+                        error={Boolean(dateValidationError)}
+                        helperText={dateValidationError}
+                      />
+                    </div>
+                    {(dateError || dateValidationError) && (
+                      <span style={{ color: 'red' }}>
+                        {dateValidationError || 'Date is required'}
+                      </span>
+                    )}
                   </div>
-                  {(dateError || dateValidationError) && (
-                    <span style={{ color: 'red' }}>
-                      {dateValidationError || 'Date is required'}
-                    </span>
+                  {isLoading && (
+                    <LoadingSpinner className="spinner-datepicker" />
                   )}
                 </div>
               </DemoContainer>

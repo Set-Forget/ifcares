@@ -71,6 +71,41 @@ export const MealSiteProvider = ({ children }) => {
 
   const topRef = useRef(null); // Create a ref for the top of the component
 
+  const resetAllStates = () => {
+    setSelectedSite('');
+    setSiteData('');
+    setIsDataFetched(false);
+
+    setLastTimeIn(null);
+    setLastTimeOut(null);
+
+    setStudentData('');
+    setSelectedDate(null);
+    setSelectedTime1(null);
+    setSelectedTime2(null);
+    setSelectedCheckboxData({});
+
+    setGlobalCounts({
+      attendance: 0,
+      breakfast: 0,
+      lunch: 0,
+      snack: 0,
+      supper: 0,
+    });
+
+    resetGlobalCounts(); // If this function already resets globalCounts, you can use this alone
+    resetSelectedCheckboxData(); // If this function already resets selectedCheckboxData, you can use this alone
+    resetSelectedDate(); // If this function already resets selectedDate, you can use this alone
+    resetDateValidationError(); // If this function already resets dateValidationError, you can use this alone
+
+    setFormattedData([]);
+    setIsModalOpen(false);
+    setDateError(false);
+    setTime1Error(false);
+    setTime2Error(false);
+    setDateValidationError('');
+  };
+
   const handleNextClick = (validStudentData) => {
     setDateError(!selectedDate);
     setTime1Error(!selectedTime1);
@@ -155,6 +190,7 @@ export const MealSiteProvider = ({ children }) => {
         dateValidationError,
         setDateValidationError,
         topRef,
+        resetAllStates
       }}
     >
       {children}

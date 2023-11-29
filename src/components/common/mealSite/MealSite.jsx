@@ -10,10 +10,12 @@ import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 import useIsMobile from '../../../hooks/useIsMobile';
 import MealList from '../mealList/MealList';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
 const MealSite = () => {
   const [sites, setSites] = useState([]);
   const { auth } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     selectedSite,
@@ -74,35 +76,41 @@ const MealSite = () => {
 
   // --> new useEffect
   useEffect(() => {
-    if (!isDataFetched) {
-      const fetchSites = async () => {
-        try {
-          const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
+    const fetchSites = async () => {
+      try {
+        const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-          if (auth.role === ROLES.Admin) {
-            // Admins get access to all sites
-            setSites(sitesData);
-          } else {
-            // Non-admin users get access only to their assigned site
-            const userSite = sitesData.find(
-              (site) => site.name === auth.assignedSite
-            );
-            if (userSite) {
-              setSites([userSite]);
-              handleSiteChange(userSite.name); // Automatically select the site
-            }
+        if (auth.role === ROLES.Admin) {
+          setSites(sitesData);
+        } else {
+          const userSite = sitesData.find(
+            (site) => site.name === auth.assignedSite
+          );
+          if (userSite) {
+            setSites([userSite]);
+            handleSiteChange(userSite.name); // Automatically select the site
           }
-        } catch (error) {
-          console.error('Error fetching sites:', error);
         }
-      };
+      } catch (error) {
+        console.error('Error fetching sites:', error);
+      }
+    };
 
+    if (auth.role === ROLES.Admin || !isDataFetched) {
       fetchSites();
-      setIsDataFetched(true);
+      setIsDataFetched(true); // For admin, consider setting this to false when component unmounts
     }
-  }, [selectedSite, isDataFetched, setIsDataFetched]);
+
+    // Adding cleanup to reset isDataFetched for admin users
+    return () => {
+      if (auth.role === ROLES.Admin) {
+        setIsDataFetched(false);
+      }
+    };
+  }, [auth.role, isDataFetched, setIsDataFetched]);
 
   const fetchDataForSelectedSite = (site) => {
+    setIsLoading(true);
     // Make an API request with the selected site as a parameter
     axios
       .get(GAS_URL + `?type=siteData&site=${site}`)
@@ -113,6 +121,9 @@ const MealSite = () => {
       })
       .catch((error) => {
         console.error('Error fetching site data:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -124,6 +135,7 @@ const MealSite = () => {
   }, [selectedSite]);
 
   const fetchStudentForSelectedSite = (site) => {
+    setIsLoading(true);
     // Make an API request with the selected site as a parameter
     axios
       .get(GAS_URL + `?type=studentData&site=${site}`)
@@ -132,6 +144,9 @@ const MealSite = () => {
       })
       .catch((error) => {
         console.error('Error fetching site data:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -145,19 +160,22 @@ const MealSite = () => {
 
   return (
     <div className="master-table-container">
-      <SitesDropdown
-        sites={sites}
-        onSiteSelected={handleSiteChange}
-        selectedSite={selectedSite}
-        additionalStyles={{
-          border: 'solid 1px #3DED97',
-          // backgroundColor: '#D3D3D3',
-          pointerEvents: dropdownDisabled ? 'none' : 'auto', // Disable pointer events if dropdown is disabled
-          // cursor: dropdownDisabled ? 'not-allowed' : 'default',
-          // opacity: dropdownDisabled ? 0.4 : 1,
-        }}
-        disableAllSites={true}
-      />
+      <div className="dropdown-and-spinner">
+        <SitesDropdown
+          sites={sites}
+          onSiteSelected={handleSiteChange}
+          selectedSite={selectedSite}
+          additionalStyles={{
+            border: 'solid 1px #3DED97',
+            // backgroundColor: '#D3D3D3',
+            pointerEvents: dropdownDisabled ? 'none' : 'auto', // Disable pointer events if dropdown is disabled
+            // cursor: dropdownDisabled ? 'not-allowed' : 'default',
+            // opacity: dropdownDisabled ? 0.4 : 1,
+          }}
+          disableAllSites={true}
+        />
+        {isLoading && <LoadingSpinner />}
+      </div>
       <br />
       {isMobile ? (
         <div className="w-full rounded-lg bg-white mb-4 shadow p-4">

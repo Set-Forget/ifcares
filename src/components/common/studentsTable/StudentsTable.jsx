@@ -115,7 +115,7 @@ const StudentsTable = () => {
   };
 
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec';
+    'https://script.google.com/macros/s/AKfycbyH507We765EnOqnh3vwD8aO0j52FyjBYeLXvLlaAIOQHWMww_JN3jiEmvGAvgfhHg/exec';
 
   useEffect(() => {
     Promise.all([
@@ -123,6 +123,7 @@ const StudentsTable = () => {
       axios.get(GAS_URL + '?type=sites'),
     ])
       .then(([studentsResponse, sitesResponse]) => {
+        console.log("Students data:", studentsResponse.data);
         if (auth.role !== ROLES.Admin) {
           const students = studentsResponse.data.filter(
             (item) => item.site === auth.assignedSite
@@ -205,6 +206,7 @@ const StudentsTable = () => {
         {loading ? (
           <div className="loading-spinner">
             <LoadingSpinner />
+            <h2>Loading Students...</h2>
           </div>
         ) : (
           <>
@@ -236,6 +238,7 @@ const StudentsTable = () => {
                         student={student}
                         key={student.name}
                         showSiteColumn={auth.role === ROLES.Admin}
+                        birthdate={student.birthdate}
                         // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
                     ))}
