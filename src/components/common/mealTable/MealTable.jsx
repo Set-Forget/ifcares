@@ -165,6 +165,7 @@ const MealTable = () => {
                         required
                         error={Boolean(dateValidationError)}
                         helperText={dateValidationError}
+                        disableFuture
                       />
                     </div>
                     {(dateError || dateValidationError) && (

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { Dropdown } from "flowbite-react";
-import "../studentsTable/StudentsTable.css";
+import React, { useEffect, useState } from 'react';
+import { Dropdown } from 'flowbite-react';
+import '../studentsTable/StudentsTable.css';
 
 const SitesDropdown = ({
   sites,
@@ -12,9 +12,10 @@ const SitesDropdown = ({
   disableAllSites = false,
 }) => {
   const [dropdownHeight, setDropdownHeight] = useState(getDropdownHeight());
+  const [allSitesSelected, setAllSitesSelected] = useState(false);
 
   function getDropdownHeight() {
-    return window.innerWidth < 640 ? "60px" : "40px"; // Assuming 640px as the breakpoint for phone devices
+    return window.innerWidth < 640 ? '60px' : '40px'; // Assuming 640px as the breakpoint for phone devices
   }
 
   useEffect(() => {
@@ -22,34 +23,39 @@ const SitesDropdown = ({
       setDropdownHeight(getDropdownHeight());
     }
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  const handleSiteSelection = (siteName) => {
+    onSiteSelected(siteName);
+    setAllSitesSelected(siteName === ''); // Set to true when "All Sites" is selected, otherwise false
+  };
 
   return (
     <Dropdown
       dismissOnClick={true}
-      label={selectedSite || "Select Site"}
+      label={selectedSite || 'Select Site'}
       size="xlg"
       style={{
-        minWidth: "185px",
+        minWidth: '185px',
         height: dropdownHeight,
-        borderRadius: "13px",
+        borderRadius: '13px',
         flexShrink: 0,
-        color: "#000000",
-        backgroundColor: "#FAFAFA",
-        marginRight: "25px",
+        color: '#000000',
+        backgroundColor: '#FAFAFA',
+        marginRight: '25px',
         ...additionalStyles,
       }}
       className="dropdown-label h-15 md:h-10"
     >
-      {!disableAllSites && (
+      {!disableAllSites && !allSitesSelected && (
         <Dropdown.Item
           className="meal-count-btn"
-          onClick={() => onSiteSelected("")}
+          onClick={() => handleSiteSelection('')}
         >
           All Sites
         </Dropdown.Item>
@@ -58,8 +64,7 @@ const SitesDropdown = ({
         <Dropdown.Item
           className="flex items-center justify-start bg-white py-2 px-4 text-sm text-gray-700 cursor-pointer w-full hover:bg-gray-100 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white meal-count-btn"
           key={site.spreadsheetId}
-          onClick={() => onSiteSelected(site.name)}
-          
+          onClick={() => handleSiteSelection(site.name)}
         >
           {site.name}
         </Dropdown.Item>
