@@ -1,3 +1,7 @@
+*, *::before, *::after {
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
 .body {
   width: 100%;
   height: 100vh;
@@ -91,3 +95,51 @@
   transform: translateX(-50%);
   bottom: 60px;
 }
+
+/*Tablet*/
+@media only screen and (max-width: 700px) {
+  
+.form-container{
+  position: absolute;
+  width: 80%; /* Or a percentage value */
+  height: 480px;
+}
+
+.error-message{
+  bottom: 10px;
+}
+
+}
+
+/*Telefono*/
+@media only screen and (max-width: 600px) {
+  
+  .form-container{
+    left: 35%;
+    transform: translate(-35%,-50%);
+    width: 70vw; 
+    height: 450px;
+  }
+  
+  .error-message{
+    bottom: 5px;
+  }
+  
+  }
+
+  /*Telefono*/
+@media only screen and (max-width: 530px) {
+  
+  .form-container{
+    left: 25%;
+    transform: translate(-25%,-50%);
+  }
+  
+  .error-message{
+    bottom: 5px;
+  }
+  
+  }
+
+
+
