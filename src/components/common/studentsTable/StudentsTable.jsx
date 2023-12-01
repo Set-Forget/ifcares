@@ -6,6 +6,7 @@ import { Table } from 'flowbite-react';
 import { Button } from '@mui/material';
 
 import useAuth from '../../../hooks/useAuth';
+import { useBreakpoint } from '../../../hooks/useMediaQuery';
 
 import StudentsRow from '../studentsRow/StudentsRow';
 import SitesDropdown from '../sitesDropdown/SitesDropdown';
@@ -27,7 +28,8 @@ const StudentsTable = () => {
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
 
-  const isMobile = useIsMobile();
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+  //const isMobile = useIsMobile();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openModal, setOpenModal] = useState(undefined);

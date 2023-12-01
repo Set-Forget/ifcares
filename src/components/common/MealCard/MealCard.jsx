@@ -17,41 +17,65 @@ const MealCard = ({ student }) => {
   };
 
   const handleLocalCheckboxChange = (category, checked) => {
+    if(category == 'attendance') {
+      updateCheckboxState(category, checked);
+      if(!checked) {
+        const resetCheckboxState = {
+          attendance: false,
+          breakfast: false,
+          lunch: false,
+          snack: false,
+          supper: false,
+        };
+        handleCheckboxChange(student.number, resetCheckboxState);
+        updateGlobalCountsBasedOnAttendance(checkboxState, resetCheckboxState);
+      }
+    } else {
+      if (checkboxState.attendance) {
+        updateCheckboxState(category, checked)
+      }
+    }
+  }
+
+  const updateCheckboxState = (category, checked) => {
     const newCheckboxState = {
       ...checkboxState,
       [category]: checked,
     };
-    handleCheckboxChange(student.number, newCheckboxState);
-    updateGlobalCount(category, checked);
+    handleCheckboxChange(student.number, newCheckboxState)
+    updateGlobalCount(category, checked)
+  }
+
+  const updateGlobalCountsBasedOnAttendance = (
+    previousCheckboxState,
+  ) => {
+    ['breakfast', 'lunch', 'snack', 'supper'].forEach((category) => {
+      if (previousCheckboxState[category]) {
+        updateGlobalCount(category, false);
+      }
+    });
   };
 
   return (
-    <div className="w-full rounded-lg bg-white mb-4 shadow">
+    <div className="w-full bg-white border-b mb-0 shadow">
       <div className="p-4 bg-[#E8FDF5] text-black rounded-t-lg flex justify-between items-center flex-col">
-        <div className='flex justify-between gap-10'>
-            <div className='flex flex-col justify-between'>
-                <p className="font-bold text-base mb-2">#</p>
-                <p className=" text-base mb-1">{student.number}</p>
+        <div className="flex justify-between gap-10 w-full items-center">
+            <div className='flex item-center'>
+                <p className="font-bold text-base">#</p>
+                <p className="text-base mb-1">{student.number}</p>
             </div>
-            <div className='flex flex-col justify-between'>
-                <p className="font-bold text-sm mb-2">PARTICIPANT'S NAME</p>
-                <p className=" text-base mb-1">{student.name}</p>
+            <div className='flex flex-col'>
+                <p className="font-medium text-sm">{student.name}</p>
             </div>
-            <div className='flex flex-col justify-between'>
-                <p className="font-bold text-base mb-2">AGE</p>
-                <p className=" text-base mb-1">({student.age})</p>
-            </div>
-
-        </div>
-        <button
-          className="text-black text-xl focus:outline-none my-2"
+            <button
+          className="text-black text-xl focus:outline-none"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
-        </button>
+          {isExpanded ? <FaChevronUp style={{ width: '14px' }}/> : <FaChevronDown style={{ width: '14px' }}/>}</button> 
+        </div>
       </div>
-      {isExpanded && (
-        <div className="grid grid-cols-5 gap-4 p-4 bg-[#E8FDF5]">
+      { isExpanded && (
+          <div className="grid grid-cols-5 gap-4 p-4 bg-[#E8FDF5]">
           <label className="flex items-center space-x-2">
             <Checkbox
               checked={checkboxState.attendance}
@@ -88,7 +112,9 @@ const MealCard = ({ student }) => {
             <span  className='text-sm'>SUP</span>
           </label>
         </div>
-      )}
+        )
+      }
+        
     </div>
   );
 };
