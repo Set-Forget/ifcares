@@ -1,6 +1,10 @@
 import { useContext } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
+import './Header.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const { resetAllStates } = useContext(MealSiteContext);
@@ -9,22 +13,32 @@ export default function Header() {
   const { name, lastname, email } = auth;
 
   const handleLogout = () => {
-    resetAllStates()
+    resetAllStates();
     localStorage.removeItem('user');
     setAuth({});
   };
 
   return (
     <header className="fixed md:relative z-10 bottom-0 w-full h-24 md:h-14 bg-[#5D24FF] shadow text-white flex items-center justify-between md:justify-end px-4 md:px-40">
+      <div style={{ flexGrow: 1 }}>
+      <Link to="/welcome">
+        <FontAwesomeIcon
+          icon={faHouse}
+          size="lg"
+          style={{ color: '#ffffff' }}
+        />
+        </Link>
+      </div>
       <div className="text-xl md:text-xs text-left md:text-right">
         <p>{`${name} ${lastname}`}</p>
         <p>{email}</p>
       </div>
+
       <div
-        className="ml-8 flex mr-2 text-2xl md:text-base hover:text-slate-400 hover:cursor-pointer"
+        className="ml-8 flex items-center space-x-2 text-2xl md:text-base hover:text-slate-400 hover:cursor-pointer"
         onClick={handleLogout}
       >
-        Logout
+        <span className="mt-1">Logout</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

@@ -13,6 +13,7 @@ const MealCount = () => {
         <Link to="/home">
           <Button
             variant="contained"
+            className='text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn'
             style={{
               textTransform: 'capitalize',
               fontWeight: 'bold',

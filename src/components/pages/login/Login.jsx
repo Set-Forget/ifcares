@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 
 import useAuth from '../../../hooks/useAuth';
@@ -11,12 +11,12 @@ export default function Login() {
   const [error, setError] = useState(null)
   const { setAuth } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
+  // const location = useLocation()
 
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   
-  const from = location.state?.from?.pathname || '/home'
+  // const from = location.state?.from?.pathname || '/home' 
   const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
   const GAS_URL = "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec"
 
@@ -45,7 +45,7 @@ export default function Login() {
           setLoading(false)
           setAuth(data)
           localStorage.setItem('user', JSON.stringify(data))
-          navigate(from, { replace: true });
+          navigate('/welcome', { replace: true });
         } else {
           setError(message)
           setLoading(false)

@@ -11,6 +11,7 @@ import Login from './components/pages/login/Login';
 
 import { ROLES } from './constants';
 import { MealSiteProvider } from './components/common/mealSiteProvider/MealSiteProvider';
+import Welcome from './components/pages/welcome/Welcome';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route exact path='/home' element={<Home />} />
             <Route path="/addStudent" element={<Form />} />
             <Route path="/mealCount" element={<MealCount />} />
+            <Route path="/welcome" element={<Welcome />} />
           </Route>
         </Routes>
         </MealSiteProvider>
