@@ -17,7 +17,7 @@ const MealCard = ({ student }) => {
   };
 
   const handleLocalCheckboxChange = (category, checked) => {
-    if(category == 'attendance') {
+    if(category === 'attendance') {
       updateCheckboxState(category, checked);
       if(!checked) {
         const resetCheckboxState = {

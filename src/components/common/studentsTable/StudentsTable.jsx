@@ -14,7 +14,6 @@ import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import Pagination from '../pagination/pagination';
 import { ROLES } from '../../../constants';
 import EditModal from '../editModal/editModal';
-import useIsMobile from '../../../hooks/useIsMobile';
 
 import './StudentsTable.css';
 
@@ -28,7 +27,7 @@ const StudentsTable = () => {
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
 
-  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+  const { isMobile } = useBreakpoint();
   //const isMobile = useIsMobile();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
