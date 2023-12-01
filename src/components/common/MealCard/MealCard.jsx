@@ -57,23 +57,20 @@ const MealCard = ({ student }) => {
   };
 
   return (
-    <div className="w-full bg-white border-b mb-0 shadow">
-      <div className="p-4 bg-[#E8FDF5] text-black rounded-t-lg flex justify-between items-center flex-col">
-        <div className="flex justify-between gap-10 w-full items-center">
-            <div className='flex item-center'>
-                <p className="font-bold text-base">#</p>
-                <p className="text-base mb-1">{student.number}</p>
-            </div>
-            <div className='flex flex-col'>
-                <p className="font-medium text-sm">{student.name}</p>
-            </div>
+    <div className="w-full rounded-lg bg-white mb-4 shadow">
+      <div className="p-4 bg-[#E8FDF5] text-black rounded-t-lg flex justify-between items-center">
+        <p className="text-base mb-1 px-2 py-1" style={{ flex: "1 1 0%" }}>
+          {student.number}
+        </p>
+        <p className="text-base mb-1 px-2 py-1" style={{ flex: "2 1 0%" }}>
+          {student.name}
+        </p>
             <button
           className="text-black text-xl focus:outline-none"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? <FaChevronUp style={{ width: '14px' }}/> : <FaChevronDown style={{ width: '14px' }}/>}</button> 
         </div>
-      </div>
       { isExpanded && (
           <div className="grid grid-cols-5 gap-4 p-4 bg-[#E8FDF5]">
           <label className="flex items-center space-x-2">

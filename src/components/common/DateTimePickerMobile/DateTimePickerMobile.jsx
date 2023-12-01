@@ -2,7 +2,7 @@ import { LocalizationProvider, DatePicker, TimePicker } from '@mui/x-date-picker
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 
 const DateTimePickerMobile = () => {
     const {
@@ -20,6 +20,22 @@ const DateTimePickerMobile = () => {
         setTime2Error,
         
       } = useContext(MealSiteContext);
+    const datePickerRef = useRef(null);
+    const timePickerInRef = useRef(null);
+    const timePickerOutRef = useRef(null);
+
+    useEffect(() => {
+      if (dateError && datePickerRef.current) {
+          datePickerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          datePickerRef.current.focus();
+      } else if (time1Error && timePickerInRef.current) {
+          timePickerInRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          timePickerInRef.current.focus();
+      } else if (time2Error && timePickerOutRef.current) {
+          timePickerOutRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          timePickerOutRef.current.focus();
+      }
+  }, [dateError, time1Error, time2Error]);
  
     return (
     <div className="bg-white rounded-lg p-4 shadow mb-4">
@@ -32,6 +48,7 @@ const DateTimePickerMobile = () => {
               <DatePicker
                 id="date-picker"
                 value={selectedDate}
+                ref={datePickerRef}
                 onChange={(date) => {
                     setSelectedDate(date);
                     setDateError(false); // reset error when a date is selected
@@ -51,6 +68,7 @@ const DateTimePickerMobile = () => {
               <TimePicker
                 id="time-picker-in"
                 value={selectedTime1}
+                ref={timePickerInRef}
                 onChange={(time) => {
                     setSelectedTime1(time);
                     setTime1Error(false); // reset error when a time is selected
@@ -70,6 +88,7 @@ const DateTimePickerMobile = () => {
               <TimePicker
                 id="time-picker-out"
                 value={selectedTime2}
+                ref={timePickerOutRef}
                 onChange={(time) => {
                     setSelectedTime2(time);
                     setTime2Error(false); // reset error when a time is selected
