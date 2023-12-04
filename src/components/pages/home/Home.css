@@ -1,6 +1,6 @@
 .body {
   width: 100%;
-  min-width: 600px;
+  /* min-width: 600px; */
   height: 100vh;
   background-color: #F0F0F0;
   padding: 1px;
