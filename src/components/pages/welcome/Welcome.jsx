@@ -3,6 +3,9 @@ import './Welcome.css';
 import { Link } from 'react-router-dom';
 import { Button } from 'flowbite-react';
 import useAuth from '../../../hooks/useAuth';
+import WelcomeCard from '../../common/welcomeCard/WelcomeCard';
+
+
 
 const Welcome = () => {
   const { auth } = useAuth();
@@ -50,6 +53,9 @@ const Welcome = () => {
       <div className="welcome-text-container">
         <h3 className="welcome-text">Welcome Back,</h3>
         <h5 className="full-name-text">{name + ' ' + lastname}</h5>
+      </div>
+      <div className="welcome-cards-container">
+        <WelcomeCard></WelcomeCard>
       </div>
     </div>
   );

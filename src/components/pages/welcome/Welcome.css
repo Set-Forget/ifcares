@@ -8,7 +8,7 @@
 }
 
 .welcome-text-container {
-  margin-top: 10%;
+  margin-top: 5%;
   text-align: center;
 }
 
@@ -69,13 +69,21 @@
   /*This is not working*/
 }
 
+.welcome-cards-container{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /*Media queries*/
 
 @media screen and (min-width: 780px) {
-  /* Your CSS styles go here */
+  
 
   .welcome-text-container {
-    margin-top: 5%;
+    margin-top: 0%;
   }
 
   .welcome-text {
