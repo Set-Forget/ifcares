@@ -40,7 +40,7 @@ const Form = () => {
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
       PROXY_URL +
-      'https://script.google.com/macros/s/AKfycby-a-e3_HPrtTWps2Sa0PAww03XHbqWNX2RHTrRFeZjoLMLIp7GqZXh5mDYKejjgUOh/exec';
+      'https://script.google.com/macros/s/AKfycbxFw9TbxYWrFtbSeDrOcbkd_wxSlKPjXkQlHDi7qhhCgI1hdgUeLZITVTvYw2rUttvI/exec';
 
     // Format the date
     const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
