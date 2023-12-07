@@ -1,0 +1,344 @@
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealSiteRow/MealSiteRow.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.mealSiteRow-style{
+    color: #000000;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 130%;
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/studentsTable/StudentsTable.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+.body-container {
+  background: #f0f0f0;
+  /* padding: 0;
+  margin: 0;
+  box-sizing: border-box; */
+}
+
+.header-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 75px;
+  margin-bottom: 30px;
+  min-height: 50px;
+  align-items: center;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.drop-button-container {
+  display: flex;
+  font-size: 1rem !important; /* 16px */
+}
+
+@media (max-width: 769px) {
+  .table-container {
+    padding-bottom: 25%;
+  }
+}
+.table-container {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 80%;
+  min-height: 800px;
+}
+
+.headcell {
+  color: #5b5b5b;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%;
+  min-height: 85px;
+  background-color: #ffffff;
+  border-bottom: solid 2px black;
+}
+
+.meal-count-btn {
+  font-size: 1rem !important; /* 16px */
+}
+
+.edit-delete-btn {
+  font-size: 1rem !important; /* 16px */
+}
+
+/* Font size for phone devices */
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
+  .edit-delete-btn {
+    font-size: 1.5rem !important; /* 20px */
+  }
+  /* Adjust this breakpoint as needed */
+  .meal-count-btn {
+    font-size: 1.5rem !important; /* 20px */
+  }
+}
+
+.dropdown-label {
+  font-size: 1rem !important; /* 16px */
+}
+
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
+  .dropdown-label {
+    font-size: 1.5rem !important; /* 20px */
+    height: 120px !important;
+  }
+}
+
+label {
+  font-size: 1rem !important; /* 16px */
+}
+
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
+  label {
+    font-size: 1.5rem !important; /* 20px */
+  }
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealSite/MealSite.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.disabled-dropdown {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.dropdown-and-spinner{
+  display: flex;
+  align-items: center;
+}
+
+.master-table-container {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+}
+
+.mealSite-headcell {
+  color: #000000;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%;
+  min-height: 85px;
+  background-color: #e8fdf5;
+  border-bottom: solid 2px black;
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealTableRow/MealTableRow.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
+.mealTableRow-style {
+  color: #000000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+.green-checkbox:checked {
+  background-color: #3DED97;
+  border-color: #3DED97;
+}
+
+.green-checkbox:focus {
+  outline: none; 
+  box-shadow: 0 0 0 1px #3DED97; 
+}
+
+/* If there are pseudo elements like ::before or ::after for custom checkboxes */
+.green-checkbox:checked::before,
+.green-checkbox:checked::after {
+  background-color: #3DED97;
+  border-color: #3DED97;
+}
+
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealTableZCountRow/MealTableCountRow.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************/
+.number {
+  color: #000000;
+  font-size: 18px;
+  font-style: bold;
+  font-weight: 600;
+  line-height: 130%;
+}
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealTableZCount/MealTableCount.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************/
+.count-headcell{
+    color: #000000;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%;
+    min-height: 85px;
+    background-color: #A6F7D1;
+    border-bottom: solid 2px black;
+}
+
+
+/*!************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealTable/MealTable.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************/
+.button-container {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.datepicker-loading {
+  display: flex;
+  align-items: center;
+}
+
+.spinner-datepicker{
+  position: relative;
+  left: 10px;
+}
+
+.mealTable-headcell {
+  color: #000000;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%;
+  min-height: 85px;
+  background-color: #e8fdf5;
+  border-bottom: solid 2px black;
+}
+
+.checkbox {
+  width: 150px;
+}
+
+.dateTimeError-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-error {
+  border: solid red 1px;
+  border-radius: 5px;
+}
+
+.datepicker-input {
+  width: 100%;
+}
+
+.timepicker-input {
+  width: 100%;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/confirmationToast/ConfirmationToast.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/mealTableModal/MealTableModal.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************/
+.underline {
+  text-decoration: underline;
+}
+
+.modalBody-container {
+  min-height: 500px;
+}
+
+.loadingSpinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+.container-confirmationToast {
+  min-width: 250px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/MealCard/MealCards.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.meal-card {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .meal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .meal-card-header > div {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .meal-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .meal-card-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+    
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/app/mealCount/MealCount.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+@media(max-width:769px){
+  .mealCount-body {
+  padding-bottom: 28% !important;
+  }
+}
+
+.mealCount-body {
+  background-color: #F0F0F0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  /* padding: 1px; */
+}
+
+.navigation-container {
+  display: flex;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  justify-content: space-between;
+  margin-top: 75px;
+  margin-bottom: 30px;
+  min-height: 50px;
+  align-items: center;
+  padding-bottom: 8px;
+}
+

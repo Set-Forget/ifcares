@@ -1,0 +1,190 @@
+/*!*******************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/app/home/Home.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************/
+.body {
+  width: 100%;
+  /* min-width: 600px; */
+  height: 100vh;
+  background-color: #F0F0F0;
+  padding: 1px;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/studentsRow/StudentsRow.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.row-style {
+  color: #000000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+.row-style-big {
+  color: #000000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 130%;
+  width: 40%;
+}
+
+.editing-style {
+  color: #5d24ff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 130%;
+}
+
+.edit-input{
+    height: 55px;
+}
+
+.edit-select {
+    background-color: #ffffff;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/deleteToast/DeleteToast.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/savingModal/SavingModal.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.modal-body {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  min-height: 200px;
+}
+
+.saving-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/savingToast/SavingToast.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[12].oneOf[12].use[3]!./src/components/studentsTable/StudentsTable.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+.body-container {
+  background: #f0f0f0;
+  /* padding: 0;
+  margin: 0;
+  box-sizing: border-box; */
+}
+
+.header-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 75px;
+  margin-bottom: 30px;
+  min-height: 50px;
+  align-items: center;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+
+.drop-button-container {
+  display: flex;
+  font-size: 1rem !important; /* 16px */
+}
+
+@media (max-width: 769px) {
+  .table-container {
+    padding-bottom: 25%;
+  }
+}
+.table-container {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 80%;
+  min-height: 800px;
+}
+
+.headcell {
+  color: #5b5b5b;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 130%;
+  min-height: 85px;
+  background-color: #ffffff;
+  border-bottom: solid 2px black;
+}
+
+.meal-count-btn {
+  font-size: 1rem !important; /* 16px */
+}
+
+.edit-delete-btn {
+  font-size: 1rem !important; /* 16px */
+}
+
+/* Font size for phone devices */
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
+  .edit-delete-btn {
+    font-size: 1.5rem !important; /* 20px */
+  }
+  /* Adjust this breakpoint as needed */
+  .meal-count-btn {
+    font-size: 1.5rem !important; /* 20px */
+  }
+}
+
+.dropdown-label {
+  font-size: 1rem !important; /* 16px */
+}
+
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
+  .dropdown-label {
+    font-size: 1.5rem !important; /* 20px */
+    height: 120px !important;
+  }
+}
+
+label {
+  font-size: 1rem !important; /* 16px */
+}
+
+@media (max-width: 640px) {
+  /* Adjust this breakpoint as needed */
+  label {
+    font-size: 1.5rem !important; /* 20px */
+  }
+}
+
