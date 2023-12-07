@@ -33,7 +33,8 @@ const StudentsTable = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openModal, setOpenModal] = useState(undefined);
 
-  let auth  = useAuth();
+  let authObj  = useAuth();
+  let auth = authObj.auth
 
   const paginate = (pageNumber) => {
     // Calculate the total number of pages based on the filtered students
@@ -147,9 +148,6 @@ const StudentsTable = () => {
       });
   }, []);
 
-  // console.log(auth.role)
-  // console.log(ROLES.Admin)
-  // console.log(ROLES.Admin == auth.role)
 
 
 
