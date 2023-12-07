@@ -3,9 +3,9 @@
 import { useRef, useState, useEffect } from 'react'
 import axios from 'axios';
 
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 
-import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
+import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner';
 
 import { useRouter } from 'next/navigation'
 
@@ -62,7 +62,7 @@ export default function Login() {
 
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
+    <div className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
               <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
@@ -94,13 +94,13 @@ export default function Login() {
                       </div>
                       <button disabled={loading} type="submit" className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">Sign in</button>
                   </form>
-                  <div className="flex justify-center items-center">
+                  <div className="flex justify-center items-center" >
                     {loading && <LoadingSpinner />}
                     {error && <p className="text-red-600 text-sm">{error}</p>}
                   </div>
               </div>
           </div>
       </div>
-    </section>
+    </div>
   )
 }
