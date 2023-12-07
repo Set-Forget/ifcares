@@ -8,4 +8,14 @@
 
 
 body {
+    margin: 0;
+    padding: 0;
 }
+
+.title {
+    color: #060606;
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+  }
