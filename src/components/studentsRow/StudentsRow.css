@@ -1,9 +1,10 @@
-.row-style {
+/* .row-style {
   color: #000000;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 130%;
+  width: 100%;
 }
 
 .row-style-big {
@@ -13,19 +14,5 @@
   font-weight: 600;
   line-height: 130%;
   width: 40%;
-}
+} */
 
-.editing-style {
-  color: #5d24ff;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 130%;
-}
-
-.edit-input{
-    height: 55px;
-}
-
-.edit-select {
-    background-color: #ffffff;
-}

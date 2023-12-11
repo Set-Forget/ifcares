@@ -33,15 +33,15 @@ const StudentsTable = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [openModal, setOpenModal] = useState(undefined);
 
-  let authObj  = useAuth();
-  let auth = authObj.auth
+  let authObj = useAuth();
+  let auth = authObj.auth;
 
   const paginate = (pageNumber) => {
     // Calculate the total number of pages based on the filtered students
     const totalNumberOfPages = Math.ceil(
       filteredStudents.length / studentsPerPage
     );
-    
+
     // Ensures the page number stays within valid bounds
     const newPageNumber = Math.max(1, Math.min(pageNumber, totalNumberOfPages));
     setCurrentPage(newPageNumber);
@@ -59,8 +59,6 @@ const StudentsTable = () => {
     indexOfFirstStudent,
     indexOfLastStudent
   );
-
-  // ... rest of your component
 
   const handleRowClick = (student) => {
     setSelectedStudent(student);
@@ -125,7 +123,7 @@ const StudentsTable = () => {
       axios.get(GAS_URL + '?type=sites'),
     ])
       .then(([studentsResponse, sitesResponse]) => {
-        console.log("Students data:", studentsResponse.data);
+        console.log('Students data:', studentsResponse.data);
         if (auth.role !== ROLES.Admin) {
           const students = studentsResponse.data.filter(
             (item) => item.site === auth.assignedSite
@@ -148,19 +146,16 @@ const StudentsTable = () => {
       });
   }, []);
 
-
-
-
   return (
-    <div className="body-container">
-      <div className="table-container">
-        <div className="header-container flex flex-col md:flex-row items-center justify-between">
+    <div className="bg-gray-100 p-0 m-0 box-border">
+      <div className="relative left-1/2 -translate-x-1/2 mt-5 mb-12 w-4/5 min-h-[800px] pb-20 table-container">
+        <div className="flex w-full justify-between mt-[75px] mb-[30px] min-h-[50px] flex-col md:flex-row items-center">
           {/* This div will be full width on mobile and align the button to the end/right */}
           <div className="w-full flex justify-end md:justify-start md:w-auto -mt-12 md:-mt-[12px]">
             <Link href="/mealCount">
               <Button
                 variant="contained"
-                className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn"
+                className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none text-base"
                 style={{
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
@@ -176,7 +171,7 @@ const StudentsTable = () => {
             </Link>
           </div>
           {/* This div will center the dropdown and button below the Meal Count button on mobile */}
-          <div className="flex flex-row justify-center m-auto items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center meal-count-btn">
+          <div className="flex flex-row justify-center m-auto items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center text-base">
             {auth.role !== ROLES.Admin && (
               <h2 className="title pr-10">{auth.assignedSite}</h2>
             )}
@@ -185,12 +180,12 @@ const StudentsTable = () => {
                 sites={sites}
                 onSiteSelected={setSelectedSite}
                 selectedSite={selectedSite}
-                className="mb-4 md:mb-0 md:mr-4 dropdown-label"
+                className="mb-4 md:mb-0 md:mr-4 text-base md:text-2xl h-auto md:h-28"
               />
             )}
             <Link href="/addStudent">
               <Button
-                className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn"
+                className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none"
                 variant="contained"
                 style={{
                   textTransform: 'capitalize',
@@ -209,26 +204,30 @@ const StudentsTable = () => {
         </div>
 
         {loading ? (
-          <div className="loading-spinner">
+          <div className="flex flex-col items-center">
             <LoadingSpinner />
             <h2>Loading Students...</h2>
           </div>
         ) : (
           <>
-            <div className="sm:block hidden">
+            <div className="sm:block hidden w-full">
               <Table striped>
                 <Table.Head>
-                  <Table.HeadCell className="headcell">
+                  <Table.HeadCell className="uppercase text-gray-600 text-lg font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black w-[350px]">
                     Student Name
                   </Table.HeadCell>
-                  <Table.HeadCell className="headcell">Age</Table.HeadCell>
+                  <Table.HeadCell className="uppercase text-gray-600 text-lg font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black">
+                    Age
+                  </Table.HeadCell>
                   {auth.role === ROLES.Admin && (
-                    <Table.HeadCell className="headcell">Site</Table.HeadCell>
+                    <Table.HeadCell className="uppercase text-gray-600 text-lg font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black">
+                      Site
+                    </Table.HeadCell>
                   )}
-                  <Table.HeadCell className="headcell">
+                  <Table.HeadCell className="text-gray-600 text-sm font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black">
                     <span className="sr-only">Edit</span>
                   </Table.HeadCell>
-                  <Table.HeadCell className="headcell">
+                  <Table.HeadCell className="text-gray-600 text-sm font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black">
                     <span className="sr-only">Delete</span>
                   </Table.HeadCell>
                 </Table.Head>
@@ -239,7 +238,6 @@ const StudentsTable = () => {
                         !selectedSite || student.site === selectedSite
                     )
                     .map((student) => (
-                      <tr>
                       <StudentsRow
                         student={student}
                         key={student.name}
@@ -247,7 +245,6 @@ const StudentsTable = () => {
                         birthdate={student.birthdate}
                         // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
-                      </tr>
                     ))}
                 </Table.Body>
               </Table>

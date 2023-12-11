@@ -1,18 +1,27 @@
 'use client'
 
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Welcome.css';
 import { Button } from 'flowbite-react';
 import useAuth from '../hooks/useAuth';
 import WelcomeCard from '../components/welcomeCard/WelcomeCard';
 import Link from 'next/link';
+import { If, Then } from 'react-if';
 
 
 
 const Welcome = () => {
   const { auth } = useAuth();
-  const { name, lastname } = auth;
+  const [authData, setAuthData] = useState(null)
+  useEffect(() => {
+    if (auth) {
+      setAuthData(auth)
+    }
+  }, [auth])
+  
+
+
   return (
     <div className="welcome-body">
       <div className="welcome-buttons-container">
@@ -55,7 +64,12 @@ const Welcome = () => {
       </div>
       <div className="welcome-text-container">
         <h3 className="welcome-text">Welcome Back,</h3>
-        <h5 className="full-name-text">{name + ' ' + lastname}</h5>
+        <If condition={auth != null}>
+          <Then>
+          <h5 className="full-name-text">{auth.name + ' ' + auth.lastname}</h5>
+          </Then>
+        </If>
+        
       </div>
       <div className="welcome-cards-container">
         <WelcomeCard></WelcomeCard>

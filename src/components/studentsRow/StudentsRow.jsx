@@ -53,12 +53,12 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
         message={toastMessage} // Passed to SavingModal
       />
 
-      <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-        <Table.Cell className="row-style">
+      <Table.Row className="h-14 bg-white dark:border-gray-700 dark:bg-gray-800 ">
+        <Table.Cell className="text-black text-sm font-semibold leading-relaxed ">
           {isEditing ? (
             <input
               type="text"
-              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 edit-input"
+              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 h-14"
               value={editedStudent.name}
               onChange={(e) =>
                 setEditedStudent({ ...editedStudent, name: e.target.value })
@@ -68,12 +68,12 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
             student.name
           )}
         </Table.Cell>
-        <Table.Cell className={ageCellStyle}>
+        <Table.Cell className='text-black text-sm font-semibold leading-relaxed'>
           {isEditing ? (
             <input
               type="number"
               // className="border rounded-md px-3 py-2 w-full focus:border-violet-500 focus:outline-none"
-              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 edit-input"
+              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 h-14"
               value={editedStudent.age}
               onChange={(e) =>
                 setEditedStudent({ ...editedStudent, age: e.target.value })
@@ -85,11 +85,11 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
           )}
         </Table.Cell>
         {showSiteColumn && (
-          <Table.Cell className="row-style">
+          <Table.Cell className="text-black text-sm font-semibold leading-relaxed">
             {isEditing ? (
               <SitesSelect
                 isStudentsRow={true}
-                className="edit-select"
+                className="bg-white"
                 selectedSiteValue={editedStudent.site}
                 onSiteSelected={(site) =>
                   setEditedStudent((prevStudent) => ({
@@ -171,7 +171,7 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
               setIsEditing(!isEditing);
             }}
           >
-            <span className="editing-style">{isEditing ? 'SAVE' : 'EDIT'}</span>
+            <span className="text-[#5d24ff] text-sm font-semibold leading-relaxed">{isEditing ? 'SAVE' : 'EDIT'}</span>
           </p>
         </Table.Cell>
         <Table.Cell>

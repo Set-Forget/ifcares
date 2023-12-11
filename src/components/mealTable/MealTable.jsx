@@ -139,97 +139,103 @@ const MealTable = () => {
       <div ref={topRef}></div>
       <Table>
         <Table.Head>
-          <Table.HeadCell className="mealTable-headcell">Date</Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell">In</Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell">Out</Table.HeadCell>
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+            Date
+          </Table.HeadCell>
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+            In
+          </Table.HeadCell>
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+            Out
+          </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           <tr>
-          <Table.Cell>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['DatePicker']}>
-                <div className="datepicker-loading">
-                  <div className="dateTimeError-container">
-                    <div
-                      className={
-                        dateError || dateValidationError ? 'input-error' : ''
-                      }
-                    >
-                      <DatePicker
-                        className="datepicker-input"
-                        value={selectedDate}
-                        onChange={(date) => {
-                          setSelectedDate(date);
-                          setDateError(false); // reset error when a date is selected
-                          postSelectedDate(date); // Make the POST request with the new date
-                        }}
-                        required
-                        error={Boolean(dateValidationError)}
-                        helperText={dateValidationError}
-                        disableFuture
-                      />
+            <Table.Cell>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                  <div className="flex items-center">
+                    <div className="flex flex-col">
+                      <div
+                        className={
+                          dateError || dateValidationError ? 'border border-red-500 rounded-md' : ''
+                        }
+                      >
+                        <DatePicker
+                          className="w-full"
+                          value={selectedDate}
+                          onChange={(date) => {
+                            setSelectedDate(date);
+                            setDateError(false); // reset error when a date is selected
+                            postSelectedDate(date); // Make the POST request with the new date
+                          }}
+                          required
+                          error={Boolean(dateValidationError)}
+                          helperText={dateValidationError}
+                          disableFuture
+                        />
+                      </div>
+                      {(dateError || dateValidationError) && (
+                        <span style={{ color: 'red' }}>
+                          {dateValidationError || 'Date is required'}
+                        </span>
+                      )}
                     </div>
-                    {(dateError || dateValidationError) && (
-                      <span style={{ color: 'red' }}>
-                        {dateValidationError || 'Date is required'}
-                      </span>
+                    {isLoading && (
+                      <LoadingSpinner className="relative left-[10px]" />
                     )}
                   </div>
-                  {isLoading && (
-                    <LoadingSpinner className="spinner-datepicker" />
-                  )}
-                </div>
-              </DemoContainer>
-            </LocalizationProvider>
-          </Table.Cell>
-          <Table.Cell>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['TimePicker']}>
-                <div className="dateTimeError-container">
-                  <div className={time1Error ? 'input-error' : ''}>
-                    <TimePicker
-                      className="timepicker-input"
-                      value={selectedTime1}
-                      onChange={(time) => {
-                        setSelectedTime1(time);
-                        setTime1Error(false); // reset error when a time is selected
-                      }}
-                      required
-                      // minTime={minTime}
-                      // maxTime={maxTime}
-                    />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Table.Cell>
+            <Table.Cell>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['TimePicker']}>
+                  <div className="flex flex-col">
+                    <div className={time1Error ? 'border border-red-500 rounded-md' : ''}>
+                      <TimePicker
+                        className="w-full"
+                        value={selectedTime1}
+                        onChange={(time) => {
+                          setSelectedTime1(time);
+                          setTime1Error(false); // reset error when a time is selected
+                        }}
+                        required
+                        // minTime={minTime}
+                        // maxTime={maxTime}
+                      />
+                    </div>
+                    {time1Error && (
+                      <span style={{ color: 'red' }}>Time In is required</span>
+                    )}
                   </div>
-                  {time1Error && (
-                    <span style={{ color: 'red' }}>Time In is required</span>
-                  )}
-                </div>
-              </DemoContainer>
-            </LocalizationProvider>
-          </Table.Cell>
-          <Table.Cell>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer components={['TimePicker']}>
-                <div className="dateTimeError-container">
-                  <div className={time2Error ? 'input-error' : ''}>
-                    <TimePicker
-                      className="timepicker-input"
-                      value={selectedTime2}
-                      onChange={(time) => {
-                        setSelectedTime2(time);
-                        setTime2Error(false); // reset error when a time is selected
-                      }}
-                      required
-                      // minTime={minTime}
-                      // maxTime={maxTime}
-                    />
+                </DemoContainer>
+              </LocalizationProvider>
+            </Table.Cell>
+            <Table.Cell>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['TimePicker']}>
+                  <div className="flex flex-col">
+                    <div className={time2Error ? 'border border-red-500 rounded-md' : ''}>
+                      <TimePicker
+                        className="w-full"
+                        value={selectedTime2}
+                        onChange={(time) => {
+                          setSelectedTime2(time);
+                          setTime2Error(false); // reset error when a time is selected
+                        }}
+                        required
+                        // minTime={minTime}
+                        // maxTime={maxTime}
+                      />
+                    </div>
+                    {time2Error && (
+                      <span style={{ color: 'red' }}>Time Out is required</span>
+                    )}
                   </div>
-                  {time2Error && (
-                    <span style={{ color: 'red' }}>Time Out is required</span>
-                  )}
-                </div>
-              </DemoContainer>
-            </LocalizationProvider>
-          </Table.Cell>
+                </DemoContainer>
+              </LocalizationProvider>
+            </Table.Cell>
           </tr>
         </Table.Body>
       </Table>
@@ -237,31 +243,31 @@ const MealTable = () => {
       <br />
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="mealTable-headcell">#</Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell">
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+            #
+          </Table.HeadCell>
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
             Participant's Name
           </Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell checkbox">
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             At
           </Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell checkbox">
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Brk
           </Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell checkbox">
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Lu
           </Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell checkbox">
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Snk
           </Table.HeadCell>
-          <Table.HeadCell className="mealTable-headcell checkbox">
+          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Sup
           </Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {validStudentData.map((student) => (
-            <tr>
             <MealTableRow student={student} key={student.name} />
-            </tr>
           ))}
         </Table.Body>
       </Table>
@@ -275,7 +281,7 @@ const MealTable = () => {
         supperCount={globalCounts.supper}
       />
       <br />
-      <div className="button-container">
+      <div>
         <Button
           variant="contained"
           style={{

@@ -175,8 +175,8 @@ const MealSite = () => {
   
   },[auth])
   return (
-    <div className="master-table-container">
-      <div className="dropdown-and-spinner">
+    <div className="relative left-1/2 -translate-x-1/2 w-4/5">
+      <div className="flex items-center">
         <SitesDropdown
           sites={sites}
           onSiteSelected={handleSiteChange}
@@ -214,14 +214,14 @@ const MealSite = () => {
       ) : (
         <Table>
           <Table.Head>
-            <Table.HeadCell className="mealSite-headcell">
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Contracting Entity (CE)
             </Table.HeadCell>
-            <Table.HeadCell className="mealSite-headcell">CE ID</Table.HeadCell>
-            <Table.HeadCell className="mealSite-headcell">
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">CE ID</Table.HeadCell>
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Site
             </Table.HeadCell>
-            <Table.HeadCell className="mealSite-headcell">
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Site #
             </Table.HeadCell>
           </Table.Head>
