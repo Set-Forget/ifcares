@@ -71,10 +71,14 @@ const MealTableRow = ({ student }) => {
 
   return (
     <Table.Row>
-      <Table.Cell className="mealTableRow-style">{student.number}</Table.Cell>
-      <Table.Cell className="mealTableRow-style">{student.name}</Table.Cell>
+      <Table.Cell className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] h-11">
+        {student.number}
+      </Table.Cell>
+      <Table.Cell className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] h-11">
+        {student.name}
+      </Table.Cell>
 
-      <Table.Cell>
+      <Table.Cell className="bg-[#FFFFFF] h-11">
         <Checkbox
           className="green-checkbox"
           checked={checkboxState.attendance}
@@ -83,9 +87,9 @@ const MealTableRow = ({ student }) => {
           }
         />
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className="bg-[#FFFFFF] h-11">
         <Checkbox
-          className="green-checkbox"
+          className="green-checkbox "
           checked={checkboxState.breakfast}
           onChange={(event) =>
             handleLocalCheckboxChange('breakfast', event.target.checked)
@@ -93,7 +97,7 @@ const MealTableRow = ({ student }) => {
           disabled={!checkboxState.attendance}
         />
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className="bg-[#FFFFFF] h-11">
         <Checkbox
           className="green-checkbox"
           checked={checkboxState.lunch}
@@ -103,7 +107,7 @@ const MealTableRow = ({ student }) => {
           disabled={!checkboxState.attendance}
         />
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className="bg-[#FFFFFF] h-11">
         <Checkbox
           className="green-checkbox"
           checked={checkboxState.snack}
@@ -113,7 +117,7 @@ const MealTableRow = ({ student }) => {
           disabled={!checkboxState.attendance}
         />
       </Table.Cell>
-      <Table.Cell>
+      <Table.Cell className="bg-[#FFFFFF] h-11">
         <Checkbox
           className="green-checkbox"
           checked={checkboxState.supper}

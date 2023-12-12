@@ -44,7 +44,7 @@ const MealSite = () => {
   };
 
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbzNhZUKyRekUop9dRW-vB0T2vIyPvnOUYWFuB_DI8PuJYvad0WAZBvYsM9Wj-4uyZpF/exec';
+    'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
 
   // old use effect -->
 

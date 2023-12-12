@@ -9,12 +9,12 @@ const MealSiteRow = ({ siteData }) => {
     // }
 
     <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-      <Table.Cell className="mealSiteRow-style">
+      <Table.Cell className="text-black text-base font-semibold leading-6 bg-[#ffffff] h-12">
         {siteData.name}
       </Table.Cell>
-      <Table.Cell className="mealSiteRow-style">{siteData.ceId}</Table.Cell>
-      <Table.Cell className="mealSiteRow-style">{siteData.siteName}</Table.Cell>
-      <Table.Cell className="mealSiteRow-style">{siteData.siteNumber}</Table.Cell>
+      <Table.Cell className="text-black text-base font-semibold leading-6 bg-[#ffffff] h-12">{siteData.ceId}</Table.Cell>
+      <Table.Cell className="text-black text-base font-semibold leading-6 bg-[#ffffff] h-12">{siteData.siteName}</Table.Cell>
+      <Table.Cell className="text-black text-base font-semibold leading-6 bg-[#ffffff] h-12">{siteData.siteNumber}</Table.Cell>
     </Table.Row>
   );
 };

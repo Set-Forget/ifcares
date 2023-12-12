@@ -16,11 +16,11 @@ const MealTableCountRow = ({
   return (
     <>
       <Table.Row >
-        <Table.Cell className="number">{globalCounts.attendance}</Table.Cell>
-        <Table.Cell className="number">{globalCounts.breakfast}</Table.Cell>
-        <Table.Cell className="number">{globalCounts.lunch}</Table.Cell>
-        <Table.Cell className="number">{globalCounts.snack}</Table.Cell>
-        <Table.Cell className="number">{globalCounts.supper}</Table.Cell>
+        <Table.Cell className="text-black text-lg font-bold leading-7 bg-[#ffffff] h-14">{globalCounts.attendance}</Table.Cell>
+        <Table.Cell className="text-black text-lg font-bold leading-7 bg-[#ffffff] h-14">{globalCounts.breakfast}</Table.Cell>
+        <Table.Cell className="text-black text-lg font-bold leading-7 bg-[#ffffff] h-14">{globalCounts.lunch}</Table.Cell>
+        <Table.Cell className="text-black text-lg font-bold leading-7 bg-[#ffffff] h-14">{globalCounts.snack}</Table.Cell>
+        <Table.Cell className="text-black text-lg font-bold leading-7 bg-[#ffffff] h-14">{globalCounts.supper}</Table.Cell>
       </Table.Row>
     </>
   );

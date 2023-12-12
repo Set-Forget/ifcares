@@ -115,7 +115,7 @@ const StudentsTable = () => {
   };
 
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbyH507We765EnOqnh3vwD8aO0j52FyjBYeLXvLlaAIOQHWMww_JN3jiEmvGAvgfhHg/exec';
+    'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
 
   useEffect(() => {
     Promise.all([

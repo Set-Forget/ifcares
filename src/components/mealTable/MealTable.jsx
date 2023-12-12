@@ -103,7 +103,7 @@ const MealTable = () => {
 
       const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
       const gasUrl =
-        'https://script.google.com/macros/s/AKfycbwha1lKdjFTIqLGRHZFWnpivxaFJdBJSkLYqYY0OqTJdRBOU3sl0mB9SKerCMUD-Y5p/exec';
+        'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
 
       try {
         const response = await axios.post(
@@ -151,7 +151,7 @@ const MealTable = () => {
         </Table.Head>
         <Table.Body className="divide-y">
           <tr>
-            <Table.Cell>
+            <Table.Cell className='bg-[#FFFFFF] h-24'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <div className="flex items-center">
@@ -188,7 +188,7 @@ const MealTable = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell className='bg-[#FFFFFF] h-24'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
                   <div className="flex flex-col">
@@ -212,7 +212,7 @@ const MealTable = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell className='bg-[#FFFFFF] h-24'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
                   <div className="flex flex-col">
@@ -243,25 +243,25 @@ const MealTable = () => {
       <br />
       <Table hoverable>
         <Table.Head>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
             #
           </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
             Participant's Name
           </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             At
           </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Brk
           </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Lu
           </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Snk
           </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
+          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             Sup
           </Table.HeadCell>
         </Table.Head>
