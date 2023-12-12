@@ -79,6 +79,14 @@ const MealTableRow = ({ student }) => {
       </Table.Cell>
 
       <Table.Cell className="bg-[#FFFFFF] h-11">
+        {/* <input
+          type="checkbox"
+          checked={checkboxState.attendance}
+          className="checkbox checkbox-lg checkbox-primary"
+          onChange={(event) =>
+            handleLocalCheckboxChange('attendance', event.target.checked)
+          }
+        /> */}
         <Checkbox
           className="green-checkbox"
           checked={checkboxState.attendance}
