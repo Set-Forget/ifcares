@@ -20,7 +20,7 @@ const Welcome = () => {
   //get request
   useEffect(() => {
     const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbycAyd0paFjJ0efjDZG7agUdzM1kHGaYVO_FVA2XEgMJ0AXj4wejjEyeslEJLOEGiE/exec';
+      'https://script.google.com/macros/s/AKfycbwPMk2ykAjJZ36hAGivOkj7PsrPlmku0JwLsVnXdYyvXKKCBKhbFuoexflNI9hYTm-7/exec';
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
