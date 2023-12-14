@@ -1,8 +1,11 @@
-import React from "react";
-import { Spinner } from "flowbite-react";
+import React from 'react';
 
 const LoadingSpinner = () => {
-  return <Spinner aria-label="Default status example" size="lg" color="purple"/>;
+  return (
+    <div class="flex justify-center items-center">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-900"></div>
+    </div>
+  );
 };
 
 export default LoadingSpinner;

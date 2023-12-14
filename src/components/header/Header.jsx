@@ -26,15 +26,7 @@ const Header = () => {
 
   return ( authData == null ? <></> :
     <header className="fixed md:relative z-10 bottom-0 w-full h-24 md:h-14 bg-[#5D24FF] shadow text-white flex items-center justify-between md:justify-end px-4 md:px-40">
-      <div style={{ flexGrow: 1 }}>
-        <Link href="/">
-          <FontAwesomeIcon
-            icon={faHouse}
-            size="lg"
-            style={{ color: '#ffffff' }}
-          />
-        </Link>
-      </div>
+      
       <div className="text-xl md:text-xs text-left md:text-right">
         <p>{`${authData.name} ${authData.lastname}`}</p>
         <p>{authData.email}</p>
