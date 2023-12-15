@@ -37,6 +37,7 @@ const StudentsTable = () => {
 
   let authObj = useAuth();
   let auth = authObj.auth;
+  
 
   const paginate = (pageNumber) => {
     // Calculate the total number of pages based on the filtered students
@@ -285,7 +286,9 @@ const StudentsTable = () => {
                       {student.name}
                     </span>
                     <span className="text-lg">Age: {student.age}</span>
+                    {auth.role === ROLES.Admin && (
                     <span className="text-lg">Site: {student.site}</span>
+                    )}
                     <div className="flex justify-end font-semibold">
                       <Button
                         onClick={() => {
