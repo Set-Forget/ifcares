@@ -22,6 +22,7 @@ const MealTable = () => {
     selectedSite,
     lastTimeIn,
     lastTimeOut,
+    datesBySite,
     selectedDate,
     setSelectedDate,
     selectedTime1,
@@ -134,6 +135,17 @@ const MealTable = () => {
     setIsLoading(false);
   };
 
+  const shouldDisableDate = (date) => {
+    if (!selectedSite || !datesBySite[selectedSite]) {
+      // If no site is selected or if there's no data for the selected site
+      return false; // Do not disable any dates
+    }
+
+    const formattedDate = dayjs(date).format('YYYY-MM-DD');
+    const validDatesForSite = Object.keys(datesBySite[selectedSite].validDates);
+    return !validDatesForSite.includes(formattedDate);
+  };
+
   return (
     <>
       <div ref={topRef}></div>
@@ -169,6 +181,7 @@ const MealTable = () => {
                             setDateError(false); // reset error when a date is selected
                             postSelectedDate(date); // Make the POST request with the new date
                           }}
+                          shouldDisableDate={shouldDisableDate}
                           required
                           error={Boolean(dateValidationError)}
                           helperText={dateValidationError}

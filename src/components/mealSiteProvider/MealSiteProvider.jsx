@@ -1,5 +1,6 @@
 'use client'
-import React, { createContext, useState, useRef } from 'react';
+import axios from 'axios';
+import React, { createContext, useState, useRef, useEffect } from 'react';
 
 export const MealSiteContext = createContext();
 
@@ -148,6 +149,23 @@ export const MealSiteProvider = ({ children }) => {
     setIsModalOpen(true);
   };
 
+  const [datesBySite, setDatesBySite] = useState({});
+
+  //get request
+  useEffect(() => {
+    const GAS_URL =
+      'https://script.google.com/macros/s/AKfycbwPMk2ykAjJZ36hAGivOkj7PsrPlmku0JwLsVnXdYyvXKKCBKhbFuoexflNI9hYTm-7/exec';
+    axios
+      .get(GAS_URL + '?type=welcomeDates')
+      .then((response) => {
+        console.log('Data received:', response.data);
+        setDatesBySite(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   return (
     <MealSiteContext.Provider
       value={{
@@ -179,6 +197,7 @@ export const MealSiteProvider = ({ children }) => {
         setIsModalOpen,
         dateError,
         setDateError,
+        datesBySite,
         time1Error,
         setTime1Error,
         time2Error,

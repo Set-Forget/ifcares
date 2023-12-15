@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import './Welcome.css';
 import { Button } from 'flowbite-react';
 import useAuth from '../hooks/useAuth';
+import withAuth from '@/hoc/hocauth';
+import { useRouter } from 'next/navigation'
 
 import Link from 'next/link';
 
@@ -14,8 +16,13 @@ import WelcomeCalendar from '../components/welcomeCalendar/WelcomeCalendar';
 const Welcome = () => {
   const { auth } = useAuth();
   const { name, lastname } = auth;
+  const router = useRouter()
 
   const [sitesData, setSitesData] = useState({});
+
+  if (true) {
+    router.push('/mealCount')
+  }
 
   //get request
   useEffect(() => {
@@ -89,4 +96,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default withAuth(Welcome);

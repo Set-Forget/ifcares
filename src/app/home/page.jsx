@@ -1,4 +1,5 @@
 'use client'
+import withAuth from '@/hoc/hocauth';
 
 
 import './Home.css';
@@ -12,4 +13,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuth(Home);

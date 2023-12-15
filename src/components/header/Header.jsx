@@ -21,7 +21,7 @@ const Header = () => {
   const handleLogout = () => {
     resetAllStates();
     localStorage.removeItem('user');
-    setAuth({});
+    setAuth(null);
   };
 
   return ( authData == null ? <></> :

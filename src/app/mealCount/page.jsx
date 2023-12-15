@@ -6,6 +6,7 @@ import MealSite from '../../components/mealSite/MealSite';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 import './MealCount.css';
+import withAuth from '@/hoc/hocauth';
 
 const MealCount = () => {
   return (
@@ -36,4 +37,4 @@ const MealCount = () => {
   );
 };
 
-export default MealCount;
+export default withAuth(MealCount);

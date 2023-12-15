@@ -10,6 +10,7 @@ import axios from 'axios';
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 import React, { useState } from 'react';
 import FormToast from '../../components/formToast/FormToast';
+import withAuth from '@/hoc/hocauth';
 // Date picker imports
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -251,4 +252,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default withAuth(Form);
