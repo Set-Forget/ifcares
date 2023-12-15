@@ -6,24 +6,20 @@ import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import DeleteToast from '../deleteToast/DeleteToast';
 
 const DeleteModal = ({ onClose, student }) => {
-  const [openModal, setOpenModal] = useState('pop-up');
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
-  const props = { openModal, setOpenModal };
-
-  const handleCloseModal = () => {
-    setOpenModal(undefined);
-    onClose && onClose();
-  };
 
   const handleDeleteStudent = () => {
+    setLoading(true);
     setLoading(true);
     const deleteData = {
       actionType: 'delete',
       values: [student.name, student.site],
+
+
     };
 
-    console.log(deleteData);
+    
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_DELETE_URL =
@@ -50,53 +46,64 @@ const DeleteModal = ({ onClose, student }) => {
         setTimeout(handleCloseModal, 4000);
         setTimeout(() => window.location.reload(), 4000);
       });
+
+    setTimeout(() => {
+      setLoading(false);
+      setToastType('success');
+      setTimeout(handleCloseModal, 4000);
+      setTimeout(() => window.location.reload(), 4000);
+    }, 2000);
   };
 
-  return (
-    <>
-      <Modal
-        show={props.openModal === 'pop-up'}
-        size="md"
-        popup
-        onClose={() => props.setOpenModal(undefined)}
-      >
-        <Modal.Footer />
+
+
+const handleCloseModal = () => {
+  onClose && onClose();
+};
+
+return (
+  <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center">
+    <div className="bg-white rounded-lg p-8 w-80">
         {toastType ? (
-          <div className="flex items-center justify-center h-full mb-8">
+          <div className="flex items-center justify-center mb-8">
             <DeleteToast type={toastType} />
           </div>
         ) : (
           <>
-            <Modal.Body className="modal-body">
-              <div className="text-center">
-                {loading ? (
-                  <div className="loading-spinner">
-                    <LoadingSpinner />
-                    <h2>Deleting {student.name}...</h2>
+            <div className="text-center">
+              {loading ? (
+                <div className="loading-spinner">
+                  <LoadingSpinner />
+                  <h2>Deleting {student.name}...</h2>
+                </div>
+              ) : (
+                <>
+                  <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                    Are you sure you want to <b>delete</b> {student.name}?
+                  </h3>
+                  <div className="flex justify-center gap-4">
+                    <button
+                      className="bg-red-600 text-white px-4 py-2 rounded"
+                      onClick={handleDeleteStudent}
+                    >
+                      Yes, I'm sure
+                    </button>
+                    <button
+                      className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+                      onClick={handleCloseModal}
+                    >
+                      No, cancel
+                    </button>
                   </div>
-                ) : (
-                  <>
-                    <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
-                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                      Are you sure you want to <b>delete</b> {student.name}?
-                    </h3>
-                    <div className="flex justify-center gap-4">
-                      <Button color="failure" onClick={handleDeleteStudent}>
-                        Yes, I'm sure
-                      </Button>
-                      <Button color="gray" onClick={handleCloseModal}>
-                        No, cancel
-                      </Button>
-                    </div>
-                  </>
-                )}
-              </div>
-            </Modal.Body>
+                </>
+              )}
+            </div>
           </>
         )}
-      </Modal>
-    </>
-  );
-};
+      </div>
+  </div>
+);
+              }
 
 export default DeleteModal;

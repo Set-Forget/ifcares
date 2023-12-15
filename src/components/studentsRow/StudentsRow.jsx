@@ -1,15 +1,21 @@
-'use client';
+"use client";
 
-import { Table } from 'flowbite-react';
-import './StudentsRow.css';
-import DeleteModal from '../deleteModal/DeleteModal';
-import { useState } from 'react';
-import SitesSelect from '../sitesSelect/SitesSelect';
-import axios from 'axios';
-import SavingModal from '../savingModal/SavingModal';
-import { useEffect } from 'react';
+import { Button, Table } from "flowbite-react";
+import "./StudentsRow.css";
+import DeleteModal from "../deleteModal/DeleteModal";
+import { useState } from "react";
+import SitesSelect from "../sitesSelect/SitesSelect";
+import axios from "axios";
+import SavingModal from "../savingModal/SavingModal";
+import { useEffect } from "react";
 
-export default function StudentsRow({ student, showSiteColumn, birthdate }) {
+export default function StudentsRow({
+  student,
+  showSiteColumn,
+  birthdate,
+  onDeleteModalOpen,
+  onDelete,
+}) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedStudent, setEditedStudent] = useState({
@@ -21,9 +27,17 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
 
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastMessage, setToastMessage] = useState("");
 
-  const disableAgeInput = birthdate !== '';
+  const disableAgeInput = birthdate !== "";
+
+  const handleDeleteClick = () => {
+    onDeleteModalOpen(student);
+  };
+
+  const handleDelete = () => {
+    onDelete(student);
+  };
 
   useEffect(() => {
     if (toastType) {
@@ -40,8 +54,8 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
 
   // age cell style modifications
   const ageCellStyle = showSiteColumn
-    ? 'row-style' // Default style class
-    : 'row-style-big'; // Apply a different style when site column is not shown
+    ? "row-style" // Default style class
+    : "row-style-big"; // Apply a different style when site column is not shown
 
   return (
     <>
@@ -68,7 +82,7 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
             student.name
           )}
         </Table.Cell>
-        <Table.Cell className='text-black text-sm font-semibold leading-relaxed'>
+        <Table.Cell className="text-black text-sm font-semibold leading-relaxed">
           {isEditing ? (
             <input
               type="number"
@@ -109,10 +123,10 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
             onClick={() => {
               if (isEditing) {
                 setLoading(true);
-                setOpenModal('pop-up');
+                setOpenModal("pop-up");
 
                 const formattedData = {
-                  actionType: 'edit',
+                  actionType: "edit",
                   values: [
                     student.name,
                     student.site,
@@ -124,26 +138,26 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
 
                 console.log(formattedData);
 
-                const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+                const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
                 const GAS_URL =
-                  'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
+                  "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
 
                 axios
                   .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
                     headers: {
-                      'Content-Type': 'application/json',
-                      'x-requested-with': 'XMLHttpRequest',
+                      "Content-Type": "application/json",
+                      "x-requested-with": "XMLHttpRequest",
                     },
                   })
                   .then((response) => {
-                    if (response.data.result === 'success') {
-                      setToastType('success');
-                      setToastMessage('Student edited successfully.');
+                    if (response.data.result === "success") {
+                      setToastType("success");
+                      setToastMessage("Student edited successfully.");
                     } else {
-                      setToastType('error');
+                      setToastType("error");
                       setToastMessage(
                         response.data.message ||
-                          'Student could not be updated. Try again later.'
+                          "Student could not be updated. Try again later."
                       );
                     }
                     setLoading(false);
@@ -156,11 +170,11 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
                     // Handle successful response
                   })
                   .catch((error) => {
-                    setToastType('error');
-                    setToastMessage('An error occurred. Try again later.');
-                    console.log('error:', error);
+                    setToastType("error");
+                    setToastMessage("An error occurred. Try again later.");
+                    console.log("error:", error);
                     setLoading(false);
-                    setOpenModal('error');
+                    setOpenModal("error");
                     setTimeout(() => {
                       setOpenModal(null); // Hide the toast after a few seconds
                     }, 3000);
@@ -171,24 +185,23 @@ export default function StudentsRow({ student, showSiteColumn, birthdate }) {
               setIsEditing(!isEditing);
             }}
           >
-            <span className="text-[#5d24ff] text-sm font-semibold leading-relaxed">{isEditing ? 'SAVE' : 'EDIT'}</span>
+            <span className="text-[#5d24ff] text-sm font-semibold leading-relaxed">
+              {isEditing ? "SAVE" : "EDIT"}
+            </span>
           </p>
         </Table.Cell>
         <Table.Cell>
           <button
-            className="font-medium text-red-600 hover:underline dark:text-red-500"
-            onClick={() => setShowDeleteModal(true)}
+            className="text-sm font-semibold leading-relaxed"
+            style={{
+              color: "rgb(224, 36, 36)",
+            }}
+            onClick={handleDeleteClick}
           >
             DELETE
           </button>
         </Table.Cell>
       </Table.Row>
-      {showDeleteModal && (
-        <DeleteModal
-          student={student}
-          onClose={() => setShowDeleteModal(false)}
-        />
-      )}
     </>
   );
 }
