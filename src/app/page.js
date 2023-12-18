@@ -27,7 +27,7 @@ const Welcome = () => {
   //get request
   useEffect(() => {
     const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbwPMk2ykAjJZ36hAGivOkj7PsrPlmku0JwLsVnXdYyvXKKCBKhbFuoexflNI9hYTm-7/exec';
+      'https://script.google.com/macros/s/AKfycbyo-1wCyWyFIg9-G3Yb4OqnjNzVAWbEG_vf_X99CUOgg2V9N_CLOk6ONQ4OCfNMDui8/exec';
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {

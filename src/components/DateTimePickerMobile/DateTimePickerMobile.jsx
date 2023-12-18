@@ -7,9 +7,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 import React, { useContext, useEffect, useRef } from 'react';
+import dayjs from 'dayjs';
 
 const DateTimePickerMobile = () => {
   const {
+    selectedSite,
     datesBySite,
     selectedDate,
     setSelectedDate,
@@ -50,6 +52,17 @@ const DateTimePickerMobile = () => {
     }
   }, [dateError, time1Error, time2Error]);
 
+  const shouldDisableDate = (date) => {
+    if (!selectedSite || !datesBySite[selectedSite]) {
+      return false;
+    }
+
+    const formattedDate = dayjs(date).format('YYYY-MM-DD');
+    const validDatesForSite = Object.keys(datesBySite[selectedSite].validDates);
+    return !validDatesForSite.includes(formattedDate);
+  };
+
+
   return (
     <div className="bg-white rounded-lg p-4 shadow mb-4">
       <div className="flex flex-col gap-4">
@@ -71,6 +84,8 @@ const DateTimePickerMobile = () => {
                   setSelectedDate(date);
                   setDateError(false); // reset error when a date is selected
                 }}
+                shouldDisableDate={shouldDisableDate}
+                disableFuture
                 required
               />
               {dateError && (

@@ -280,7 +280,7 @@ const MealTable = () => {
         </Table.Head>
         <Table.Body className="divide-y">
           {validStudentData.map((student) => (
-            <MealTableRow student={student} key={student.name} />
+            <MealTableRow student={student} selectedSite={selectedSite} selectedDate={selectedDate} datesBySite={datesBySite} key={student.name} />
           ))}
         </Table.Body>
       </Table>

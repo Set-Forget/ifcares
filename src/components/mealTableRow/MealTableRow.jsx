@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Checkbox, Table } from 'flowbite-react';
 import './MealTableRow.css';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
-const MealTableRow = ({ student }) => {
+const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
   const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount } =
     useContext(MealSiteContext);
 
@@ -14,6 +14,28 @@ const MealTableRow = ({ student }) => {
     snack: false,
     supper: false,
   };
+
+  // format date from js object to string
+  const formatDate = (date) => {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+  };
+
+  // Add this function to get the meal availability for the selected date and site
+  const mealAvailability = useMemo(() => {
+    const formattedDate = formatDate(selectedDate); // Format the selected date
+    const siteData = datesBySite[selectedSite];
+    return siteData?.validDates[formattedDate] || {};
+  }, [selectedSite, selectedDate, datesBySite]);
 
   const handleLocalCheckboxChange = (category, checked) => {
     // If trying to update attendance, always allow
@@ -69,6 +91,8 @@ const MealTableRow = ({ student }) => {
   // // Pass the updated state to the parent component
   // onCheckboxChange(student.number, updatedCheckboxState);
 
+  
+
   return (
     <Table.Row>
       <Table.Cell className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] h-11">
@@ -102,7 +126,7 @@ const MealTableRow = ({ student }) => {
           onChange={(event) =>
             handleLocalCheckboxChange('breakfast', event.target.checked)
           }
-          disabled={!checkboxState.attendance}
+          disabled={!checkboxState.attendance || !mealAvailability.brk}
         />
       </Table.Cell>
       <Table.Cell className="bg-[#FFFFFF] h-11">
@@ -112,7 +136,7 @@ const MealTableRow = ({ student }) => {
           onChange={(event) =>
             handleLocalCheckboxChange('lunch', event.target.checked)
           }
-          disabled={!checkboxState.attendance}
+          disabled={!checkboxState.attendance || !mealAvailability.lunch}
         />
       </Table.Cell>
       <Table.Cell className="bg-[#FFFFFF] h-11">
@@ -122,7 +146,7 @@ const MealTableRow = ({ student }) => {
           onChange={(event) =>
             handleLocalCheckboxChange('snack', event.target.checked)
           }
-          disabled={!checkboxState.attendance}
+          disabled={!checkboxState.attendance || !mealAvailability.snk}
         />
       </Table.Cell>
       <Table.Cell className="bg-[#FFFFFF] h-11">
@@ -132,7 +156,7 @@ const MealTableRow = ({ student }) => {
           onChange={(event) =>
             handleLocalCheckboxChange('supper', event.target.checked)
           }
-          disabled={!checkboxState.attendance}
+          disabled={!checkboxState.attendance || !mealAvailability.sup}
         />
       </Table.Cell>
     </Table.Row>
