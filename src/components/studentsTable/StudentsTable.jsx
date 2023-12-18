@@ -37,7 +37,6 @@ const StudentsTable = () => {
 
   let authObj = useAuth();
   let auth = authObj.auth;
-  
 
   const paginate = (pageNumber) => {
     // Calculate the total number of pages based on the filtered students
@@ -71,18 +70,18 @@ const StudentsTable = () => {
   const handleDeleteModalOpen = (student) => {
     setSelectedStudent(student);
     setIsDeleteModalOpen(true);
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = "hidden";
   };
 
   const handleDeleteModalClose = () => {
     setIsDeleteModalOpen(false);
-    document.body.style.overflow = 'auto'; 
+    document.body.style.overflow = "auto";
   };
 
   const handleEdit = async (originalStudent, editedStudentData, onSuccess) => {
     setOpenModal("pop-up");
     setStudentsPerPage(10);
-  
+
     const formattedData = {
       actionType: "edit",
       values: [
@@ -93,35 +92,38 @@ const StudentsTable = () => {
         editedStudentData.site,
       ],
     };
-  
+
     console.log(formattedData);
-  
+
     const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
     const GAS_URL =
       "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec";
-  
+
     try {
-      const response = await axios.post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
-        headers: {
-          "Content-Type": "application/json",
-          "x-requested-with": "XMLHttpRequest",
-        },
-      });
-  
+      const response = await axios.post(
+        PROXY_URL + GAS_URL,
+        JSON.stringify(formattedData),
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-requested-with": "XMLHttpRequest",
+          },
+        }
+      );
+
       console.log("success:", response);
       setTimeout(() => {
         onSuccess();
       }, 3000);
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       console.log("error:", error);
       setTimeout(() => {
         setOpenModal(null);
       }, 3000);
-      window.location.reload()
+      window.location.reload();
     }
   };
-  
 
   const GAS_URL =
     "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
@@ -156,12 +158,8 @@ const StudentsTable = () => {
   }, []);
 
   return (
-    <div
-      className={`bg-gray-100 p-0 m-0 box-border ${
-        isDeleteModalOpen ? "modal-open" : ""
-      }`}
-    >
-      <div className="relative left-1/2 -translate-x-1/2 mt-5 mb-12 w-4/5 min-h-[800px] pb-20 table-container">
+    <div className="bg-gray-100 p-0 m-0 box-border flex justify-center items-center">
+      <div className="mt-5 mb-12 w-4/5 min-h-[800px] pb-20 table-container">
         <div className="flex w-full justify-between mt-[75px] mb-[30px] min-h-[50px] flex-col md:flex-row items-center">
           {/* This div will be full width on mobile and align the button to the end/right */}
           <div className="w-full flex justify-end md:justify-start md:w-auto -mt-12 md:-mt-[12px]">
@@ -282,7 +280,7 @@ const StudentsTable = () => {
                     </span>
                     <span className="text-lg">Age: {student.age}</span>
                     {auth.role === ROLES.Admin && (
-                    <span className="text-lg">Site: {student.site}</span>
+                      <span className="text-lg">Site: {student.site}</span>
                     )}
                     <div className="flex justify-end font-semibold">
                       <Button
@@ -345,12 +343,12 @@ const StudentsTable = () => {
           />
         )}
         {isDeleteModalOpen && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-          <DeleteModal
-            isOpen={isDeleteModalOpen}
-            onClose={() => handleDeleteModalClose()}
-            student={selectedStudent}
-          />
+          <div className="bg-gray-500 bg-opacity-75 fixed inset-0">
+            <DeleteModal
+              isOpen={isDeleteModalOpen}
+              onClose={() => handleDeleteModalClose()}
+              student={selectedStudent}
+            />
           </div>
         )}
       </div>
