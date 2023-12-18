@@ -116,7 +116,7 @@ const MealTableModal = ({
   };
 
   return (
-    <>
+    <div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50'>
       <Modal show={isOpen} size="xl" popup onClose={closeModal} className='min-h-[500px] max-w-[500px] flex items-center justify-center mx-auto'>
         <Modal.Header />
         <Modal.Body className="modalBody-container">
@@ -159,7 +159,7 @@ const MealTableModal = ({
           )}
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 };
 
