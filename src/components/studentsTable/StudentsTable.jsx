@@ -79,11 +79,10 @@ const StudentsTable = () => {
     document.body.style.overflow = 'auto'; 
   };
 
-  const handleEdit = (originalStudent, editedStudentData) => {
-    setLoading(true);
+  const handleEdit = async (originalStudent, editedStudentData, onSuccess) => {
     setOpenModal("pop-up");
     setStudentsPerPage(10);
-
+  
     const formattedData = {
       actionType: "edit",
       values: [
@@ -94,39 +93,37 @@ const StudentsTable = () => {
         editedStudentData.site,
       ],
     };
-
+  
     console.log(formattedData);
-
+  
     const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
     const GAS_URL =
       "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec";
-
-    axios
-      .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
+  
+    try {
+      const response = await axios.post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
         headers: {
           "Content-Type": "application/json",
           "x-requested-with": "XMLHttpRequest",
         },
-      })
-      .then((response) => {
-        console.log("success:", response);
-        setLoading(false);
-        setOpenModal("success");
-        setTimeout(() => {
-          setOpenModal(null);
-        }, 3000);
-        setTimeout(() => window.location.reload(), 3000);
-      })
-      .catch((error) => {
-        console.log("error:", error);
-        setLoading(false);
-        setOpenModal("error");
-        setTimeout(() => {
-          setOpenModal(null);
-        }, 3000);
-        setTimeout(() => window.location.reload(), 3000);
       });
+  
+      console.log("success:", response);
+      setOpenModal("success");
+      setTimeout(() => {
+        onSuccess();
+      }, 3000);
+      window.location.reload()
+    } catch (error) {
+      console.log("error:", error);
+      setOpenModal("error");
+      setTimeout(() => {
+        setOpenModal(null);
+      }, 3000);
+      window.location.reload()
+    }
   };
+  
 
   const GAS_URL =
     "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
@@ -346,6 +343,7 @@ const StudentsTable = () => {
             onClose={() => setIsEditModalOpen(false)}
             onSave={handleEdit}
             openModal={openModal}
+            sites={sites}
           />
         )}
         {isDeleteModalOpen && (
