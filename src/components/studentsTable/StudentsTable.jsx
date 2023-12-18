@@ -109,14 +109,12 @@ const StudentsTable = () => {
       });
   
       console.log("success:", response);
-      setOpenModal("success");
       setTimeout(() => {
         onSuccess();
       }, 3000);
       window.location.reload()
     } catch (error) {
       console.log("error:", error);
-      setOpenModal("error");
       setTimeout(() => {
         setOpenModal(null);
       }, 3000);
@@ -347,7 +345,7 @@ const StudentsTable = () => {
           />
         )}
         {isDeleteModalOpen && (
-        <div className="modal-overlay">
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
           <DeleteModal
             isOpen={isDeleteModalOpen}
             onClose={() => handleDeleteModalClose()}

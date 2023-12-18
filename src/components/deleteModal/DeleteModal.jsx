@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Button, Modal } from 'flowbite-react';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
-import axios from 'axios';
-import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
-import DeleteToast from '../deleteToast/DeleteToast';
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Modal } from "flowbite-react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import axios from "axios";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
+import DeleteToast from "../deleteToast/DeleteToast";
 
 const DeleteModal = ({ onClose, student }) => {
   const [loading, setLoading] = useState(false);
@@ -13,57 +13,59 @@ const DeleteModal = ({ onClose, student }) => {
     setLoading(true);
     setLoading(true);
     const deleteData = {
-      actionType: 'delete',
+      actionType: "delete",
       values: [student.name, student.site],
-
-
     };
 
-    
-
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+    const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
     const GAS_DELETE_URL =
-      'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
+      "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
 
     axios
       .post(PROXY_URL + GAS_DELETE_URL, JSON.stringify(deleteData), {
         headers: {
-          'Content-Type': 'application/json',
-          'x-requested-with': 'XMLHttpRequest',
+          "Content-Type": "application/json",
+          "x-requested-with": "XMLHttpRequest",
         },
       })
       .then((response) => {
-        console.log('Student deleted successfully:', response.data);
+        console.log("Student deleted successfully:", response.data);
         setLoading(false);
-        setToastType('success');
+        setToastType("success");
         setTimeout(handleCloseModal, 4000);
         setTimeout(() => window.location.reload(), 4000);
       })
       .catch((error) => {
-        console.error('Error deleting student:', error);
+        console.error("Error deleting student:", error);
         setLoading(false);
-        setToastType('error');
+        setToastType("error");
         setTimeout(handleCloseModal, 4000);
         setTimeout(() => window.location.reload(), 4000);
       });
 
     setTimeout(() => {
       setLoading(false);
-      setToastType('success');
+      setToastType("success");
       setTimeout(handleCloseModal, 4000);
       setTimeout(() => window.location.reload(), 4000);
     }, 2000);
   };
 
+  const handleCloseModal = () => {
+    onClose && onClose();
+  };
 
+  const modalRef = useRef(null);
 
-const handleCloseModal = () => {
-  onClose && onClose();
-};
+  useEffect(() => {
+    if (modalRef.current) {
+      modalRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
 
-return (
-  <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center">
-    <div className="bg-white rounded-lg p-8 w-80">
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center">
+      <div ref={modalRef} className="bg-white rounded-lg p-8 w-80">
         {toastType ? (
           <div className="flex items-center justify-center mb-8">
             <DeleteToast type={toastType} />
@@ -102,8 +104,8 @@ return (
           </>
         )}
       </div>
-  </div>
-);
-              }
+    </div>
+  );
+};
 
 export default DeleteModal;
