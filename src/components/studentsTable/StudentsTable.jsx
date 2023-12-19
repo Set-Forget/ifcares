@@ -67,6 +67,10 @@ const StudentsTable = () => {
     setIsEditModalOpen(true);
   };
 
+  useEffect(() => {
+    console.log("isEditModalOpen", isEditModalOpen);
+  }, [isEditModalOpen]);
+
   const handleDeleteModalOpen = (student) => {
     setSelectedStudent(student);
     setIsDeleteModalOpen(true);
@@ -121,8 +125,7 @@ const StudentsTable = () => {
       console.log("error:", error);
       setOpenModal("error:", response);
       setTimeout(() => {
-      window.location.reload();
-
+        window.location.reload();
       }, 3000);
     }
   };
@@ -274,35 +277,28 @@ const StudentsTable = () => {
                 )
                 .map((student) => (
                   <div
-                    className="flex flex-col p-4 border-b bg-white rounded-lg mt-2 text-lg"
+                    className="flex flex-col p-4 border-b bg-white rounded-lg mt-2 text-lg relative"
                     key={student.name}
                   >
-                    <span className="font-bold bg-white rounded-lg text-xl">
+                    <span className="font-bold bg-white rounded-lg text-xl mb-2 block">
                       {student.name}
                     </span>
                     <span className="text-lg">Age: {student.age}</span>
                     {auth.role === ROLES.Admin && (
                       <span className="text-lg">Site: {student.site}</span>
                     )}
-                    <div className="flex justify-end font-semibold">
+                    <div className="flex justify-end font-semibold mt-2">
                       <Button
                         onClick={() => {
-                          console.log("is mobile", isMobile);
-
                           if (isMobile) {
-                            // Abrir editModal
-                            console.log("Abrir modal");
                             handleRowClick(student);
-
-                            console.log("isEditModalOpen", isEditModalOpen);
                           }
-                          console.log("logeando");
                         }}
                         style={{
-                          marginTop: "-65px",
                           fontWeight: "semibold",
                           color: "#5D24FF",
                           fontSize: "1.2rem",
+                          marginRight: "10px", // Ajusta el espaciado entre los botones
                         }}
                       >
                         Edit
@@ -314,7 +310,6 @@ const StudentsTable = () => {
                           }
                         }}
                         style={{
-                          marginTop: "-65px",
                           fontWeight: "semibold",
                           color: "#E02424",
                           fontSize: "1.2rem",
@@ -325,6 +320,7 @@ const StudentsTable = () => {
                     </div>
                   </div>
                 ))}
+                
             </div>
             <Pagination
               studentsPerPage={studentsPerPage}

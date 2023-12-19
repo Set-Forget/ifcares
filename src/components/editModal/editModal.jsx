@@ -85,7 +85,15 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center"
+        onClose={(e) => {
+          if (e && e.target && e.target.matches && !e.target.matches("input")) {
+            onClose();
+          }
+        }}
+      >
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
