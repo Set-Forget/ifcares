@@ -2,6 +2,8 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ROLES } from "../../constants/index";
 import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
+import SavingToast from "../savingToast/SavingToast";
 
 const Input = ({ label, id, value, onChange }) => {
   return (
@@ -61,9 +63,8 @@ const SelectInput = ({ label, id, value, options, onChange }) => {
 export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
   const [editedStudent, setEditedStudent] = useState({ ...student });
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(false);
-
-  // const [openModal, setOpenModal] = useState(undefined);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [openModal, setOpenModal] = useState("");
 
   const optionsFromAPI = sites.map((option) => ({
     label: option.name,
@@ -142,10 +143,14 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                     className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     onClick={() => {
                       setLoading(true);
+                      setSuccessMessage(true);
                       onSave(student, editedStudent, () => {
                         setLoading(false);
-                        setSuccessMessage(true);
-                        onClose(); // Cierra EditModal
+                        setOpenModal("success");
+                        setTimeout(() => {
+                          setSuccessMessage(false);
+                          onClose();
+                        }, 3000);
                       });
                     }}
                   >
@@ -164,36 +169,38 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
           </div>
         </div>
         <div>
-          {/* Mostrar el mensaje de éxito */}
           {successMessage && (
-        <div
-          className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
-          role="alert"
-        >
-              <strong className="font-bold">Success!</strong>
-              <span className="block sm:inline">
-                {" "}
-                Student data has been updated.
-              </span>
-              <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <svg
-                  onClick={() => setSuccessMessage(false)}
-                  className="fill-current h-6 w-6 text-green-500"
-                  role="button"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <title>Close</title>
-                  <path d="M14.348 14.849a1 1 0 0 1-1.414 0L10 11.414l-2.93 2.435a1 1 0 0 1-1.4-1.428l2.93-2.436-2.93-2.435a1 1 0 0 1 1.4-1.428L10 8.586l2.93-2.435a1 1 0 0 1 1.414 1.428L11.414 10l2.934 2.849a1 1 0 0 1 0 1.414z" />
-                </svg>
-              </span>
-            </div>
-          )}
+            <div
+              className={`fixed inset-0 z-50 overflow-y-auto ${
+                successMessage ? "" : "hidden"
+              }`}
+              aria-labelledby="modal-title"
+              role="dialog"
+              aria-modal="true"
+            >
+              <div className="flex items-center justify-center min-h-screen">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-          {/* Mostrar el spinner de carga si loading es true */}
-          {loading && (
-            <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-              <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+                <div
+                  className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full"
+                  style={{ height: "auto", minHeight: "100px" }}
+                >
+                  <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    {loading && (
+                      <div className="flex flex-col items-center justify-center">
+                        <LoadingSpinner />
+                        <h2 className="mt-2 text-center text-lg font-medium text-gray-900">
+                          Editing Student...
+                        </h2>
+                      </div>
+                    )}
+                    {openModal === "success" && <SavingToast type="success" />}
+                    {openModal === "error" && (
+                      <SavingToast type="error" message={message} />
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>

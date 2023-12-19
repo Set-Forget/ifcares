@@ -112,16 +112,18 @@ const StudentsTable = () => {
       );
 
       console.log("success:", response);
+      onSuccess();
+
       setTimeout(() => {
-        onSuccess();
+        window.location.reload();
       }, 3000);
-      window.location.reload();
     } catch (error) {
       console.log("error:", error);
+      setOpenModal("error:", response);
       setTimeout(() => {
-        setOpenModal(null);
-      }, 3000);
       window.location.reload();
+
+      }, 3000);
     }
   };
 
