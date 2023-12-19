@@ -89,7 +89,7 @@ const DeleteModal = ({ onClose, student }) => {
                       className="bg-red-600 text-white px-4 py-2 rounded"
                       onClick={handleDeleteStudent}
                     >
-                      Yes, I'm sure
+                      Yes, I am sure
                     </button>
                     <button
                       className="bg-gray-300 text-gray-700 px-4 py-2 rounded"

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import LoadingSpinner from '@/components/loadingSpinner/LoadingSpinner';
 
 const withAuth = (WrappedComponent) => {
-  return (props) => {
+  const ComponentWithAuth = (props) => {
     const { auth } = useAuth();
     const router = useRouter();
 
@@ -25,6 +25,10 @@ const withAuth = (WrappedComponent) => {
 
     return <WrappedComponent {...props} />;
   };
+
+  ComponentWithAuth.displayName = `withAuth(${WrappedComponent.displayName || WrappedComponent.name})`;
+
+  return ComponentWithAuth;
 };
 
 export default withAuth;

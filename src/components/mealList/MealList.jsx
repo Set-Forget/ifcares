@@ -34,7 +34,7 @@ const MealList = () => {
             <span className="header-item w-1/4 px-2 py-1 font-bold"> # </span>
             <span className="header-item w-2/3 px-2 py-1 font-bold">
               {" "}
-              Participant's Name{" "}
+              Name of Participant{" "}
             </span>
           </div>
 

@@ -260,7 +260,7 @@ const MealTable = () => {
             #
           </Table.HeadCell>
           <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-            Participant's Name
+            Name of Participant
           </Table.HeadCell>
           <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
             At
