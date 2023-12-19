@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useEffect } from 'react';
 import { Checkbox } from 'flowbite-react';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider'; 
@@ -77,6 +77,19 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
     const siteData = datesBySite[selectedSite];
     return siteData?.validDates[formattedDate] || {};
   }, [selectedSite, selectedDate, datesBySite]);
+
+  // Add useEffect hook to reset checkboxes when selectedDate changes
+  useEffect(() => {
+    // Reset the checkbox state when the selected date changes
+    const resetCheckboxState = {
+      attendance: false,
+      breakfast: false,
+      lunch: false,
+      snack: false,
+      supper: false,
+    };
+    handleCheckboxChange(student.number, resetCheckboxState);
+  }, [selectedDate]);
 
   return (
     <div className="w-full rounded-lg bg-white mb-4 shadow">

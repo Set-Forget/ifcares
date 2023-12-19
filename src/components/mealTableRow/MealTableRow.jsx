@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo, useEffect } from 'react';
 import { Checkbox, Table } from 'flowbite-react';
 import './MealTableRow.css';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
@@ -91,7 +91,17 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
   // // Pass the updated state to the parent component
   // onCheckboxChange(student.number, updatedCheckboxState);
 
-  
+  useEffect(() => {
+    // Reset the checkbox state when the selected date changes
+    const resetCheckboxState = {
+      attendance: false,
+      breakfast: false,
+      lunch: false,
+      snack: false,
+      supper: false,
+    };
+    handleCheckboxChange(student.number, resetCheckboxState);
+  }, [selectedDate]);
 
   return (
     <Table.Row>

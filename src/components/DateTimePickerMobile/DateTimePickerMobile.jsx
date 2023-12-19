@@ -17,8 +17,10 @@ const DateTimePickerMobile = () => {
     setSelectedDate,
     selectedTime1,
     setSelectedTime1,
+    lastTimeIn,
     selectedTime2,
     setSelectedTime2,
+    lastTimeOut,
     dateError,
     setDateError,
     time1Error,
@@ -62,6 +64,29 @@ const DateTimePickerMobile = () => {
     return !validDatesForSite.includes(formattedDate);
   };
 
+  useEffect(() => {
+    if (lastTimeIn) {
+      const timeInFormatted = formatTimeForPicker(lastTimeIn);
+      setSelectedTime1(timeInFormatted);
+    }
+    if (lastTimeOut) {
+      const timeOutFormatted = formatTimeForPicker(lastTimeOut);
+      setSelectedTime2(timeOutFormatted);
+    }
+  }, [lastTimeIn, lastTimeOut]);
+
+  function formatTimeForPicker(dateTimeStr) {
+    // Extract the time part using a regular expression
+    const timeMatch = dateTimeStr.match(/\d{2}:\d{2}:\d{2}/);
+    if (!timeMatch) return null;
+
+    let [hours, minutes] = timeMatch[0].split(':').map(Number);
+
+    // Create a dayjs object with the time, assuming the date is today
+    const date = dayjs().hour(hours).minute(minutes).second(0);
+
+    return date;
+  }
 
   return (
     <div className="bg-white rounded-lg p-4 shadow mb-4">

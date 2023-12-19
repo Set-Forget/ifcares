@@ -127,7 +127,7 @@ const MealSite = () => {
       .get(GAS_URL + `?type=siteData&site=${site}`)
       .then((response) => {
         setSiteData(response.data);
-        setLastTimeIn(response.data.lastTimeIn); // Assuming these fields exist in your response
+        setLastTimeIn(response.data.lastTimeIn);
         setLastTimeOut(response.data.lastTimeOut);
       })
       .catch((error) => {
