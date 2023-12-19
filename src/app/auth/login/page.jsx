@@ -48,7 +48,7 @@ export default function Login() {
           setLoading(false)
           setAuth(data)
           localStorage.setItem('user', JSON.stringify(data))
-          router.push('/mealCount');
+          router.push('/');
         } else {
           setError(message)
           setLoading(false)

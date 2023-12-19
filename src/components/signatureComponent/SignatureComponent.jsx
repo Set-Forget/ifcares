@@ -31,14 +31,14 @@ const SignatureComponent = ({ onGenerateSign }, ref) => {
       <div
         style={{
           border: 'solid black 1px',
-          width: '400px',
+          width: isMobile ? 300 : 400,
           maxWidth: '400px',
           margin: '0 auto',
         }}
       >
         <SignatureCanvas
           canvasProps={{
-            width: isMobile ? 150 : 399,
+            width: isMobile ? 300 : 399,
             height: 150,
             className: 'sigCanvas',
           }}

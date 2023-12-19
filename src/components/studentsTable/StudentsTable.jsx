@@ -163,7 +163,7 @@ const StudentsTable = () => {
         <div className="flex w-full justify-between mt-[75px] mb-[30px] min-h-[50px] flex-col md:flex-row items-center">
           {/* This div will be full width on mobile and align the button to the end/right */}
           <div className="w-full flex justify-end md:justify-start md:w-auto -mt-12 md:-mt-[12px]">
-            <Link href="/mealCount">
+            <Link href="/">
               <Button
                 variant="contained"
                 className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none text-base"
@@ -215,7 +215,7 @@ const StudentsTable = () => {
         </div>
 
         {loading ? (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col justify-center items-center h-96">
             <LoadingSpinner />
             <h2>Loading Students...</h2>
           </div>
