@@ -15,6 +15,7 @@ export const MealSiteProvider = ({ children }) => {
 
   const [studentData, setStudentData] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDateCache, setSelectedDateCache] = useState(null)
   const [selectedTime1, setSelectedTime1] = useState(null);
   const [selectedTime2, setSelectedTime2] = useState(null);
   const [selectedCheckboxData, setSelectedCheckboxData] = useState({});
@@ -179,6 +180,8 @@ export const MealSiteProvider = ({ children }) => {
         setStudentData,
         selectedDate,
         setSelectedDate,
+        selectedDateCache,
+        setSelectedDateCache,
         selectedTime1,
         setSelectedTime1,
         selectedTime2,

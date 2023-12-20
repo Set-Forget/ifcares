@@ -4,7 +4,7 @@ import './MealTableRow.css';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
-  const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount } =
+  const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount, selectedDateCache } =
     useContext(MealSiteContext);
 
   const checkboxState = selectedCheckboxData[student.number] || {
@@ -92,6 +92,7 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
   // onCheckboxChange(student.number, updatedCheckboxState);
 
   useEffect(() => {
+    if (selectedDate !== selectedDateCache) {
     // Reset the checkbox state when the selected date changes
     const resetCheckboxState = {
       attendance: false,
@@ -101,6 +102,7 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
       supper: false,
     };
     handleCheckboxChange(student.number, resetCheckboxState);
+  }
   }, [selectedDate]);
 
   return (

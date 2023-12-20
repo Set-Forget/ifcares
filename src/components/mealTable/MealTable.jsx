@@ -25,6 +25,8 @@ const MealTable = () => {
     datesBySite,
     selectedDate,
     setSelectedDate,
+    selectedDateCache,
+    setSelectedDateCache,
     selectedTime1,
     setSelectedTime1,
     selectedTime2,
@@ -145,6 +147,12 @@ const MealTable = () => {
     const validDatesForSite = Object.keys(datesBySite[selectedSite].validDates);
     return !validDatesForSite.includes(formattedDate);
   };
+
+  useEffect(() => {
+    if (selectedDate !== selectedDateCache) {
+      setSelectedDateCache(selectedDate);
+    }
+  }, [selectedDate]);
 
   return (
     <>

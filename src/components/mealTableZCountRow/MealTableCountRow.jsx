@@ -1,5 +1,5 @@
 import { Table } from "flowbite-react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./MealTableCountRow.css";
 import { MealSiteContext } from "../mealSiteProvider/MealSiteProvider";
 
@@ -11,7 +11,14 @@ const MealTableCountRow = ({
   supperCount,
 }) => {
 
-  const { globalCounts } = useContext(MealSiteContext); // Use context
+  const { globalCounts, selectedDate, selectedDateCache, resetGlobalCounts } = useContext(MealSiteContext); // Use context
+
+  useEffect(() => {
+    if (selectedDate !== selectedDateCache) {
+      resetGlobalCounts()
+    }
+  }, [selectedDate])
+  
 
   return (
     <>
