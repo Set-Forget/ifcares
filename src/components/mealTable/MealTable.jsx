@@ -25,6 +25,7 @@ const MealTable = () => {
     datesBySite,
     selectedDate,
     setSelectedDate,
+    setSelectedDateCache,
     selectedTime1,
     setSelectedTime1,
     selectedTime2,
@@ -45,28 +46,15 @@ const MealTable = () => {
   const validStudentData = Array.isArray(studentData) ? studentData : [];
   const [isLoading, setIsLoading] = useState(false);
 
-  // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
-  // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
-
   useEffect(() => {
     if (lastTimeIn) {
-      // console.log(lastTimeIn);
-      // const timeInFormatted = formatTimeForPicker(lastTimeIn);
-      // console.log(timeInFormatted);
-      // setSelectedTime1(timeInFormatted);
-
       const timeInFormatted = formatTimeForPicker(lastTimeIn);
       setSelectedTime1(timeInFormatted);
-      // console.log(timeInFormatted);
+
     }
-    if (lastTimeOut) {
-      // console.log(lastTimeOut);
-      // const timeOutFormatted = formatTimeForPicker(lastTimeOut);
-      // console.log(timeOutFormatted);
-      // setSelectedTime2(timeOutFormatted);
+    if (lastTimeOut) { 
       const timeOutFormatted = formatTimeForPicker(lastTimeOut);
       setSelectedTime2(timeOutFormatted);
-      // console.log(timeOutFormatted);
     }
   }, [lastTimeIn, lastTimeOut]);
 
@@ -146,6 +134,10 @@ const MealTable = () => {
     return !validDatesForSite.includes(formattedDate);
   };
 
+  useEffect((date) => {
+    setSelectedDateCache(date)
+  }, [selectedDate])
+
   return (
     <>
       <div ref={topRef}></div>
@@ -178,6 +170,7 @@ const MealTable = () => {
                           value={selectedDate}
                           onChange={(date) => {
                             setSelectedDate(date);
+                    
                             setDateError(false); // reset error when a date is selected
                             postSelectedDate(date); // Make the POST request with the new date
                           }}

@@ -6,6 +6,7 @@ export const MealSiteContext = createContext();
 
 export const MealSiteProvider = ({ children }) => {
   const [selectedSite, setSelectedSite] = useState('');
+  const [selectedSiteCache, setSelectedSiteCache] = useState('')
   const [siteData, setSiteData] = useState('');
 
   const [isDataFetched, setIsDataFetched] = useState(false);
@@ -15,6 +16,7 @@ export const MealSiteProvider = ({ children }) => {
 
   const [studentData, setStudentData] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDateCache, setSelectedDateCache] = useState(null);
   const [selectedTime1, setSelectedTime1] = useState(null);
   const [selectedTime2, setSelectedTime2] = useState(null);
   const [selectedCheckboxData, setSelectedCheckboxData] = useState({});
@@ -95,10 +97,10 @@ export const MealSiteProvider = ({ children }) => {
       supper: 0,
     });
 
-    resetGlobalCounts(); // If this function already resets globalCounts, you can use this alone
-    resetSelectedCheckboxData(); // If this function already resets selectedCheckboxData, you can use this alone
-    resetSelectedDate(); // If this function already resets selectedDate, you can use this alone
-    resetDateValidationError(); // If this function already resets dateValidationError, you can use this alone
+    resetGlobalCounts(); 
+    resetSelectedCheckboxData(); 
+    resetSelectedDate();
+    resetDateValidationError(); 
 
     setFormattedData([]);
     setIsModalOpen(false);
@@ -171,6 +173,8 @@ export const MealSiteProvider = ({ children }) => {
       value={{
         selectedSite,
         setSelectedSite,
+        selectedSiteCache,
+        setSelectedSiteCache,
         siteData,
         setSiteData,
         isDataFetched,
@@ -179,6 +183,8 @@ export const MealSiteProvider = ({ children }) => {
         setStudentData,
         selectedDate,
         setSelectedDate,
+        selectedDateCache,
+        setSelectedDateCache,
         selectedTime1,
         setSelectedTime1,
         selectedTime2,

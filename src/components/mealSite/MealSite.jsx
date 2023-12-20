@@ -20,6 +20,8 @@ const MealSite = () => {
   const {
     selectedSite,
     setSelectedSite,
+    selectedSiteCache,
+    setSelectedSiteCache,
     setLastTimeIn,
     setLastTimeOut,
     siteData,
@@ -80,8 +82,8 @@ const MealSite = () => {
       try {
         const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-        if(auth == null){
-          return
+        if (auth == null) {
+          return;
         }
 
         if (auth.role === ROLES.Admin) {
@@ -100,8 +102,8 @@ const MealSite = () => {
       }
     };
 
-    if(auth == null){
-      return
+    if (auth == null) {
+      return;
     }
 
     if (auth.role === ROLES.Admin || !isDataFetched) {
@@ -111,8 +113,8 @@ const MealSite = () => {
 
     // Adding cleanup to reset isDataFetched for admin users
     return () => {
-      if(auth == null){
-        return
+      if (auth == null) {
+        return;
       }
       if (auth.role === ROLES.Admin) {
         setIsDataFetched(false);
@@ -121,6 +123,9 @@ const MealSite = () => {
   }, [auth, isDataFetched, setIsDataFetched]);
 
   const fetchDataForSelectedSite = (site) => {
+    // if (site === selectedSiteCache) {
+    //   return;
+    // }
     setIsLoading(true);
     // Make an API request with the selected site as a parameter
     axios
@@ -129,6 +134,7 @@ const MealSite = () => {
         setSiteData(response.data);
         setLastTimeIn(response.data.lastTimeIn);
         setLastTimeOut(response.data.lastTimeOut);
+        setSelectedSiteCache(site); // Update the cache here
       })
       .catch((error) => {
         console.error('Error fetching site data:', error);
@@ -140,18 +146,23 @@ const MealSite = () => {
 
   // When the selected site changes, fetch data for the new site
   useEffect(() => {
-    if (selectedSite) {
+    if (selectedSite && selectedSite !== selectedSiteCache) {
       fetchDataForSelectedSite(selectedSite);
     }
+    fetchStudentForSelectedSite(selectedSite);
   }, [selectedSite]);
 
   const fetchStudentForSelectedSite = (site) => {
+    if (site === selectedSiteCache) {
+      return;
+    }
     setIsLoading(true);
     // Make an API request with the selected site as a parameter
     axios
       .get(GAS_URL + `?type=studentData&site=${site}`)
       .then((response) => {
         setStudentData(response.data);
+        setSelectedSiteCache(site); // Update the cache here
       })
       .catch((error) => {
         console.error('Error fetching site data:', error);
@@ -161,19 +172,13 @@ const MealSite = () => {
       });
   };
 
+  const [dropdownDisabled, setdropdownDisabled] = useState(null);
   useEffect(() => {
-    if (selectedSite) {
-      fetchStudentForSelectedSite(selectedSite);
+    if (auth != null) {
+      setdropdownDisabled(auth.role !== ROLES.Admin);
     }
-  }, [selectedSite]);
- const [dropdownDisabled, setdropdownDisabled] = useState(null)
-  useEffect(()=>{
-    if(auth != null){
-      setdropdownDisabled(auth.role !== ROLES.Admin)
-  
-          }
-  
-  },[auth])
+  }, [auth]);
+
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
       <div className="flex items-center">
@@ -217,7 +222,9 @@ const MealSite = () => {
             <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Contracting Entity (CE)
             </Table.HeadCell>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">CE ID</Table.HeadCell>
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+              CE ID
+            </Table.HeadCell>
             <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Site
             </Table.HeadCell>

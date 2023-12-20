@@ -4,8 +4,13 @@ import './MealTableRow.css';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
-  const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount } =
-    useContext(MealSiteContext);
+  const {
+    selectedCheckboxData,
+    handleCheckboxChange,
+    updateGlobalCount,
+    selectedSiteCache,
+    selectedDateCache
+  } = useContext(MealSiteContext);
 
   const checkboxState = selectedCheckboxData[student.number] || {
     attendance: false,
@@ -22,10 +27,8 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
     let day = '' + d.getDate();
     const year = d.getFullYear();
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
   };
@@ -92,15 +95,17 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
   // onCheckboxChange(student.number, updatedCheckboxState);
 
   useEffect(() => {
-    // Reset the checkbox state when the selected date changes
-    const resetCheckboxState = {
-      attendance: false,
-      breakfast: false,
-      lunch: false,
-      snack: false,
-      supper: false,
-    };
-    handleCheckboxChange(student.number, resetCheckboxState);
+    if (selectedDate !== selectedDateCache) {
+      // Reset the checkbox state when the selected date changes
+      const resetCheckboxState = {
+        attendance: false,
+        breakfast: false,
+        lunch: false,
+        snack: false,
+        supper: false,
+      };
+      handleCheckboxChange(student.number, resetCheckboxState);
+    }
   }, [selectedDate]);
 
   return (
