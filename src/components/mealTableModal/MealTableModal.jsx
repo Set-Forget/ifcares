@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { Button, Modal } from 'flowbite-react';
-import axios from 'axios';
-import SignatureComponent from '../signatureComponent/SignatureComponent';
-import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
-import ConfirmationToast from '../confirmationToast/ConfirmationToast';
-import './MealTableModal.css';
+import React, { useRef, useState } from "react";
+import { Button, Modal } from "flowbite-react";
+import axios from "axios";
+import SignatureComponent from "../signatureComponent/SignatureComponent";
+import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
+import ConfirmationToast from "../confirmationToast/ConfirmationToast";
+import "./MealTableModal.css";
 
 const MealTableModal = ({
   isOpen,
@@ -18,9 +18,9 @@ const MealTableModal = ({
   // const [openModal, setOpenModal] = useState(false); // State for modal visibility
   const signatureComponentRef = useRef(null); // Initialize ref with null
 
-  // const [signatureURL, setSignatureURL] = useState('');
+  const [isSignatureEmpty, setIsSignatureEmpty] = useState(false);
 
-  let signData = '';
+  let signData = "";
 
   const generateSign = (url) => {
     // Do something with the generated signature URL (url)
@@ -41,15 +41,15 @@ const MealTableModal = ({
         const hours = date.getHours();
         const minutes = date.getMinutes();
         const seconds = date.getSeconds();
-        const timeOfDay = hours >= 12 ? 'PM' : 'AM';
+        const timeOfDay = hours >= 12 ? "PM" : "AM";
         const formattedTime = `${hours % 12 || 12}:${minutes
           .toString()
-          .padStart(2, '0')}:${seconds
+          .padStart(2, "0")}:${seconds
           .toString()
-          .padStart(2, '0')} ${timeOfDay}`;
+          .padStart(2, "0")} ${timeOfDay}`;
         return formattedTime;
       }
-      return '';
+      return "";
     };
 
     // console.log(formattedData);
@@ -63,20 +63,23 @@ const MealTableModal = ({
       console.log(formattedSign);
     }
 
-    console.log(signData)
+    console.log(signData);
 
-    if (signData === 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC') {
-      alert('Please Sign before submission')
-      setIsLoading(false)
-      return
+    if (
+      signData ===
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC"
+    ) {
+      setIsSignatureEmpty(true);
+      setIsLoading(false);
+      return;
     }
-    
+
     const formattedDate = selectedDate.toISOString();
     const formattedTime1 = formatTime(selectedTime1);
     const formattedTime2 = formatTime(selectedTime2);
 
     const dataObject = {
-      actionType: 'mealCount',
+      actionType: "mealCount",
       values: {
         data: formattedData,
         date: formattedDate,
@@ -89,22 +92,22 @@ const MealTableModal = ({
 
     console.log(dataObject);
 
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+    const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
     const gasUrl =
-      'https://script.google.com/macros/s/AKfycbwktDPqAjqk67sGjTqzBBuVAjqur6Yh-8GYuexQJ3eOqe9pEqAYYMqrj6UipgkpLr1Q/exec';
+      "https://script.google.com/macros/s/AKfycbwktDPqAjqk67sGjTqzBBuVAjqur6Yh-8GYuexQJ3eOqe9pEqAYYMqrj6UipgkpLr1Q/exec";
 
     // Send the axios post request with the dataObject as the request body
     axios
       .post(PROXY_URL + gasUrl, JSON.stringify(dataObject), {
         headers: {
-          'Content-Type': 'application/json',
-          'x-requested-with': 'XMLHttpRequest',
+          "Content-Type": "application/json",
+          "x-requested-with": "XMLHttpRequest",
         },
       })
       .then((response) => {
         // Handle the response from the GAS web app
         console.log(response.data);
-        setToastType('success');
+        setToastType("success");
         setTimeout(() => {
           window.location.reload(); // Refresh the page
         }, 4000);
@@ -112,7 +115,7 @@ const MealTableModal = ({
       .catch((error) => {
         // Handle the error from the GAS web app
         console.error(error);
-        setToastType('error');
+        setToastType("error");
         setTimeout(() => {
           window.location.reload(); // Refresh the page
         }, 4000);
@@ -124,8 +127,14 @@ const MealTableModal = ({
   };
 
   return (
-    <div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50'>
-      <Modal show={isOpen} size="xl" popup onClose={closeModal} className='min-h-[500px] max-w-[500px] flex items-center justify-center mx-auto'>
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+      <Modal
+        show={isOpen}
+        size="xl"
+        popup
+        onClose={closeModal}
+        className="min-h-[500px] max-w-[500px] flex items-center justify-center mx-auto"
+      >
         <Modal.Header />
         <Modal.Body className="modalBody-container">
           {isLoading ? (
@@ -143,19 +152,24 @@ const MealTableModal = ({
                 <b>
                   I certify that the information on this form is true and
                   correct to the best of my knowledge and that I will claim
-                  reimbursement only for{' '}
-                  <span className="underline">eligible</span> meals served to{' '}
+                  reimbursement only for{" "}
+                  <span className="underline">eligible</span> meals served to{" "}
                   <span className="underline">eligible</span> Program
                   participants. I understand that misrepresentation may result
                   in prosecution under applicable state or federal laws.
                 </b>
               </h3>
-              
+
               <SignatureComponent
                 onGenerateSign={generateSign}
                 ref={signatureComponentRef}
               />
-              
+              {isSignatureEmpty && (
+                <p style={{ color: "red", textAlign: "center" }}>
+                  Sign is required
+                </p>
+              )}
+
               <br />
               <br />
               <div className="flex justify-center gap-4">

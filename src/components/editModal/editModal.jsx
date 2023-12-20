@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
 import SavingToast from "../savingToast/SavingToast";
 
-const Input = ({ label, id, value, onChange }) => {
+const Input = ({ label, id, value, onChange, disabled }) => {
   return (
     <div className="mt-10 space-y-8  sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:pb-0">
       <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
@@ -22,6 +22,7 @@ const Input = ({ label, id, value, onChange }) => {
             type="text"
             name={id}
             id={id}
+            disabled={disabled}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
           />
         </div>
@@ -132,6 +133,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                         id="age"
                         value={editedStudent.age}
                         onChange={handleChange}
+                        disabled={student.birthdate != ''}
                       ></Input>
                       {auth.role === ROLES.Admin && (
                         <SelectInput
