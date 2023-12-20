@@ -63,6 +63,14 @@ const MealTableModal = ({
       console.log(formattedSign);
     }
 
+    console.log(signData)
+
+    if (signData === 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAAtJREFUGFdjYAACAAAFAAGq1chRAAAAAElFTkSuQmCC') {
+      alert('Please Sign before submission')
+      setIsLoading(false)
+      return
+    }
+    
     const formattedDate = selectedDate.toISOString();
     const formattedTime1 = formatTime(selectedTime1);
     const formattedTime2 = formatTime(selectedTime2);
