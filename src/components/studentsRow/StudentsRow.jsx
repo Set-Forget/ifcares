@@ -136,7 +136,7 @@ export default function StudentsRow({
                   ],
                 };
 
-                console.log(formattedData);
+                // console.log(formattedData);
 
                 const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
                 const GAS_URL =
@@ -172,7 +172,7 @@ export default function StudentsRow({
                   .catch((error) => {
                     setToastType("error");
                     setToastMessage("An error occurred. Try again later.");
-                    console.log("error:", error);
+                    // console.log("error:", error);
                     setLoading(false);
                     setOpenModal("error");
                     setTimeout(() => {

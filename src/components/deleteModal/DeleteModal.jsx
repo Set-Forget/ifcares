@@ -29,14 +29,14 @@ const DeleteModal = ({ onClose, student }) => {
         },
       })
       .then((response) => {
-        console.log("Student deleted successfully:", response.data);
+        // console.log("Student deleted successfully:", response.data);
         setLoading(false);
         setToastType("success");
         setTimeout(handleCloseModal, 4000);
         setTimeout(() => window.location.reload(), 4000);
       })
       .catch((error) => {
-        console.error("Error deleting student:", error);
+        // console.error("Error deleting student:", error);
         setLoading(false);
         setToastType("error");
         setTimeout(handleCloseModal, 4000);

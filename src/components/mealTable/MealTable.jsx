@@ -52,20 +52,11 @@ const MealTable = () => {
 
   useEffect(() => {
     if (lastTimeIn) {
-      // console.log(lastTimeIn);
-      // const timeInFormatted = formatTimeForPicker(lastTimeIn);
-      // console.log(timeInFormatted);
-      // setSelectedTime1(timeInFormatted);
-
       const timeInFormatted = formatTimeForPicker(lastTimeIn);
       setSelectedTime1(timeInFormatted);
       // console.log(timeInFormatted);
     }
     if (lastTimeOut) {
-      // console.log(lastTimeOut);
-      // const timeOutFormatted = formatTimeForPicker(lastTimeOut);
-      // console.log(timeOutFormatted);
-      // setSelectedTime2(timeOutFormatted);
       const timeOutFormatted = formatTimeForPicker(lastTimeOut);
       setSelectedTime2(timeOutFormatted);
       // console.log(timeOutFormatted);
@@ -122,10 +113,10 @@ const MealTable = () => {
 
         // Handle the response
         if (response.data.result === 'error') {
-          console.log('Error Response:', response.data.message);
+          // console.log('Error Response:', response.data.message);
           setDateValidationError(response.data.message);
         } else {
-          console.log('no error', response.data.array);
+          // console.log('no error', response.data.array);
           setDateValidationError('');
         }
       } catch (error) {

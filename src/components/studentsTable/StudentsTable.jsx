@@ -68,7 +68,7 @@ const StudentsTable = () => {
   };
 
   useEffect(() => {
-    console.log("isEditModalOpen", isEditModalOpen);
+    // console.log("isEditModalOpen", isEditModalOpen);
   }, [isEditModalOpen]);
 
   const handleDeleteModalOpen = (student) => {
@@ -97,7 +97,7 @@ const StudentsTable = () => {
       ],
     };
 
-    console.log(formattedData);
+    // console.log(formattedData);
 
     const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
     const GAS_URL =
@@ -115,14 +115,14 @@ const StudentsTable = () => {
         }
       );
 
-      console.log("success:", response);
+      // console.log("success:", response);
       onSuccess();
 
       setTimeout(() => {
         window.location.reload();
       }, 3000);
     } catch (error) {
-      console.log("error:", error);
+      // console.log("error:", error);
       setOpenModal("error:", response);
       setTimeout(() => {
         window.location.reload();
@@ -139,7 +139,7 @@ const StudentsTable = () => {
       axios.get(GAS_URL + "?type=sites"),
     ])
       .then(([studentsResponse, sitesResponse]) => {
-        console.log("Students data:", studentsResponse.data);
+        // console.log("Students data:", studentsResponse.data);
         if (auth.role !== ROLES.Admin) {
           const students = studentsResponse.data.filter(
             (item) => item.site === auth.assignedSite
@@ -164,7 +164,7 @@ const StudentsTable = () => {
 
   return (
     <div className="bg-gray-100 p-0 m-0 box-border flex justify-center items-center">
-      <div className="mt-5 mb-12 w-4/5 min-h-[800px] pb-20 table-container">
+      <div className="mt-5 mb-12 sm:w-4/5 min-h-[800px] pb-20 table-container">
         <div className="flex w-full justify-between mt-[75px] mb-[30px] min-h-[50px] flex-col md:flex-row items-center">
           {/* This div will be full width on mobile and align the button to the end/right */}
           <div className="w-full flex justify-end md:justify-start md:w-auto -mt-12 md:-mt-[12px]">

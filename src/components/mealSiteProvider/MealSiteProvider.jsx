@@ -159,11 +159,11 @@ export const MealSiteProvider = ({ children }) => {
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
-        console.log('Data received:', response.data);
+        // console.log('Data received:', response.data);
         setDatesBySite(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
       });
   }, []);
 

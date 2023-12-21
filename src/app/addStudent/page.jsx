@@ -54,7 +54,7 @@ const Form = () => {
       values: [data.name, data.age, data.site, formattedDate],
     };
 
-    console.log(formattedData);
+    // console.log(formattedData);
 
     axios
       .post(GAS_URL, JSON.stringify(formattedData), {
@@ -66,11 +66,11 @@ const Form = () => {
       })
       .then((response) => {
         if (response.data.result === 'success') {
-          console.log('Data sent successfully');
+          // console.log('Data sent successfully');
           setToastType('success');
           setSubmitting(false);
         } else {
-          console.error('Error in sending data:', response.data.message);
+          // console.error('Error in sending data:', response.data.message);
           setToastType('error');
           setToastMessage(response.data.message);
           setSubmitting(false);

@@ -60,10 +60,10 @@ const MealTableModal = ({
 
     if (signatureComponentRef.current) {
       const formattedSign = signatureComponentRef.current.generateSign();
-      console.log(formattedSign);
+      // console.log(formattedSign);
     }
 
-    console.log(signData);
+    // console.log(signData);
 
     if (
       signData ===
@@ -90,7 +90,7 @@ const MealTableModal = ({
       },
     };
 
-    console.log(dataObject);
+    // console.log(dataObject);
 
     const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
     const gasUrl =
@@ -106,7 +106,7 @@ const MealTableModal = ({
       })
       .then((response) => {
         // Handle the response from the GAS web app
-        console.log(response.data);
+        // console.log(response.data);
         setToastType("success");
         setTimeout(() => {
           window.location.reload(); // Refresh the page

@@ -26,7 +26,7 @@ const Welcome = () => {
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
-        console.log('Data received:', response.data);
+        // console.log('Data received:', response.data);
         setSitesData(response.data);
       })
       .catch((error) => {
