@@ -5,7 +5,7 @@ import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 import "./MealCards.css"
 
 const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
-  const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount } = useContext(MealSiteContext);
+  const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount, selectedDateCache } = useContext(MealSiteContext);
   const [isExpanded, setIsExpanded] = useState(false);
 
   const checkboxState = selectedCheckboxData[student.number] || {
@@ -78,8 +78,9 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
     return siteData?.validDates[formattedDate] || {};
   }, [selectedSite, selectedDate, datesBySite]);
 
-  // Add useEffect hook to reset checkboxes when selectedDate changes
+  // Use effect to reset the checkboxes when date changes
   useEffect(() => {
+    if (selectedDate !== selectedDateCache) {
     // Reset the checkbox state when the selected date changes
     const resetCheckboxState = {
       attendance: false,
@@ -89,6 +90,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
       supper: false,
     };
     handleCheckboxChange(student.number, resetCheckboxState);
+  }
   }, [selectedDate]);
 
   return (
