@@ -29,7 +29,7 @@ const Header = () => {
       
       <div className="text-sm sm:text-base md:text-xs text-left md:text-right">
         <p>{`${authData.name} ${authData.lastname}`}</p>
-        <p>{authData.email}</p>
+        <p className="truncate w-56 xs:w-auto xs:no-truncate">{authData.email}</p>
       </div>
 
       <div
