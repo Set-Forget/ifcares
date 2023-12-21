@@ -140,7 +140,7 @@ const Form = () => {
       {submitting ? (
         <div className="loading-spinner">
           <LoadingSpinner />
-          <h2>Adding Student...</h2>
+          <h2 className='mt-4 text-center text-md text-gray-900'>Adding Student...</h2>
         </div>
       ) : (
         <>

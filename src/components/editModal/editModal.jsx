@@ -1,9 +1,9 @@
-import { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { ROLES } from "../../constants/index";
-import useAuth from "../../hooks/useAuth";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import SavingToast from "../savingToast/SavingToast";
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { ROLES } from '../../constants/index';
+import useAuth from '../../hooks/useAuth';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import SavingToast from '../savingToast/SavingToast';
 
 const Input = ({ label, id, value, onChange, disabled }) => {
   return (
@@ -64,8 +64,8 @@ const SelectInput = ({ label, id, value, options, onChange }) => {
 export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
   const [editedStudent, setEditedStudent] = useState({ ...student });
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [openModal, setOpenModal] = useState("");
+  const [successMessage, setSuccessMessage] = useState('');
+  const [openModal, setOpenModal] = useState('');
 
   const optionsFromAPI = sites.map((option) => ({
     label: option.name,
@@ -90,7 +90,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
         as="div"
         className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center"
         onClose={(e) => {
-          if (e && e.target && e.target.matches && !e.target.matches("input")) {
+          if (e && e.target && e.target.matches && !e.target.matches('input')) {
             onClose();
           }
         }}
@@ -156,7 +156,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                       setSuccessMessage(true);
                       onSave(student, editedStudent, () => {
                         setLoading(false);
-                        setOpenModal("success");
+                        setOpenModal('success');
                         setTimeout(() => {
                           setSuccessMessage(false);
                           onClose();
@@ -182,7 +182,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
           {successMessage && (
             <div
               className={`fixed inset-0 z-50 overflow-y-auto ${
-                successMessage ? "" : "hidden"
+                successMessage ? '' : 'hidden'
               }`}
               aria-labelledby="modal-title"
               role="dialog"
@@ -191,23 +191,24 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
               <div className="flex items-center justify-center min-h-screen">
                 <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-                <div
-                  className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full"
-                  style={{ height: "auto", minHeight: "100px" }}
-                >
+                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle w-80 h-72">
                   <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     {loading && (
-                      <div className="flex flex-col items-center justify-center">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                         <LoadingSpinner />
-                        <h2 className="mt-2 text-center text-lg font-medium text-gray-900">
+                        <h2 className="mt-4 text-center text-md text-gray-900">
                           Editing Student...
                         </h2>
                       </div>
                     )}
-                    {openModal === "success" && <SavingToast type="success" />}
-                    {openModal === "error" && (
-                      <SavingToast type="error" message={message} />
-                    )}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72">
+                      {openModal === 'success' && (
+                        <SavingToast type="success" />
+                      )}
+                      {openModal === 'error' && (
+                        <SavingToast type="error" message={message} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

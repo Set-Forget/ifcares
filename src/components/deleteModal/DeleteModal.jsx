@@ -11,7 +11,6 @@ const DeleteModal = ({ onClose, student }) => {
 
   const handleDeleteStudent = () => {
     setLoading(true);
-    setLoading(true);
     const deleteData = {
       actionType: "delete",
       values: [student.name, student.site],
@@ -48,7 +47,7 @@ const DeleteModal = ({ onClose, student }) => {
       setToastType("success");
       setTimeout(handleCloseModal, 4000);
       setTimeout(() => window.location.reload(), 4000);
-    }, 2000);
+    }, 4000);
   };
 
   const handleCloseModal = () => {
@@ -65,18 +64,18 @@ const DeleteModal = ({ onClose, student }) => {
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center">
-      <div ref={modalRef} className="bg-white rounded-lg p-8 w-80">
+      <div ref={modalRef} className="bg-white rounded-lg p-8 w-80 h-72">
         {toastType ? (
-          <div className="flex items-center justify-center mb-8">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72">
             <DeleteToast type={toastType} />
           </div>
         ) : (
           <>
             <div className="text-center">
               {loading ? (
-                <div className="loading-spinner">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   <LoadingSpinner />
-                  <h2>Deleting {student.name}...</h2>
+                  <h2 className="mt-4 text-center text-md text-gray-900">Deleting {student.name}...</h2>
                 </div>
               ) : (
                 <>
