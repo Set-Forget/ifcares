@@ -61,7 +61,7 @@ const SitesSelect = ({
   };
 
   return (
-    <FormControl fullWidth error={error} style={{ width: "75%" }}>
+    <FormControl fullWidth error={error}>
       <InputLabel
         
         style={{

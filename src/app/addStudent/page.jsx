@@ -210,12 +210,14 @@ const Form = () => {
             {errors.birthdateOrAge && (
               <div className="error-message">{errors.birthdateOrAge}</div>
             )}
+            <div className='text-field'>
             <SitesSelect
               onSiteSelected={handleSiteSelection}
               error={!!errors.site}
               helperText={errors.site}
               selectedSiteValue={values.site}
             />
+            </div>
             <Button
               type="submit"
               variant="contained"
@@ -236,12 +238,12 @@ const Form = () => {
 
           <div className="toast-container">
             {toastType === 'success' && (
-              <div className="your-toast-wrapper-class">
+              <div className="toast-wrapper-class">
                 <FormToast type={toastType} message={toastMessage} />
               </div>
             )}
             {toastType === 'error' && (
-              <div className="your-toast-wrapper-class">
+              <div className="toast-wrapper-class">
                 <FormToast type={toastType} message={toastMessage} />
               </div>
             )}

@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box; /* Ensure padding and borders are included in the width */
 }
 
@@ -50,24 +52,24 @@
 
 .text-field .MuiInputLabel-outlined.MuiInputLabel-shrink {
   /* Adjust the label position when focused so it doesn't overlap */
-  transform: translate(14px, -4px) scale(0.70);
+  transform: translate(14px, -4px) scale(0.7);
 }
 
-.datepicker-container{
+.datepicker-container {
   width: 75%;
 }
 
-.datepicker-item{
+.datepicker-item {
   width: 100%;
-  overflow: auto; 
+  overflow: auto;
 }
 
 .datepicker-item .MuiInputLabel-outlined.MuiInputLabel-shrink {
   /* Adjust the label position when focused so it doesn't overlap */
-  transform: translate(14px, -4px) scale(0.70);
+  transform: translate(14px, -4px) scale(0.7);
 }
 
-.error-message{
+.error-message {
   color: #d32f2f;
   font-weight: 400;
   width: 75%;
@@ -98,43 +100,63 @@
 
 /*Tablet*/
 @media only screen and (max-width: 700px) {
-  
-.form-container{
-  position: absolute;
-  width: 80%; /* Or a percentage value */
-  height: 480px;
-}
+  .form-container {
+    position: absolute;
+    width: 80%; /* Or a percentage value */
+    height: 480px;
+  }
 
-.error-message{
-  bottom: 10px;
-}
-
+  .error-message {
+    bottom: 10px;
+  }
 }
 
 /*Telefono*/
 @media only screen and (max-width: 600px) {
-  
-  .form-container{
+  .form-container {
     left: 50%;
-    transform: translate(-50%,-50%);
-    width: 70vw; 
+    transform: translate(-50%, -50%);
+    width: 80vw;
     height: 450px;
   }
-  
-  .error-message{
+
+  .error-message {
     bottom: 5px;
   }
-  
-  }
+}
 
-  /*Telefono*/
+/*Telefono*/
 @media only screen and (max-width: 530px) {
-  
-  .error-message{
+
+  .form-container {
+    height: 420px;
+    transform: translate(-50%, -57%);
+  }
+
+  .error-message {
+    width: 90%;
     bottom: 5px;
   }
-  
+
+  .form-header {
+    margin-top: 30px;
+    margin-bottom: 20px;
   }
 
+  .title {
+    font-size: 20px;
+  }
 
+  .text-field {
+    width: 90%;
+  }
 
+  .datepicker-container {
+    width: 90%;
+  }
+
+  .toast-container {
+    min-width: 70%;
+    bottom: 75px;
+  }
+}
