@@ -148,7 +148,7 @@ const MealTableModal = ({
             </div>
           ) : (
             <div className="text-center">
-              <h3 className="mb-5 text-lg font-normal">
+              <h3 className="mb-5 text-base md:text-lg font-normal">
                 <b>
                   I certify that the information on this form is true and
                   correct to the best of my knowledge and that I will claim
@@ -165,8 +165,8 @@ const MealTableModal = ({
                 ref={signatureComponentRef}
               />
               {isSignatureEmpty && (
-                <p style={{ color: "red", textAlign: "center" }}>
-                  Sign is required
+                <p className="absolute text-red-600 text-xs left-1/2 -translate-x-1/2 pt-1">
+                  Please Sign
                 </p>
               )}
 

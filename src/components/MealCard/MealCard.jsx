@@ -119,7 +119,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
             <Checkbox
               checked={checkboxState.breakfast}
               onChange={(e) => handleLocalCheckboxChange('breakfast', e.target.checked)}
-              disabled={!mealAvailability.brk}
+              disabled={!checkboxState.attendance || !mealAvailability.brk}
             />
             <span  className='text-sm'>BRK</span>
           </label>
@@ -127,7 +127,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
             <Checkbox
               checked={checkboxState.lunch}
               onChange={(e) => handleLocalCheckboxChange('lunch', e.target.checked)}
-              disabled={!mealAvailability.lunch}
+              disabled={!checkboxState.attendance || !mealAvailability.lunch}
             />
             <span  className='text-sm'>LU</span>
           </label>
@@ -135,7 +135,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
             <Checkbox
               checked={checkboxState.snack}
               onChange={(e) => handleLocalCheckboxChange('snack', e.target.checked)}
-              disabled={!mealAvailability.snk}
+              disabled={!checkboxState.attendance || !mealAvailability.snk}
             />
             <span  className='text-sm'>SNK</span>
           </label>
@@ -143,7 +143,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
             <Checkbox
               checked={checkboxState.supper}
               onChange={(e) => handleLocalCheckboxChange('supper', e.target.checked)}
-              disabled={!mealAvailability.sup}
+              disabled={!checkboxState.attendance || !mealAvailability.sup}
             />
             <span  className='text-sm'>SUP</span>
           </label>

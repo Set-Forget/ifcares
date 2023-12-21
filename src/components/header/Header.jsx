@@ -25,15 +25,15 @@ const Header = () => {
   };
 
   return ( authData == null ? <></> :
-    <header className="fixed md:relative z-10 bottom-0 w-full h-24 md:h-14 bg-[#5D24FF] shadow text-white flex items-center justify-between md:justify-end px-4 md:px-40">
+    <header className="fixed md:relative z-10 bottom-0 w-full h-16 md:h-14 bg-[#5D24FF] shadow text-white flex items-center justify-between md:justify-end px-4 md:px-40">
       
-      <div className="text-xl md:text-xs text-left md:text-right">
+      <div className="text-sm sm:text-base md:text-xs text-left md:text-right">
         <p>{`${authData.name} ${authData.lastname}`}</p>
         <p>{authData.email}</p>
       </div>
 
       <div
-        className="ml-8 flex items-center space-x-2 text-2xl md:text-base hover:text-slate-400 hover:cursor-pointer"
+        className="ml-8 flex items-center space-x-2 text-lg sm:text-base hover:text-slate-400 hover:cursor-pointer"
         onClick={handleLogout}
       >
         <span className="mt-1">Logout</span>
