@@ -129,6 +129,7 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
           onChange={(event) =>
             handleLocalCheckboxChange('attendance', event.target.checked)
           }
+          disabled={selectedDate === null ? true : false}
         />
       </Table.Cell>
       <Table.Cell className="bg-[#FFFFFF] h-11">

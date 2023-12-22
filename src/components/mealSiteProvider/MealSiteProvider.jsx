@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import axios from 'axios';
 import React, { createContext, useState, useRef, useEffect } from 'react';
 
@@ -15,7 +15,7 @@ export const MealSiteProvider = ({ children }) => {
 
   const [studentData, setStudentData] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedDateCache, setSelectedDateCache] = useState(null)
+  const [selectedDateCache, setSelectedDateCache] = useState(null);
   const [selectedTime1, setSelectedTime1] = useState(null);
   const [selectedTime2, setSelectedTime2] = useState(null);
   const [selectedCheckboxData, setSelectedCheckboxData] = useState({});
@@ -155,11 +155,11 @@ export const MealSiteProvider = ({ children }) => {
   //get request
   useEffect(() => {
     const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbyo-1wCyWyFIg9-G3Yb4OqnjNzVAWbEG_vf_X99CUOgg2V9N_CLOk6ONQ4OCfNMDui8/exec';
+      'https://script.google.com/macros/s/AKfycbyQPDZEu-vBGvKKJ_kXhy-20mLXy5Pcf9xvz4p3x3MWVR2HHLWWKmdmagLnpAfz7ps1/exec';
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
-        // console.log('Data received:', response.data);
+        console.log('Data received:', response.data);
         setDatesBySite(response.data);
       })
       .catch((error) => {
@@ -213,7 +213,7 @@ export const MealSiteProvider = ({ children }) => {
         dateValidationError,
         setDateValidationError,
         topRef,
-        resetAllStates
+        resetAllStates,
       }}
     >
       {children}

@@ -114,6 +114,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
             <Checkbox
               checked={checkboxState.attendance}
               onChange={(e) => handleLocalCheckboxChange('attendance', e.target.checked)}
+              disabled={selectedDate === null ? true : false}
             />
             <span className='text-sm'>AT</span>
           </label>

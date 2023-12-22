@@ -22,7 +22,7 @@ const Welcome = () => {
   //get request
   useEffect(() => {
     const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbyo-1wCyWyFIg9-G3Yb4OqnjNzVAWbEG_vf_X99CUOgg2V9N_CLOk6ONQ4OCfNMDui8/exec';
+      'https://script.google.com/macros/s/AKfycbyQPDZEu-vBGvKKJ_kXhy-20mLXy5Pcf9xvz4p3x3MWVR2HHLWWKmdmagLnpAfz7ps1/exec';
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
@@ -30,7 +30,7 @@ const Welcome = () => {
         setSitesData(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
       });
   }, []);
 
