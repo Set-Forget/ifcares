@@ -11,6 +11,7 @@ import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 import useIsMobile from '../../hooks/useIsMobile';
 import MealList from '../mealList/MealList';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import dayjs from 'dayjs';
 
 const MealSite = () => {
   const [sites, setSites] = useState([]);
@@ -20,6 +21,7 @@ const MealSite = () => {
   const {
     selectedSite,
     setSelectedSite,
+    setSelectedDate,
     setLastTimeIn,
     setLastTimeOut,
     siteData,
@@ -46,42 +48,13 @@ const MealSite = () => {
   const GAS_URL =
     'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
 
-  // old use effect -->
-
-  // useEffect(() => {
-  //   // console.log(selectedSite);
-  //   if (selectedSite) {
-  //     fetchDataForSelectedSite(selectedSite);
-  //     fetchStudentForSelectedSite(selectedSite);
-  //   } else {
-
-  //     Promise.all([axios.get(GAS_URL + '?type=sites')])
-  //       .then(([sitesResponse]) => {
-  //         if (auth.role !== ROLES.Admin) {
-  //           console.log('Sites: ', sitesResponse.data);
-  //           const sites = sitesResponse.data.filter(
-  //             (item) => item.name === auth.assignedSite
-  //           );
-  //           setSites(sites);
-
-  //         } else {
-  //           setSites(sitesResponse.data);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error:', error);
-  //       });
-  //   }
-  // }, [selectedSite]);
-
-  // --> new useEffect
   useEffect(() => {
     const fetchSites = async () => {
       try {
         const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-        if(auth == null){
-          return
+        if (auth == null) {
+          return;
         }
 
         if (auth.role === ROLES.Admin) {
@@ -100,8 +73,8 @@ const MealSite = () => {
       }
     };
 
-    if(auth == null){
-      return
+    if (auth == null) {
+      return;
     }
 
     if (auth.role === ROLES.Admin || !isDataFetched) {
@@ -111,8 +84,8 @@ const MealSite = () => {
 
     // Adding cleanup to reset isDataFetched for admin users
     return () => {
-      if(auth == null){
-        return
+      if (auth == null) {
+        return;
       }
       if (auth.role === ROLES.Admin) {
         setIsDataFetched(false);
@@ -166,14 +139,42 @@ const MealSite = () => {
       fetchStudentForSelectedSite(selectedSite);
     }
   }, [selectedSite]);
- const [dropdownDisabled, setdropdownDisabled] = useState(null)
-  useEffect(()=>{
-    if(auth != null){
-      setdropdownDisabled(auth.role !== ROLES.Admin)
-  
-          }
-  
-  },[auth])
+  const [dropdownDisabled, setdropdownDisabled] = useState(null);
+  useEffect(() => {
+    if (auth != null) {
+      setdropdownDisabled(auth.role !== ROLES.Admin);
+    }
+  }, [auth]);
+
+  // capture the values of the parameters in URL
+  const [queryParams, setQueryParams] = useState({ site: null, date: null });
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const site = searchParams.get('site');
+    const date = searchParams.get('date');
+    setQueryParams({ site, date });
+    // Now you can use queryParams.date and queryParams.site as needed
+  }, []);
+
+  function formatDateForPicker(dateStr) {
+    return dayjs(dateStr);
+  }
+
+  useEffect(() => {
+    if (queryParams.site && queryParams.date) {
+      // Logic to handle the parameters
+      setSelectedSite(queryParams.site);
+      let formattedDate = formatDateForPicker(queryParams.date);
+      console.log(formattedDate);
+      setSelectedDate(formattedDate);
+
+      console.log(
+        `Received date: ${queryParams.date} and site: ${queryParams.site}`
+      );
+    }
+  }, [queryParams]);
+
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
       <div className="flex items-center">
@@ -217,7 +218,9 @@ const MealSite = () => {
             <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Contracting Entity (CE)
             </Table.HeadCell>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">CE ID</Table.HeadCell>
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+              CE ID
+            </Table.HeadCell>
             <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Site
             </Table.HeadCell>

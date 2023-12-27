@@ -77,18 +77,31 @@ const WelcomeCard = ({ date, siteName, isExcluded, isNewDate }) => {
     cardBackgroundColor = isExcluded ? 'bg-green-300' : 'bg-red-300';
   }
 
+  // Card content
+  const cardContent = (
+    <div className={`h-20 sm:h-28 flex items-center justify-center shadow-lg p-4 rounded-lg ${cardBackgroundColor}`}>
+      <h5 className={`text-xs lg:text-lg md:text-base sm:text-sm font-medium tracking-tight`}>
+        {formattedDate}
+      </h5>
+    </div>
+  );
+
+  // Construct the URL with the date and siteName as parameters
+  const url = `/mealCount?site=${encodeURIComponent(siteName)}&date=${encodeURIComponent(date)}`;
+
+
   return (
     <>
       {isWithinLastWeek && (
-        <Link href="/">
-          <div className={`h-20 sm:h-28 flex items-center justify-center shadow-lg p-4 rounded-lg ${cardBackgroundColor}`}>
-            <h5
-              className={`text-xs lg:text-lg md:text-base sm:text-sm font-medium tracking-tight `}
-            >
-              {formattedDate}
-            </h5>
-          </div>
-        </Link>
+        !isExcluded && !isNewDate ? (
+          // Wrap with Link only if it's a valid date and not a new default date
+          <Link href={url}>
+            {cardContent}
+          </Link>
+        ) : (
+          // Render without Link for excluded dates or new default dates
+          cardContent
+        )
       )}
     </>
   );
