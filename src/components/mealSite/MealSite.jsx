@@ -80,8 +80,8 @@ const MealSite = () => {
       try {
         const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-        if(auth == null){
-          return
+        if (auth == null) {
+          return;
         }
 
         if (auth.role === ROLES.Admin) {
@@ -100,8 +100,8 @@ const MealSite = () => {
       }
     };
 
-    if(auth == null){
-      return
+    if (auth == null) {
+      return;
     }
 
     if (auth.role === ROLES.Admin || !isDataFetched) {
@@ -111,8 +111,8 @@ const MealSite = () => {
 
     // Adding cleanup to reset isDataFetched for admin users
     return () => {
-      if(auth == null){
-        return
+      if (auth == null) {
+        return;
       }
       if (auth.role === ROLES.Admin) {
         setIsDataFetched(false);
@@ -166,14 +166,12 @@ const MealSite = () => {
       fetchStudentForSelectedSite(selectedSite);
     }
   }, [selectedSite]);
- const [dropdownDisabled, setdropdownDisabled] = useState(null)
-  useEffect(()=>{
-    if(auth != null){
-      setdropdownDisabled(auth.role !== ROLES.Admin)
-  
-          }
-  
-  },[auth])
+  const [dropdownDisabled, setdropdownDisabled] = useState(null);
+  useEffect(() => {
+    if (auth != null) {
+      setdropdownDisabled(auth.role !== ROLES.Admin);
+    }
+  }, [auth]);
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
       <div className="flex items-center">
@@ -190,7 +188,11 @@ const MealSite = () => {
           }}
           disableAllSites={true}
         />
-        {isLoading && <LoadingSpinner />}
+        {isLoading && (
+          <div className='ml-4'>
+            <LoadingSpinner />
+          </div>
+        )}
       </div>
       <br />
       {isMobile ? (
@@ -217,7 +219,9 @@ const MealSite = () => {
             <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Contracting Entity (CE)
             </Table.HeadCell>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">CE ID</Table.HeadCell>
+            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
+              CE ID
+            </Table.HeadCell>
             <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
               Name of Site
             </Table.HeadCell>

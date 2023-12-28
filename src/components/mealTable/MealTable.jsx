@@ -162,14 +162,16 @@ const MealTable = () => {
         </Table.Head>
         <Table.Body className="divide-y">
           <tr>
-            <Table.Cell className='bg-[#FFFFFF] h-24'>
+            <Table.Cell className="bg-[#FFFFFF] h-24">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <div className="flex items-center">
                     <div className="flex flex-col">
                       <div
                         className={
-                          dateError || dateValidationError ? 'border border-red-500 rounded-md' : ''
+                          dateError || dateValidationError
+                            ? 'border border-red-500 rounded-md'
+                            : ''
                         }
                       >
                         <DatePicker
@@ -194,17 +196,23 @@ const MealTable = () => {
                       )}
                     </div>
                     {isLoading && (
-                      <LoadingSpinner className="relative left-[10px]" />
+                      <div  className='ml-4'>
+                        <LoadingSpinner />
+                      </div>
                     )}
                   </div>
                 </DemoContainer>
               </LocalizationProvider>
             </Table.Cell>
-            <Table.Cell className='bg-[#FFFFFF] h-24'>
+            <Table.Cell className="bg-[#FFFFFF] h-24">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
                   <div className="flex flex-col">
-                    <div className={time1Error ? 'border border-red-500 rounded-md' : ''}>
+                    <div
+                      className={
+                        time1Error ? 'border border-red-500 rounded-md' : ''
+                      }
+                    >
                       <TimePicker
                         className="w-full"
                         value={selectedTime1}
@@ -224,11 +232,15 @@ const MealTable = () => {
                 </DemoContainer>
               </LocalizationProvider>
             </Table.Cell>
-            <Table.Cell className='bg-[#FFFFFF] h-24'>
+            <Table.Cell className="bg-[#FFFFFF] h-24">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
                   <div className="flex flex-col">
-                    <div className={time2Error ? 'border border-red-500 rounded-md' : ''}>
+                    <div
+                      className={
+                        time2Error ? 'border border-red-500 rounded-md' : ''
+                      }
+                    >
                       <TimePicker
                         className="w-full"
                         value={selectedTime2}
@@ -279,7 +291,13 @@ const MealTable = () => {
         </Table.Head>
         <Table.Body className="divide-y">
           {validStudentData.map((student) => (
-            <MealTableRow student={student} selectedSite={selectedSite} selectedDate={selectedDate} datesBySite={datesBySite} key={student.name} />
+            <MealTableRow
+              student={student}
+              selectedSite={selectedSite}
+              selectedDate={selectedDate}
+              datesBySite={datesBySite}
+              key={student.name}
+            />
           ))}
         </Table.Body>
       </Table>
