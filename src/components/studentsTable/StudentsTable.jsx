@@ -187,7 +187,7 @@ const StudentsTable = () => {
             </Link>
           </div>
           {/* This div will center the dropdown and button below the Meal Count button on mobile */}
-          <div className="flex flex-row justify-center m-auto items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center text-base">
+          <div className="flex flex-row justify-center m-auto items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center text-base gap-4">
             {auth.role !== ROLES.Admin && (
               <h2 className="title pr-10">{auth.assignedSite}</h2>
             )}
