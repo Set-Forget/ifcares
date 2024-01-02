@@ -222,7 +222,7 @@ const StudentsTable = () => {
         {loading ? (
           <div className="flex flex-col justify-center items-center h-96">
             <LoadingSpinner />
-            <h2>Loading Students...</h2>
+            <h2 className="mt-4 text-center text-md text-gray-900">Loading Students...</h2>
           </div>
         ) : (
           <>
