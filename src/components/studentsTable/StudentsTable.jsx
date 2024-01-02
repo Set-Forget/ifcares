@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-import { Table } from "flowbite-react";
-import { Button } from "@mui/material";
+import { Table } from 'flowbite-react';
+import { Button } from '@mui/material';
 
-import useAuth from "../../hooks/useAuth";
-import { useBreakpoint } from "../../hooks/useMediaQuery";
+import useAuth from '../../hooks/useAuth';
+import { useBreakpoint } from '../../hooks/useMediaQuery';
 
-import StudentsRow from "../studentsRow/StudentsRow";
-import SitesDropdown from "../sitesDropdown/SitesDropdown";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import Pagination from "../pagination/pagination";
-import { ROLES } from "../../constants/index";
-import EditModal from "../editModal/editModal";
+import StudentsRow from '../studentsRow/StudentsRow';
+import SitesDropdown from '../sitesDropdown/SitesDropdown';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import Pagination from '../pagination/pagination';
+import { ROLES } from '../../constants/index';
+import EditModal from '../editModal/editModal';
 
-import "./StudentsTable.css";
-import Link from "next/link";
-import DeleteModal from "../deleteModal/DeleteModal";
+import './StudentsTable.css';
+import Link from 'next/link';
+import DeleteModal from '../deleteModal/DeleteModal';
 
 const StudentsTable = () => {
   const [students, setStudents] = useState([]);
   const [sites, setSites] = useState([]);
-  const [selectedSite, setSelectedSite] = useState("");
+  const [selectedSite, setSelectedSite] = useState('');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage, setStudentsPerPage] = useState(10); // You can adjust this number
@@ -74,20 +74,20 @@ const StudentsTable = () => {
   const handleDeleteModalOpen = (student) => {
     setSelectedStudent(student);
     setIsDeleteModalOpen(true);
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
   };
 
   const handleDeleteModalClose = () => {
     setIsDeleteModalOpen(false);
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = 'auto';
   };
 
   const handleEdit = async (originalStudent, editedStudentData, onSuccess) => {
-    setOpenModal("pop-up");
+    setOpenModal('pop-up');
     setStudentsPerPage(10);
 
     const formattedData = {
-      actionType: "edit",
+      actionType: 'edit',
       values: [
         originalStudent.name,
         originalStudent.site,
@@ -99,9 +99,9 @@ const StudentsTable = () => {
 
     // console.log(formattedData);
 
-    const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
+    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
-      "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec";
+      'https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec';
 
     try {
       const response = await axios.post(
@@ -109,8 +109,8 @@ const StudentsTable = () => {
         JSON.stringify(formattedData),
         {
           headers: {
-            "Content-Type": "application/json",
-            "x-requested-with": "XMLHttpRequest",
+            'Content-Type': 'application/json',
+            'x-requested-with': 'XMLHttpRequest',
           },
         }
       );
@@ -123,7 +123,7 @@ const StudentsTable = () => {
       }, 3000);
     } catch (error) {
       // console.log("error:", error);
-      setOpenModal("error:", response);
+      setOpenModal('error:', response);
       setTimeout(() => {
         window.location.reload();
       }, 3000);
@@ -131,12 +131,12 @@ const StudentsTable = () => {
   };
 
   const GAS_URL =
-    "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
+    'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
 
   useEffect(() => {
     Promise.all([
-      axios.get(GAS_URL + "?type=students"),
-      axios.get(GAS_URL + "?type=sites"),
+      axios.get(GAS_URL + '?type=students'),
+      axios.get(GAS_URL + '?type=sites'),
     ])
       .then(([studentsResponse, sitesResponse]) => {
         // console.log("Students data:", studentsResponse.data);
@@ -157,7 +157,7 @@ const StudentsTable = () => {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
         setLoading(false);
       });
   }, []);
@@ -173,13 +173,13 @@ const StudentsTable = () => {
                 variant="contained"
                 className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none text-base"
                 style={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  backgroundColor: "#3DED97",
-                  borderRadius: "13px",
-                  minWidth: "130px",
-                  minHeight: "40px",
-                  boxShadow: "none",
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#3DED97',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
                 }}
               >
                 Meal Count
@@ -204,13 +204,13 @@ const StudentsTable = () => {
                 className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none"
                 variant="contained"
                 style={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  backgroundColor: "#5D24FF",
-                  borderRadius: "13px",
-                  minWidth: "130px",
-                  minHeight: "40px",
-                  boxShadow: "none",
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#5D24FF',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
                 }}
               >
                 Add Student
@@ -222,7 +222,9 @@ const StudentsTable = () => {
         {loading ? (
           <div className="flex flex-col justify-center items-center h-96">
             <LoadingSpinner />
-            <h2>Loading Students...</h2>
+            <h2 className="mt-4 text-center text-md text-gray-900">
+              Loading Students...
+            </h2>
           </div>
         ) : (
           <>
@@ -295,10 +297,10 @@ const StudentsTable = () => {
                           }
                         }}
                         style={{
-                          fontWeight: "semibold",
-                          color: "#5D24FF",
-                          fontSize: "1.2rem",
-                          marginRight: "10px", // Ajusta el espaciado entre los botones
+                          fontWeight: 'semibold',
+                          color: '#5D24FF',
+                          fontSize: '1.2rem',
+                          marginRight: '10px', // Ajusta el espaciado entre los botones
                         }}
                       >
                         Edit
@@ -310,9 +312,9 @@ const StudentsTable = () => {
                           }
                         }}
                         style={{
-                          fontWeight: "semibold",
-                          color: "#E02424",
-                          fontSize: "1.2rem",
+                          fontWeight: 'semibold',
+                          color: '#E02424',
+                          fontSize: '1.2rem',
                         }}
                       >
                         Delete
@@ -320,7 +322,6 @@ const StudentsTable = () => {
                     </div>
                   </div>
                 ))}
-                
             </div>
             <Pagination
               studentsPerPage={studentsPerPage}
