@@ -154,9 +154,10 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                     onClick={() => {
                       setLoading(true);
                       setSuccessMessage(true);
-                      onSave(student, editedStudent, () => {
+                      onSave(student, editedStudent, (status) => {
                         setLoading(false);
-                        setOpenModal('success');
+                        setOpenModal(status);
+                        
                         setTimeout(() => {
                           setSuccessMessage(false);
                           onClose();
@@ -206,7 +207,10 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                         <SavingToast type="success" />
                       )}
                       {openModal === 'error' && (
-                        <SavingToast type="error" message={message} />
+                        <SavingToast
+                          type="error"
+                          message="Student could not be added. Full name must be unique."
+                        />
                       )}
                     </div>
                   </div>
