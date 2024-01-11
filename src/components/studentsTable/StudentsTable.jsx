@@ -115,7 +115,7 @@ const StudentsTable = () => {
         }
       );
 
-      console.log(response.data.result)
+      // console.log(response.data.result);
       // Check if the response indicates a successful edit
       if (response.data.result === 'success') {
         // Assuming 'success' is a field in your response
@@ -125,16 +125,13 @@ const StudentsTable = () => {
         onSuccess('error', response.data.message); // Pass the error message from API
       }
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      fetchAllData();
     } catch (error) {
       // On error, pass an error message
       onSuccess('error', 'Network or unexpected error occurred.');
       setOpenModal('error:', response);
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+
+      fetchAllData();
     }
   };
 
@@ -142,6 +139,11 @@ const StudentsTable = () => {
     'https://script.google.com/macros/s/AKfycbwd0BRnvtgc0fTbReaFiROppoVGyl-q63pkMcUywSEeC2TyVoE_y2aTP4eCyOXrc5Zp/exec';
 
   useEffect(() => {
+    fetchAllData();
+  }, []);
+
+  // acabo de crear esta funcion ahora hay que mandarsela a los hijos para que la puedan correr
+  const fetchAllData = () => {
     Promise.all([
       axios.get(GAS_URL + '?type=students'),
       axios.get(GAS_URL + '?type=sites'),
@@ -168,7 +170,7 @@ const StudentsTable = () => {
         console.error('Error:', error);
         setLoading(false);
       });
-  }, []);
+  };
 
   return (
     <div className="bg-gray-100 p-0 m-0 box-border flex justify-center items-center">
@@ -273,6 +275,7 @@ const StudentsTable = () => {
                         showSiteColumn={auth.role === ROLES.Admin}
                         birthdate={student.birthdate}
                         onDeleteModalOpen={handleDeleteModalOpen}
+                        fetchAllData={fetchAllData}
                         // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
                     ))}
@@ -355,6 +358,7 @@ const StudentsTable = () => {
               isOpen={isDeleteModalOpen}
               onClose={() => handleDeleteModalClose()}
               student={selectedStudent}
+              fetchAllData={fetchAllData}
             />
           </div>
         )}
