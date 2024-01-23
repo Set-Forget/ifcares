@@ -13,12 +13,12 @@ const DeleteModal = ({ onClose, student, fetchAllData }) => {
     setLoading(true);
     const deleteData = {
       actionType: 'delete',
-      values: [student.name, student.site],
+      values: [student.name, student.site, student.id],
     };
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_DELETE_URL =
-      'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
+      'https://script.google.com/macros/s/AKfycbyl6lFQtIFlkjWZS46vHDW29VUyHetly5Du5zKXmffw7XHhTHdbVR8XMX1p6n4DaKV-/exec';
 
     axios
       .post(PROXY_URL + GAS_DELETE_URL, JSON.stringify(deleteData), {

@@ -136,7 +136,7 @@ const StudentsTable = () => {
   };
 
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbwd0BRnvtgc0fTbReaFiROppoVGyl-q63pkMcUywSEeC2TyVoE_y2aTP4eCyOXrc5Zp/exec';
+    'https://script.google.com/macros/s/AKfycbyG6ZrFciputpYS5dA6trkRokkZ9CfeOPeuFjdnRN4KdFPvuioy1G3xRI0x_EnuVHwV/exec';
 
   useEffect(() => {
     fetchAllData();
@@ -271,7 +271,7 @@ const StudentsTable = () => {
                     .map((student) => (
                       <StudentsRow
                         student={student}
-                        key={student.name}
+                        key={student.id}
                         showSiteColumn={auth.role === ROLES.Admin}
                         birthdate={student.birthdate}
                         onDeleteModalOpen={handleDeleteModalOpen}
@@ -291,7 +291,7 @@ const StudentsTable = () => {
                 .map((student) => (
                   <div
                     className="flex flex-col p-4 border-b bg-white rounded-lg mt-2 text-lg relative"
-                    key={student.name}
+                    key={student.id}
                   >
                     <span className="font-bold bg-white rounded-lg text-xl mb-2 block">
                       {student.name}
