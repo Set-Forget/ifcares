@@ -296,7 +296,7 @@ const MealTable = () => {
               selectedSite={selectedSite}
               selectedDate={selectedDate}
               datesBySite={datesBySite}
-              key={student.name}
+              key={student.id}
             />
           ))}
         </Table.Body>

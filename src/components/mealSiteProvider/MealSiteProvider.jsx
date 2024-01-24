@@ -72,6 +72,19 @@ export const MealSiteProvider = ({ children }) => {
     }));
   };
 
+  // if we delete a student, uncheck his checkboxes first
+  const updateCountsOnStudentDeletion = (studentId) => {
+    const studentCheckboxState = selectedCheckboxData[studentId];
+    if (studentCheckboxState) {
+      ['attendance', 'breakfast', 'lunch', 'snack', 'supper'].forEach((category) => {
+        if (studentCheckboxState[category]) {
+          updateGlobalCount(category, false);
+        }
+      });
+    }
+  };
+  
+
   const topRef = useRef(null); // Create a ref for the top of the component
 
   const resetAllStates = () => {
@@ -128,14 +141,14 @@ export const MealSiteProvider = ({ children }) => {
       const validStudentData = [student.number, student.name, student.age];
 
       // Check if selectedCheckboxData exists for this student
-      if (selectedCheckboxData[student.number]) {
+      if (selectedCheckboxData[student.id]) {
         // Add checkbox values to the array
         validStudentData.push(
-          selectedCheckboxData[student.number].attendance,
-          selectedCheckboxData[student.number].breakfast,
-          selectedCheckboxData[student.number].lunch,
-          selectedCheckboxData[student.number].snack,
-          selectedCheckboxData[student.number].supper
+          selectedCheckboxData[student.id].attendance,
+          selectedCheckboxData[student.id].breakfast,
+          selectedCheckboxData[student.id].lunch,
+          selectedCheckboxData[student.id].snack,
+          selectedCheckboxData[student.id].supper
         );
       } else {
         // If selectedCheckboxData doesn't exist, add false values for checkboxes
@@ -144,6 +157,8 @@ export const MealSiteProvider = ({ children }) => {
 
       return validStudentData;
     });
+
+    console.log(formattedData)
 
     setFormattedData(formattedData);
 
@@ -188,6 +203,7 @@ export const MealSiteProvider = ({ children }) => {
         setSelectedTime2,
         selectedCheckboxData,
         handleCheckboxChange,
+        updateCountsOnStudentDeletion,
         updateGlobalCount,
         globalCounts,
         resetGlobalCounts,

@@ -94,7 +94,7 @@ const MealTableModal = ({
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const gasUrl =
-      'https://script.google.com/macros/s/AKfycbwd0BRnvtgc0fTbReaFiROppoVGyl-q63pkMcUywSEeC2TyVoE_y2aTP4eCyOXrc5Zp/exec';
+      'https://script.google.com/macros/s/AKfycbze70CAwC0_R7QJ41x6Aob23g0TFcsOIBs30r2aAMiDDPvuZ9sGzFFGnvLwUw64eLEb/exec';
 
     // Send the axios post request with the dataObject as the request body
     axios

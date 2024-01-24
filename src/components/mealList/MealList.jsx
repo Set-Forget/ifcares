@@ -40,7 +40,7 @@ const MealList = () => {
 
           <div className="flex flex-col justify-center items-center w-full">
             {validStudentData.map((student) => (
-              <MealCard student={student} selectedSite={selectedSite} selectedDate={selectedDate} datesBySite={datesBySite} key={student.name} />
+              <MealCard student={student} selectedSite={selectedSite} selectedDate={selectedDate} datesBySite={datesBySite} key={student.id} />
             ))}
           </div>
           <MealCountMobile></MealCountMobile>

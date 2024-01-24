@@ -1,16 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import DeleteToast from '../deleteToast/DeleteToast';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 const DeleteModal = ({ onClose, student, fetchAllData }) => {
+  const { updateCountsOnStudentDeletion } =
+    useContext(MealSiteContext);
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
 
   const handleDeleteStudent = () => {
     setLoading(true);
+    updateCountsOnStudentDeletion(student.id)
     const deleteData = {
       actionType: 'delete',
       values: [student.name, student.site, student.id],
