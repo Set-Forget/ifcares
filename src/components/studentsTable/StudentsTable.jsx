@@ -91,6 +91,7 @@ const StudentsTable = () => {
       values: [
         originalStudent.name,
         originalStudent.site,
+        originalStudent.id,
         editedStudentData.name,
         editedStudentData.age,
         editedStudentData.site,
@@ -101,7 +102,7 @@ const StudentsTable = () => {
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbwd0BRnvtgc0fTbReaFiROppoVGyl-q63pkMcUywSEeC2TyVoE_y2aTP4eCyOXrc5Zp/exec';
+      'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
 
     try {
       const response = await axios.post(
@@ -136,7 +137,7 @@ const StudentsTable = () => {
   };
 
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbyG6ZrFciputpYS5dA6trkRokkZ9CfeOPeuFjdnRN4KdFPvuioy1G3xRI0x_EnuVHwV/exec';
+    'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
 
   useEffect(() => {
     fetchAllData();

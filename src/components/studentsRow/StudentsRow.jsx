@@ -130,6 +130,7 @@ export default function StudentsRow({
                   values: [
                     student.name,
                     student.site,
+                    student.id,
                     editedStudent.name,
                     editedStudent.age,
                     editedStudent.site,
@@ -140,7 +141,7 @@ export default function StudentsRow({
 
                 const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
                 const GAS_URL =
-                  'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
+                  'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
 
                 axios
                   .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
