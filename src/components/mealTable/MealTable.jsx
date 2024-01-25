@@ -45,10 +45,11 @@ const MealTable = () => {
   } = useContext(MealSiteContext);
 
   const validStudentData = Array.isArray(studentData) ? studentData : [];
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
   // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
+  console.log(datesBySite)
 
   useEffect(() => {
     if (lastTimeIn) {
@@ -77,56 +78,56 @@ const MealTable = () => {
   }
 
   // post request with the dates
-  const postSelectedDate = async (date) => {
-    setIsLoading(true);
-    if (selectedSite && date) {
-      setSelectedDate(date);
+  // const postSelectedDate = async (date) => {
+  //   setIsLoading(true);
+  //   if (selectedSite && date) {
+  //     setSelectedDate(date);
 
-      const formattedDate = date.toISOString(); // Format the date
+  //     const formattedDate = date.toISOString(); // Format the date
 
-      // console.log(formattedDate);
-      // console.log(selectedSite);
+  //     // console.log(formattedDate);
+  //     // console.log(selectedSite);
 
-      const dataObject = {
-        actionType: 'dates', // Set the action type for your API
-        values: {
-          site: selectedSite,
-          date: formattedDate,
-        },
-      };
+  //     const dataObject = {
+  //       actionType: 'dates', // Set the action type for your API
+  //       values: {
+  //         site: selectedSite,
+  //         date: formattedDate,
+  //       },
+  //     };
 
-      const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-      const gasUrl =
-        'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
+  //     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+  //     const gasUrl =
+  //       'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
 
-      try {
-        const response = await axios.post(
-          PROXY_URL + gasUrl,
-          JSON.stringify(dataObject),
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'x-requested-with': 'XMLHttpRequest',
-            },
-          }
-        );
+  //     try {
+  //       const response = await axios.post(
+  //         PROXY_URL + gasUrl,
+  //         JSON.stringify(dataObject),
+  //         {
+  //           headers: {
+  //             'Content-Type': 'application/json',
+  //             'x-requested-with': 'XMLHttpRequest',
+  //           },
+  //         }
+  //       );
 
-        // Handle the response
-        if (response.data.result === 'error') {
-          // console.log('Error Response:', response.data.message);
-          setDateValidationError(response.data.message);
-        } else {
-          // console.log('no error', response.data.array);
-          setDateValidationError('');
-        }
-      } catch (error) {
-        // Handle errors
-        console.error(error);
-        setDateValidationError('Error occurred while validating the date');
-      }
-    }
-    setIsLoading(false);
-  };
+  //       // Handle the response
+  //       if (response.data.result === 'error') {
+  //         // console.log('Error Response:', response.data.message);
+  //         setDateValidationError(response.data.message);
+  //       } else {
+  //         // console.log('no error', response.data.array);
+  //         setDateValidationError('');
+  //       }
+  //     } catch (error) {
+  //       // Handle errors
+  //       console.error(error);
+  //       setDateValidationError('Error occurred while validating the date');
+  //     }
+  //   }
+  //   setIsLoading(false);
+  // };
 
   const shouldDisableDate = (date) => {
     if (!selectedSite || !datesBySite[selectedSite]) {
@@ -180,13 +181,14 @@ const MealTable = () => {
                           onChange={(date) => {
                             setSelectedDate(date);
                             setDateError(false); // reset error when a date is selected
-                            postSelectedDate(date); // Make the POST request with the new date
+                            // postSelectedDate(date); // Make the POST request with the new date
                           }}
                           shouldDisableDate={shouldDisableDate}
                           required
                           error={Boolean(dateValidationError)}
                           helperText={dateValidationError}
                           disableFuture
+                          disabled={!datesBySite[selectedSite]}
                         />
                       </div>
                       {(dateError || dateValidationError) && (
@@ -195,11 +197,11 @@ const MealTable = () => {
                         </span>
                       )}
                     </div>
-                    {isLoading && (
+                    {/* {isLoading && (
                       <div  className='ml-4'>
                         <LoadingSpinner />
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </DemoContainer>
               </LocalizationProvider>
