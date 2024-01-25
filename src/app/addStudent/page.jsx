@@ -1,5 +1,4 @@
-'use client'
-
+'use client';
 
 import './Form.css';
 import { Button, TextField } from '@mui/material';
@@ -140,30 +139,34 @@ const Form = () => {
       {submitting ? (
         <div className="loading-spinner">
           <LoadingSpinner />
-          <h2 className='mt-4 text-center text-md text-gray-900'>Adding Student...</h2>
+          <h2 className="mt-4 text-center text-md text-gray-900">
+            Adding Student...
+          </h2>
         </div>
       ) : (
         <>
-          <div className="form-header">
-            <div className="button-container">
-              <Link href="/home">
-                <Button
-                  variant="contained"
-                  size="small"
-                  style={{
-                    fontSize: '16px',
-                    textTransform: 'capitalize',
-                    fontWeight: 'bold',
-                    backgroundColor: '#5D24FF',
-                    borderRadius: '13px',
-                    minWidth: '130px',
-                    minHeight: '40px',
-                    boxShadow: 'none',
-                  }}
-                >
-                  Back
-                </Button>
-              </Link>
+          <div>
+            <div className="flex w-full justify-center items-center mt-[80px] min-h-[50px]">
+              <div className="flex w-4/5 items-center">
+                <Link href="/home">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    style={{
+                      fontSize: '16px',
+                      textTransform: 'capitalize',
+                      fontWeight: 'bold',
+                      backgroundColor: '#5D24FF',
+                      borderRadius: '13px',
+                      minWidth: '130px',
+                      minHeight: '40px',
+                      boxShadow: 'none',
+                    }}
+                  >
+                    Back
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
           <form className="form-container" onSubmit={handleSubmit}>
@@ -210,13 +213,13 @@ const Form = () => {
             {errors.birthdateOrAge && (
               <div className="error-message">{errors.birthdateOrAge}</div>
             )}
-            <div className='text-field'>
-            <SitesSelect
-              onSiteSelected={handleSiteSelection}
-              error={!!errors.site}
-              helperText={errors.site}
-              selectedSiteValue={values.site}
-            />
+            <div className="text-field">
+              <SitesSelect
+                onSiteSelected={handleSiteSelection}
+                error={!!errors.site}
+                helperText={errors.site}
+                selectedSiteValue={values.site}
+              />
             </div>
             <Button
               type="submit"
