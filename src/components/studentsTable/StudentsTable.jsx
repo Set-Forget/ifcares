@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import { Table } from 'flowbite-react';
@@ -17,8 +17,10 @@ import EditModal from '../editModal/editModal';
 import './StudentsTable.css';
 import Link from 'next/link';
 import DeleteModal from '../deleteModal/DeleteModal';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 const StudentsTable = () => {
+  const { updateCountsOnStudentDeletion } = useContext(MealSiteContext);
   const [students, setStudents] = useState([]);
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState('');
@@ -83,6 +85,12 @@ const StudentsTable = () => {
   };
 
   const handleEdit = async (originalStudent, editedStudentData, onSuccess) => {
+    // Check if the student is being moved to a different site
+    if (originalStudent.site !== editedStudentData.site) {
+      // Call function to uncheck checkboxes before transferring the student
+      updateCountsOnStudentDeletion(originalStudent.id);
+    }
+
     setOpenModal('pop-up');
     setStudentsPerPage(10);
 

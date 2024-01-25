@@ -3,11 +3,12 @@
 import { Button, Table } from 'flowbite-react';
 import './StudentsRow.css';
 import DeleteModal from '../deleteModal/DeleteModal';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import SitesSelect from '../sitesSelect/SitesSelect';
 import axios from 'axios';
 import SavingModal from '../savingModal/SavingModal';
 import { useEffect } from 'react';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 export default function StudentsRow({
   student,
@@ -17,6 +18,7 @@ export default function StudentsRow({
   onDelete,
   fetchAllData,
 }) {
+  const { updateCountsOnStudentDeletion } = useContext(MealSiteContext);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedStudent, setEditedStudent] = useState({
@@ -123,6 +125,13 @@ export default function StudentsRow({
             onClick={() => {
               if (isEditing) {
                 setLoading(true);
+
+                // Check if the student is being moved to a different site
+                if (student.site !== editedStudent.site) {
+                  // Call function to uncheck checkboxes before transferring the student
+                  updateCountsOnStudentDeletion(student.id);
+                }
+
                 setOpenModal('pop-up');
 
                 const formattedData = {
