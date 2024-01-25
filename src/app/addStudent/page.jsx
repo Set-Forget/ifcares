@@ -136,14 +136,14 @@ const Form = () => {
 
   return (
     <div className="body">
-      {submitting ? (
+      {/* {submitting ? (
         <div className="loading-spinner">
           <LoadingSpinner />
           <h2 className="mt-4 text-center text-md text-gray-900">
             Adding Student...
           </h2>
         </div>
-      ) : (
+      ) : ( */}
         <>
           <div className="flex w-full justify-center items-center mt-[80px] mb-[30px] min-h-[50px]">
             <div className="flex w-4/5 items-center">
@@ -170,7 +170,11 @@ const Form = () => {
 
           <div className="flex items-center justify-center">
             <form className="form-container" onSubmit={handleSubmit}>
-              <h2 className="title">Add a New Student</h2>
+              <div className="w-full flex items-center justify-center">
+                <h2 className="w-4/5 text-xl md:text-2xl self-start not-italic font-extrabold leading-normal">
+                  Add a New Student
+                </h2>
+              </div>
               <TextField
                 className="text-field"
                 name="name"
@@ -221,22 +225,22 @@ const Form = () => {
                   selectedSiteValue={values.site}
                 />
               </div>
-              <Button
+              <div className='flex items-center justify-start w-4/5'>
+              <button
+                className='text-white capitalize font-bold w-[115px] h-[40px] text-sm rounded-xl bg-[#5D24FF] shadow-lg'
                 type="submit"
-                variant="contained"
-                style={{
-                  textTransform: 'capitalize',
-                  fontWeight: 'bold',
-                  width: '115px',
-                  height: '40px',
-                  fontSize: '14px',
-                  borderRadius: '13px',
-                  background: '#5D24FF',
-                  boxShadow: '0px 4px 10px 2px rgba(0, 0, 0, 0.25)',
-                }}
               >
                 Submit
-              </Button>
+              </button>
+              {submitting && (
+                <div className="flex ml-4 gap-4 items-center justify-center">
+                <LoadingSpinner />
+                <h2 className=" text-center text-md text-gray-900">
+                  Adding Student...
+                </h2>
+              </div>
+              )}
+              </div>
             </form>
           </div>
 
@@ -253,7 +257,7 @@ const Form = () => {
             )}
           </div>
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };
