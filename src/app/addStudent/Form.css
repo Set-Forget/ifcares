@@ -12,10 +12,6 @@
 }
 
 .form-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -87,7 +83,6 @@
 /*Tablet*/
 @media only screen and (max-width: 700px) {
   .form-container {
-    position: absolute;
     width: 80%; /* Or a percentage value */
     height: 480px;
   }
@@ -100,8 +95,6 @@
 /*Telefono*/
 @media only screen and (max-width: 600px) {
   .form-container {
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 80vw;
     height: 450px;
   }
@@ -113,10 +106,8 @@
 
 /*Telefono*/
 @media only screen and (max-width: 530px) {
-
   .form-container {
     height: 420px;
-    transform: translate(-50%, -57%);
   }
 
   .error-message {

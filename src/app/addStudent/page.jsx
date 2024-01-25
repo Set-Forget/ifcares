@@ -145,99 +145,100 @@ const Form = () => {
         </div>
       ) : (
         <>
-          <div>
-            <div className="flex w-full justify-center items-center mt-[80px] min-h-[50px]">
-              <div className="flex w-4/5 items-center">
-                <Link href="/home">
-                  <Button
-                    variant="contained"
-                    size="small"
-                    style={{
-                      fontSize: '16px',
-                      textTransform: 'capitalize',
-                      fontWeight: 'bold',
-                      backgroundColor: '#5D24FF',
-                      borderRadius: '13px',
-                      minWidth: '130px',
-                      minHeight: '40px',
-                      boxShadow: 'none',
-                    }}
-                  >
-                    Back
-                  </Button>
-                </Link>
-              </div>
+          <div className="flex w-full justify-center items-center mt-[80px] mb-[30px] min-h-[50px]">
+            <div className="flex w-4/5 items-center">
+              <Link href="/home">
+                <Button
+                  variant="contained"
+                  size="small"
+                  style={{
+                    fontSize: '16px',
+                    textTransform: 'capitalize',
+                    fontWeight: 'bold',
+                    backgroundColor: '#5D24FF',
+                    borderRadius: '13px',
+                    minWidth: '130px',
+                    minHeight: '40px',
+                    boxShadow: 'none',
+                  }}
+                >
+                  Back
+                </Button>
+              </Link>
             </div>
           </div>
-          <form className="form-container" onSubmit={handleSubmit}>
-            <h2 className="title">Add a New Student</h2>
-            <TextField
-              className="text-field"
-              name="name"
-              label="Full Name"
-              variant="outlined"
-              type="text"
-              onChange={handleChange}
-              error={!!errors.name}
-              helperText={errors.name}
-            />
-            <div className="datepicker-container">
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={['DatePicker']}>
-                  <DatePicker
-                    label="Birthdate"
-                    className="datepicker-item"
-                    value={values.birthdate}
-                    onChange={handleDateChange}
-                    slotProps={{
-                      field: {
-                        clearable: true,
-                        onClear: () => setCleared(true),
-                      },
-                    }}
-                    disableFuture
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </div>
-            <TextField
-              className="text-field"
-              name="age"
-              label="Age"
-              variant="outlined"
-              type="number"
-              onChange={handleChange}
-              error={!!errors.age}
-              helperText={errors.age}
-            />
-            {errors.birthdateOrAge && (
-              <div className="error-message">{errors.birthdateOrAge}</div>
-            )}
-            <div className="text-field">
-              <SitesSelect
-                onSiteSelected={handleSiteSelection}
-                error={!!errors.site}
-                helperText={errors.site}
-                selectedSiteValue={values.site}
+
+          <div className="flex items-center justify-center">
+            <form className="form-container" onSubmit={handleSubmit}>
+              <h2 className="title">Add a New Student</h2>
+              <TextField
+                className="text-field"
+                name="name"
+                label="Full Name"
+                variant="outlined"
+                type="text"
+                onChange={handleChange}
+                error={!!errors.name}
+                helperText={errors.name}
               />
-            </div>
-            <Button
-              type="submit"
-              variant="contained"
-              style={{
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
-                width: '115px',
-                height: '40px',
-                fontSize: '14px',
-                borderRadius: '13px',
-                background: '#5D24FF',
-                boxShadow: '0px 4px 10px 2px rgba(0, 0, 0, 0.25)',
-              }}
-            >
-              Submit
-            </Button>
-          </form>
+              <div className="datepicker-container">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer components={['DatePicker']}>
+                    <DatePicker
+                      label="Birthdate"
+                      className="datepicker-item"
+                      value={values.birthdate}
+                      onChange={handleDateChange}
+                      slotProps={{
+                        field: {
+                          clearable: true,
+                          onClear: () => setCleared(true),
+                        },
+                      }}
+                      disableFuture
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </div>
+              <TextField
+                className="text-field"
+                name="age"
+                label="Age"
+                variant="outlined"
+                type="number"
+                onChange={handleChange}
+                error={!!errors.age}
+                helperText={errors.age}
+              />
+              {errors.birthdateOrAge && (
+                <div className="error-message">{errors.birthdateOrAge}</div>
+              )}
+              <div className="text-field">
+                <SitesSelect
+                  onSiteSelected={handleSiteSelection}
+                  error={!!errors.site}
+                  helperText={errors.site}
+                  selectedSiteValue={values.site}
+                />
+              </div>
+              <Button
+                type="submit"
+                variant="contained"
+                style={{
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  width: '115px',
+                  height: '40px',
+                  fontSize: '14px',
+                  borderRadius: '13px',
+                  background: '#5D24FF',
+                  boxShadow: '0px 4px 10px 2px rgba(0, 0, 0, 0.25)',
+                }}
+              >
+                Submit
+              </Button>
+            </form>
+          </div>
 
           <div className="toast-container">
             {toastType === 'success' && (
