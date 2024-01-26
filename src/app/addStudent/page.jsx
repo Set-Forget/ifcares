@@ -164,7 +164,7 @@ const Form = () => {
   return (
     <div className="body">
       <>
-        <div className="flex w-full justify-center items-center mt-[80px] mb-[30px] min-h-[50px]">
+        <div className="flex w-full justify-center items-center mt-[80px] mb-[15px] min-h-[50px] md:mb-[30px]">
           <div className="flex w-4/5 items-center">
             <Link href="/home">
               <Button
@@ -204,6 +204,7 @@ const Form = () => {
               onChange={handleChange}
               error={!!errors.name}
               helperText={errors.name}
+              // disabled={submitting}
             />
             <div className="datepicker-container">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -220,6 +221,7 @@ const Form = () => {
                       },
                     }}
                     disableFuture
+                    // disabled={submitting}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -234,6 +236,7 @@ const Form = () => {
               onChange={handleChange}
               error={!!errors.age}
               helperText={errors.age}
+              // disabled={submitting}
             />
             {errors.birthdateOrAge && (
               <div className="error-message">{errors.birthdateOrAge}</div>
@@ -246,7 +249,7 @@ const Form = () => {
                 selectedSiteValue={values.site}
               />
             </div>
-            <div className="flex items-center justify-start w-4/5">
+            <div className="flex items-center justify-start w-11/12 sm:w-4/5">
               <button
                 className="text-white capitalize font-bold w-[115px] h-[40px] text-sm rounded-xl bg-[#5D24FF] shadow-lg"
                 type="submit"
@@ -256,7 +259,7 @@ const Form = () => {
               {submitting && (
                 <div className="flex ml-4 gap-4 items-center justify-center">
                   <LoadingSpinner />
-                  <h2 className=" text-center text-md text-gray-900">
+                  <h2 className=" text-center text-xs text-gray-900 sm:text-base">
                     Adding Student...
                   </h2>
                 </div>

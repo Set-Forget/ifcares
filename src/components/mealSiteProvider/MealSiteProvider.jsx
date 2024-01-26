@@ -158,7 +158,7 @@ export const MealSiteProvider = ({ children }) => {
       return validStudentData;
     });
 
-    console.log(formattedData)
+    // console.log(formattedData)
 
     setFormattedData(formattedData);
 
@@ -174,7 +174,7 @@ export const MealSiteProvider = ({ children }) => {
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
-        console.log('Data received:', response.data);
+        // console.log('Data received:', response.data);
         setDatesBySite(response.data);
       })
       .catch((error) => {
