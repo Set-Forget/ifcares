@@ -7,16 +7,13 @@
   position: relative;
 }
 
-.welcome-text-container {
-  margin-top: 5%;
-  text-align: center;
-}
+
 
 .welcome-text {
   color: #060606;
-  font-size: 40px;
+  font-size: 32px;
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   line-height: normal;
   width: 200;
   overflow: hidden; /* Hides the text until it "types" out */
@@ -37,7 +34,8 @@
 
 .full-name-text {
   margin-top: 10px;
-  font-size: 30px;
+  font-size: 28px;
+  font-weight: 400;
   opacity: 0; /* Start as invisible */
   animation: fadeIn 1s ease-out 1.5s forwards; /* Adjust duration and delay as needed */
 }
@@ -58,16 +56,13 @@
   transform: translateX(-50%);
   width: 80%;
   justify-content: space-between;
-  margin-top: 75px;
+  margin-top: 80px;
   margin-bottom: 30px;
   min-height: 50px;
   align-items: center;
 }
 
-.welcome-buttons {
-  font-size: 20px;
-  /*This is not working*/
-}
+
 
 .welcome-calendar-container{
   margin-top: 20px;
@@ -87,7 +82,7 @@
   }
 
   .welcome-text {
-    animation: typing 6s forwards; /* Slower duration for desktop screens */
+    animation: typing 4s forwards; /* Slower duration for desktop screens */
   }
 
   /* Add other styles for elements you want to modify for larger screens */

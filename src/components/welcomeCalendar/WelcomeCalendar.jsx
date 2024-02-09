@@ -52,7 +52,7 @@ const WelcomeCalendar = ({ siteName, siteData }) => {
 
   return (
     <div className="w-11/12 sm:w-full flex flex-col justify-center items-center lg:w-4/5 ">
-      <h3 className="self-start mt-10 mb-4 title">{siteName}</h3>
+      <h3 className="self-start mt-20 mb-4 font-bold text-2xl">{siteName}</h3>
       <div className="grid grid-cols-4 sm:grid-cols-7 gap-2.5">{renderDates()}</div>
     </div>
   );

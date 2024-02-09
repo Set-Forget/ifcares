@@ -92,34 +92,36 @@ const Welcome = () => {
         <Link href="/mealCount">
           <Button
             variant="contained"
-            className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn welcome-buttons"
+            className="text-transform[capitalize] text-normal font-bold bg-[#46DC8C] text-black rounded-[13px] min-w-[140px] min-h-[40px] shadow-none meal-count-btn"
             style={{
               textTransform: 'capitalize',
-              fontWeight: 'bold',
               backgroundColor: '#3DED97',
               borderRadius: '13px',
-              minWidth: '130px',
+              minWidth: '140px',
               minHeight: '40px',
               boxShadow: 'none',
-              color: '#FFFFFF',
             }}
           >
             Meal Count
           </Button>
         </Link>
+        <div className="hidden sm:block">
+          <h3 className="welcome-text">Welcome Back,</h3>
+          <h5 className="full-name-text flex justify-center">
+            {name + ' ' + lastname}
+          </h5>
+        </div>
         <Link href="/home">
           <Button
             variant="contained"
-            className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none meal-count-btn welcome-buttons"
+            className="text-transform[capitalize] text-normal font-bold bg-[#5D24FF] text-white rounded-[13px] min-w-[140px] min-h-[40px] shadow-none meal-count-btn"
             style={{
               textTransform: 'capitalize',
-              fontWeight: 'bold',
               backgroundColor: '#5D24FF',
               borderRadius: '13px',
-              minWidth: '130px',
+              minWidth: '140px',
               minHeight: '40px',
               boxShadow: 'none',
-              color: '#FFFFFF',
             }}
           >
             Roster
@@ -127,9 +129,11 @@ const Welcome = () => {
         </Link>
       </div>
       <div className="mb-20">
-        <div className="welcome-text-container">
-          <h3 className="welcome-text">Welcome Back,</h3>
-          <h5 className="full-name-text">{name + ' ' + lastname}</h5>
+        <div className='flex w-full justify-center'>
+          <div className="welcome-text-container sm:hidden">
+            <h3 className="welcome-text">Welcome Back,</h3>
+            <h5 className="full-name-text flex justify-center">{name + ' ' + lastname}</h5>
+          </div>
         </div>
         <div className="relative w-full flex items-center justify-center">
           <div className="mt-4 flex justify-end relative w-4/5">
@@ -143,7 +147,7 @@ const Welcome = () => {
               <button
                 type="button"
                 onClick={handleDownload}
-                class="flex items-center justify-center gap-1 text-white text-xs text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[75px] min-h-[40px] shadow-none mr-4"
+                className="flex items-center justify-center gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none mr-4"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -162,6 +166,25 @@ const Welcome = () => {
                 Menu
               </button>
             </div>
+            {/* <Link href='/request' className="flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none mr-4">
+              <button type="button" className='flex items-center justify-center gap-2'>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+                Request
+              </button>
+            </Link> */}
             {role === ROLES.Admin && (
               <SitesDropdown
                 sites={sites}
@@ -175,7 +198,7 @@ const Welcome = () => {
         {isLoading ? (
           <div className="flex flex-col justify-center items-center h-96">
             <LoadingSpinner />
-            <h2>Loading Dates...</h2>
+            <h2 className="mt-4">Loading Dates...</h2>
           </div>
         ) : (
           <>

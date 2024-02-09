@@ -50,7 +50,7 @@ const SitesDropdown = ({
         borderRadius: '13px',
         flexShrink: 0,
         color: '#000000',
-        backgroundColor: '#FAFAFA',
+        backgroundColor: '#FFFFFF',
         padding: '16px',
         ...additionalStyles,
       }}
