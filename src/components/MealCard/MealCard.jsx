@@ -8,7 +8,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
   const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount, selectedDateCache } = useContext(MealSiteContext);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const checkboxState = selectedCheckboxData[student.number] || {
+  const checkboxState = selectedCheckboxData[student.id] || {
     attendance: false,
     breakfast: false,
     lunch: false,
@@ -27,7 +27,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
           snack: false,
           supper: false,
         };
-        handleCheckboxChange(student.number, resetCheckboxState);
+        handleCheckboxChange(student.id, resetCheckboxState);
         updateGlobalCountsBasedOnAttendance(checkboxState, resetCheckboxState);
       }
     } else {
@@ -42,7 +42,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
       ...checkboxState,
       [category]: checked,
     };
-    handleCheckboxChange(student.number, newCheckboxState)
+    handleCheckboxChange(student.id, newCheckboxState)
     updateGlobalCount(category, checked)
   }
 
@@ -89,7 +89,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
       snack: false,
       supper: false,
     };
-    handleCheckboxChange(student.number, resetCheckboxState);
+    handleCheckboxChange(student.id, resetCheckboxState);
   }
   }, [selectedDate]);
 

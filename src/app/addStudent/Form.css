@@ -11,21 +11,7 @@
   position: relative;
 }
 
-.form-header {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  margin-top: 75px;
-  margin-bottom: 30px;
-  min-height: 50px;
-}
-
 .form-container {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -37,16 +23,8 @@
   box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
-.title {
-  color: #060606;
-  font-size: 25px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-}
-
 .text-field {
-  width: 75%;
+  width: 80%;
   overflow: auto;
 }
 
@@ -56,7 +34,7 @@
 }
 
 .datepicker-container {
-  width: 75%;
+  width: 80%;
 }
 
 .datepicker-item {
@@ -79,18 +57,6 @@
   bottom: 20px;
 }
 
-.button-container {
-  position: relative;
-}
-
-.loading-spinner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  overflow: hidden;
-}
-
 .toast-container {
   position: absolute;
   left: 50%;
@@ -101,7 +67,6 @@
 /*Tablet*/
 @media only screen and (max-width: 700px) {
   .form-container {
-    position: absolute;
     width: 80%; /* Or a percentage value */
     height: 480px;
   }
@@ -114,9 +79,7 @@
 /*Telefono*/
 @media only screen and (max-width: 600px) {
   .form-container {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80vw;
+    width: 90vw;
     height: 450px;
   }
 
@@ -127,10 +90,8 @@
 
 /*Telefono*/
 @media only screen and (max-width: 530px) {
-
   .form-container {
-    height: 420px;
-    transform: translate(-50%, -57%);
+    height: 440px;
   }
 
   .error-message {
@@ -141,10 +102,6 @@
   .form-header {
     margin-top: 30px;
     margin-bottom: 20px;
-  }
-
-  .title {
-    font-size: 20px;
   }
 
   .text-field {

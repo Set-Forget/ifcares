@@ -51,6 +51,7 @@ const SitesDropdown = ({
         flexShrink: 0,
         color: '#000000',
         backgroundColor: '#FAFAFA',
+        padding: '16px',
         ...additionalStyles,
       }}
       className="dropdown-label h-15 md:h-10"

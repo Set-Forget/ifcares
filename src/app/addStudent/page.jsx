@@ -1,5 +1,4 @@
-'use client'
-
+'use client';
 
 import './Form.css';
 import { Button, TextField } from '@mui/material';
@@ -8,7 +7,7 @@ import * as Yup from 'yup';
 import SitesSelect from '../../components/sitesSelect/SitesSelect';
 import axios from 'axios';
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormToast from '../../components/formToast/FormToast';
 import withAuth from '@/hoc/hocauth';
 // Date picker imports
@@ -30,6 +29,7 @@ const Form = () => {
   const [submitting, setSubmitting] = useState(false);
   const [toastType, setToastType] = useState('');
   const [toastMessage, setToastMessage] = useState('');
+  const [showToast, setShowToast] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateChange = (newValue) => {
@@ -44,7 +44,7 @@ const Form = () => {
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
       PROXY_URL +
-      'https://script.google.com/macros/s/AKfycby-a-e3_HPrtTWps2Sa0PAww03XHbqWNX2RHTrRFeZjoLMLIp7GqZXh5mDYKejjgUOh/exec';
+      'https://script.google.com/macros/s/AKfycbzho1pqmqQxpa2cP1OcKyqE5G1WXhCbqN43xuxAk7I-Lyx8qCorgt3BLU-gw5eN9LZO/exec';
 
     // Format the date
     const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
@@ -68,10 +68,15 @@ const Form = () => {
         if (response.data.result === 'success') {
           // console.log('Data sent successfully');
           setToastType('success');
+          setShowToast(true); // Show toast message
           setSubmitting(false);
+          setFieldValue('name', initialValues.name, false);
+          setFieldValue('age', initialValues.age, false);
+          resetForm();
         } else {
           // console.error('Error in sending data:', response.data.message);
           setToastType('error');
+          setShowToast(true); // Show toast message
           setToastMessage(response.data.message);
           setSubmitting(false);
         }
@@ -79,44 +84,51 @@ const Form = () => {
       .catch((error) => {
         console.error('Error:', error);
         setToastType('error');
+        setShowToast(true); // Show toast message
         setSubmitting(false);
       });
   };
 
-  const { handleSubmit, handleChange, errors, values, setFieldValue } =
-    useFormik({
-      initialValues,
-      validationSchema: Yup.object({
-        name: Yup.string()
-          .matches(/^[A-Za-z ]+$/, 'Name can only contain letters and spaces.')
-          .required('Please enter a name.'),
-        birthdate: Yup.date()
-          .nullable()
-          .transform((value, originalValue) =>
-            originalValue === '' ? null : value
-          ),
-        age: Yup.number().positive().integer().nullable(),
-        site: Yup.string().required('Please select a Site.'),
-      }).test(
-        'birthdateOrAge',
-        'Please enter either an age or a birthdate.',
-        function (values) {
-          const { birthdate, age } = values;
-          if (birthdate || age) {
-            return true;
-          } else {
-            return new Yup.ValidationError(
-              'Please enter either an age or a birthdate.',
-              null,
-              'birthdateOrAge'
-            );
-          }
+  const {
+    handleSubmit,
+    handleChange,
+    errors,
+    values,
+    setFieldValue,
+    resetForm,
+  } = useFormik({
+    initialValues,
+    validationSchema: Yup.object({
+      name: Yup.string()
+        .matches(/^[A-Za-z ]+$/, 'Name can only contain letters and spaces.')
+        .required('Please enter a name.'),
+      birthdate: Yup.date()
+        .nullable()
+        .transform((value, originalValue) =>
+          originalValue === '' ? null : value
+        ),
+      age: Yup.number().positive().integer().nullable(),
+      site: Yup.string().required('Please select a Site.'),
+    }).test(
+      'birthdateOrAge',
+      'Please enter either an age or a birthdate.',
+      function (values) {
+        const { birthdate, age } = values;
+        if (birthdate || age) {
+          return true;
+        } else {
+          return new Yup.ValidationError(
+            'Please enter either an age or a birthdate.',
+            null,
+            'birthdateOrAge'
+          );
         }
-      ),
-      onSubmit,
-      validateOnBlur: false,
-      validateOnChange: false,
-    });
+      }
+    ),
+    onSubmit,
+    validateOnBlur: false,
+    validateOnChange: false,
+  });
 
   const handleSiteSelection = (selectedSite) => {
     setFieldValue('site', selectedSite);
@@ -135,48 +147,64 @@ const Form = () => {
     return () => {};
   }, [cleared]);
 
+  useEffect(() => {
+    let toastTimeout;
+
+    if (showToast) {
+      toastTimeout = setTimeout(() => {
+        setShowToast(false); // Hide toast message after 3 seconds
+      }, 3000);
+    }
+
+    return () => {
+      clearTimeout(toastTimeout); // Clear the timeout if the component unmounts
+    };
+  }, [showToast]);
+
   return (
     <div className="body">
-      {submitting ? (
-        <div className="loading-spinner">
-          <LoadingSpinner />
-          <h2 className='mt-4 text-center text-md text-gray-900'>Adding Student...</h2>
-        </div>
-      ) : (
-        <>
-          <div className="form-header">
-            <div className="button-container">
-              <Link href="/home">
-                <Button
-                  variant="contained"
-                  size="small"
-                  style={{
-                    fontSize: '16px',
-                    textTransform: 'capitalize',
-                    fontWeight: 'bold',
-                    backgroundColor: '#5D24FF',
-                    borderRadius: '13px',
-                    minWidth: '130px',
-                    minHeight: '40px',
-                    boxShadow: 'none',
-                  }}
-                >
-                  Back
-                </Button>
-              </Link>
-            </div>
+      <>
+        <div className="flex w-full justify-center items-center mt-[80px] mb-[15px] min-h-[50px] md:mb-[30px]">
+          <div className="flex w-4/5 items-center">
+            <Link href="/home">
+              <Button
+                variant="contained"
+                size="small"
+                style={{
+                  fontSize: '16px',
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#5D24FF',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
+                }}
+              >
+                Back
+              </Button>
+            </Link>
           </div>
+        </div>
+
+        <div className="flex items-center justify-center">
           <form className="form-container" onSubmit={handleSubmit}>
-            <h2 className="title">Add a New Student</h2>
+            <div className="w-full flex items-center justify-center">
+              <h2 className="w-4/5 text-xl md:text-2xl self-start not-italic font-extrabold leading-normal">
+                Add a New Student
+              </h2>
+            </div>
             <TextField
               className="text-field"
               name="name"
               label="Full Name"
+              value={values.name}
               variant="outlined"
               type="text"
               onChange={handleChange}
               error={!!errors.name}
               helperText={errors.name}
+              // disabled={submitting}
             />
             <div className="datepicker-container">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -193,6 +221,7 @@ const Form = () => {
                       },
                     }}
                     disableFuture
+                    // disabled={submitting}
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -201,55 +230,55 @@ const Form = () => {
               className="text-field"
               name="age"
               label="Age"
+              value={values.age}
               variant="outlined"
               type="number"
               onChange={handleChange}
               error={!!errors.age}
               helperText={errors.age}
+              // disabled={submitting}
             />
             {errors.birthdateOrAge && (
               <div className="error-message">{errors.birthdateOrAge}</div>
             )}
-            <div className='text-field'>
-            <SitesSelect
-              onSiteSelected={handleSiteSelection}
-              error={!!errors.site}
-              helperText={errors.site}
-              selectedSiteValue={values.site}
-            />
+            <div className="text-field">
+              <SitesSelect
+                onSiteSelected={handleSiteSelection}
+                error={!!errors.site}
+                helperText={errors.site}
+                selectedSiteValue={values.site}
+              />
             </div>
-            <Button
-              type="submit"
-              variant="contained"
-              style={{
-                textTransform: 'capitalize',
-                fontWeight: 'bold',
-                width: '115px',
-                height: '40px',
-                fontSize: '14px',
-                borderRadius: '13px',
-                background: '#5D24FF',
-                boxShadow: '0px 4px 10px 2px rgba(0, 0, 0, 0.25)',
-              }}
-            >
-              Submit
-            </Button>
-          </form>
+            <div className="flex items-center justify-start w-11/12 sm:w-4/5">
+              <button
+                className="text-white capitalize font-bold w-[115px] h-[40px] text-sm rounded-xl bg-[#5D24FF] shadow-lg"
+                type="submit"
+              >
+                Submit
+              </button>
+              {submitting && (
+                <div className="flex ml-4 gap-4 items-center justify-center">
+                  <LoadingSpinner />
+                  <h2 className=" text-center text-xs text-gray-900 sm:text-base">
+                    Adding Student...
+                  </h2>
+                </div>
+              )}
 
-          <div className="toast-container">
-            {toastType === 'success' && (
-              <div className="toast-wrapper-class">
-                <FormToast type={toastType} message={toastMessage} />
-              </div>
-            )}
-            {toastType === 'error' && (
-              <div className="toast-wrapper-class">
-                <FormToast type={toastType} message={toastMessage} />
-              </div>
-            )}
-          </div>
-        </>
-      )}
+              {showToast && toastType === 'success' && (
+                <div className="flex items-center ml-6">
+                  <FormToast type={toastType} message={toastMessage} />
+                </div>
+              )}
+              {showToast && toastType === 'error' && (
+                <div className="flex items-center ml-6">
+                  <FormToast type={toastType} message={toastMessage} />
+                </div>
+              )}
+            </div>
+          </form>
+        </div>
+      </>
     </div>
   );
 };

@@ -46,15 +46,15 @@ const MealSite = () => {
   };
 
   const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
+    'https://script.google.com/macros/s/AKfycbzZxzM5-3lzifGCQ_5128ySAqqE0lQ1uyr032VlXyuFnwYcJMWq30LTrc6ydT5sEXjp/exec';
 
   useEffect(() => {
     const fetchSites = async () => {
       try {
         const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-        if (auth == null) {
-          return;
+        if(auth == null){
+          return
         }
 
         if (auth.role === ROLES.Admin) {
@@ -73,8 +73,8 @@ const MealSite = () => {
       }
     };
 
-    if (auth == null) {
-      return;
+    if(auth == null){
+      return
     }
 
     if (auth.role === ROLES.Admin || !isDataFetched) {
@@ -84,8 +84,8 @@ const MealSite = () => {
 
     // Adding cleanup to reset isDataFetched for admin users
     return () => {
-      if (auth == null) {
-        return;
+      if(auth == null){
+        return
       }
       if (auth.role === ROLES.Admin) {
         setIsDataFetched(false);
@@ -191,7 +191,11 @@ const MealSite = () => {
           }}
           disableAllSites={true}
         />
-        {isLoading && <LoadingSpinner />}
+        {isLoading && (
+          <div className="ml-4">
+            <LoadingSpinner />
+          </div>
+        )}
       </div>
       <br />
       {isMobile ? (

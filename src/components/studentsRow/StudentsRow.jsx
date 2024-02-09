@@ -1,13 +1,14 @@
-"use client";
+'use client';
 
-import { Button, Table } from "flowbite-react";
-import "./StudentsRow.css";
-import DeleteModal from "../deleteModal/DeleteModal";
-import { useState } from "react";
-import SitesSelect from "../sitesSelect/SitesSelect";
-import axios from "axios";
-import SavingModal from "../savingModal/SavingModal";
-import { useEffect } from "react";
+import { Button, Table } from 'flowbite-react';
+import './StudentsRow.css';
+import DeleteModal from '../deleteModal/DeleteModal';
+import { useContext, useState } from 'react';
+import SitesSelect from '../sitesSelect/SitesSelect';
+import axios from 'axios';
+import SavingModal from '../savingModal/SavingModal';
+import { useEffect } from 'react';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 export default function StudentsRow({
   student,
@@ -15,7 +16,9 @@ export default function StudentsRow({
   birthdate,
   onDeleteModalOpen,
   onDelete,
+  fetchAllData,
 }) {
+  const { updateCountsOnStudentDeletion } = useContext(MealSiteContext);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedStudent, setEditedStudent] = useState({
@@ -27,9 +30,9 @@ export default function StudentsRow({
 
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
-  const [toastMessage, setToastMessage] = useState("");
+  const [toastMessage, setToastMessage] = useState('');
 
-  const disableAgeInput = birthdate !== "";
+  const disableAgeInput = birthdate !== '';
 
   const handleDeleteClick = () => {
     onDeleteModalOpen(student);
@@ -45,7 +48,6 @@ export default function StudentsRow({
       // Reset the toast after a delay
       const timer = setTimeout(() => {
         setOpenModal(null);
-        window.location.reload();
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -54,8 +56,8 @@ export default function StudentsRow({
 
   // age cell style modifications
   const ageCellStyle = showSiteColumn
-    ? "row-style" // Default style class
-    : "row-style-big"; // Apply a different style when site column is not shown
+    ? 'row-style' // Default style class
+    : 'row-style-big'; // Apply a different style when site column is not shown
 
   return (
     <>
@@ -123,13 +125,21 @@ export default function StudentsRow({
             onClick={() => {
               if (isEditing) {
                 setLoading(true);
-                setOpenModal("pop-up");
+
+                // Check if the student is being moved to a different site
+                if (student.site !== editedStudent.site) {
+                  // Call function to uncheck checkboxes before transferring the student
+                  updateCountsOnStudentDeletion(student.id);
+                }
+
+                setOpenModal('pop-up');
 
                 const formattedData = {
-                  actionType: "edit",
+                  actionType: 'edit',
                   values: [
                     student.name,
                     student.site,
+                    student.id,
                     editedStudent.name,
                     editedStudent.age,
                     editedStudent.site,
@@ -138,47 +148,49 @@ export default function StudentsRow({
 
                 // console.log(formattedData);
 
-                const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
+                const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
                 const GAS_URL =
-                  "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
+                  'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
 
                 axios
                   .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
                     headers: {
-                      "Content-Type": "application/json",
-                      "x-requested-with": "XMLHttpRequest",
+                      'Content-Type': 'application/json',
+                      'x-requested-with': 'XMLHttpRequest',
                     },
                   })
                   .then((response) => {
-                    if (response.data.result === "success") {
-                      setToastType("success");
-                      setToastMessage("Student edited successfully.");
+                    if (response.data.result === 'success') {
+                      setToastType('success');
+                      setToastMessage('Student edited successfully.');
                     } else {
-                      setToastType("error");
+                      setToastType('error');
                       setToastMessage(
                         response.data.message ||
-                          "Student could not be updated. Try again later."
+                          'Student could not be updated. Try again later.'
                       );
                     }
                     setLoading(false);
                     setOpenModal(toastType);
+                    fetchAllData();
                     setTimeout(() => {
                       setOpenModal(null);
                     }, 3000);
-                    setTimeout(() => window.location.reload(), 3000);
+
                     // hacer lo del refresh
                     // Handle successful response
                   })
                   .catch((error) => {
-                    setToastType("error");
-                    setToastMessage("An error occurred. Try again later.");
+                    setToastType('error');
+                    setToastMessage('An error occurred. Try again later.');
                     // console.log("error:", error);
                     setLoading(false);
-                    setOpenModal("error");
+                    setOpenModal('error');
+                    fetchAllData();
                     setTimeout(() => {
                       setOpenModal(null); // Hide the toast after a few seconds
                     }, 3000);
-                    setTimeout(() => window.location.reload(), 3000);
+
                     // Handle errors
                   });
               }
@@ -186,7 +198,7 @@ export default function StudentsRow({
             }}
           >
             <span className="text-[#5d24ff] text-sm font-semibold leading-relaxed">
-              {isEditing ? "SAVE" : "EDIT"}
+              {isEditing ? 'SAVE' : 'EDIT'}
             </span>
           </p>
         </Table.Cell>
@@ -194,7 +206,7 @@ export default function StudentsRow({
           <button
             className="text-sm font-semibold leading-relaxed"
             style={{
-              color: "rgb(224, 36, 36)",
+              color: 'rgb(224, 36, 36)',
             }}
             onClick={handleDeleteClick}
           >

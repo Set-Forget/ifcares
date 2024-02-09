@@ -111,6 +111,7 @@ const DateTimePickerMobile = () => {
                 }}
                 shouldDisableDate={shouldDisableDate}
                 disableFuture
+                disabled={!datesBySite[selectedSite]}
                 required
               />
               {dateError && (

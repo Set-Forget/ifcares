@@ -16,7 +16,8 @@ const SavingToast = ({ type, message }) => {
       </Toast>
     );
   } else if (type === 'error') {
-    let errorMessage = 'Student could not be updated. Try again later.';
+    let errorMessage =
+      'Student could not be updated. Full name must be unique.';
 
     // Check for specific error messages
     if (message === 'Student already exists') {

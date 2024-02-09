@@ -1,53 +1,50 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Modal } from "flowbite-react";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
-import axios from "axios";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import DeleteToast from "../deleteToast/DeleteToast";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Button, Modal } from 'flowbite-react';
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import axios from 'axios';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import DeleteToast from '../deleteToast/DeleteToast';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
-const DeleteModal = ({ onClose, student }) => {
+const DeleteModal = ({ onClose, student, fetchAllData }) => {
+  const { updateCountsOnStudentDeletion } =
+    useContext(MealSiteContext);
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
 
   const handleDeleteStudent = () => {
     setLoading(true);
+    updateCountsOnStudentDeletion(student.id)
     const deleteData = {
-      actionType: "delete",
-      values: [student.name, student.site],
+      actionType: 'delete',
+      values: [student.name, student.site, student.id],
     };
 
-    const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
+    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_DELETE_URL =
-      "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
+      'https://script.google.com/macros/s/AKfycbyl6lFQtIFlkjWZS46vHDW29VUyHetly5Du5zKXmffw7XHhTHdbVR8XMX1p6n4DaKV-/exec';
 
     axios
       .post(PROXY_URL + GAS_DELETE_URL, JSON.stringify(deleteData), {
         headers: {
-          "Content-Type": "application/json",
-          "x-requested-with": "XMLHttpRequest",
+          'Content-Type': 'application/json',
+          'x-requested-with': 'XMLHttpRequest',
         },
       })
       .then((response) => {
         // console.log("Student deleted successfully:", response.data);
         setLoading(false);
-        setToastType("success");
-        setTimeout(handleCloseModal, 4000);
-        setTimeout(() => window.location.reload(), 4000);
+        setToastType('success');
+        fetchAllData();
+        setTimeout(handleCloseModal, 3000);
       })
       .catch((error) => {
         // console.error("Error deleting student:", error);
         setLoading(false);
-        setToastType("error");
-        setTimeout(handleCloseModal, 4000);
-        setTimeout(() => window.location.reload(), 4000);
+        setToastType('error');
+        fetchAllData();
+        setTimeout(handleCloseModal, 3000);
       });
-
-    setTimeout(() => {
-      setLoading(false);
-      setToastType("success");
-      setTimeout(handleCloseModal, 4000);
-      setTimeout(() => window.location.reload(), 4000);
-    }, 4000);
   };
 
   const handleCloseModal = () => {
@@ -58,7 +55,7 @@ const DeleteModal = ({ onClose, student }) => {
 
   useEffect(() => {
     if (modalRef.current) {
-      modalRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      modalRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, []);
 
@@ -75,7 +72,9 @@ const DeleteModal = ({ onClose, student }) => {
               {loading ? (
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                   <LoadingSpinner />
-                  <h2 className="mt-4 text-center text-md text-gray-900">Deleting {student.name}...</h2>
+                  <h2 className="mt-4 text-center text-md text-gray-900">
+                    Deleting {student.name}...
+                  </h2>
                 </div>
               ) : (
                 <>

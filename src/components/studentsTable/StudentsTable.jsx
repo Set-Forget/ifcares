@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
-import { Table } from "flowbite-react";
-import { Button } from "@mui/material";
+import { Table } from 'flowbite-react';
+import { Button } from '@mui/material';
 
-import useAuth from "../../hooks/useAuth";
-import { useBreakpoint } from "../../hooks/useMediaQuery";
+import useAuth from '../../hooks/useAuth';
+import { useBreakpoint } from '../../hooks/useMediaQuery';
 
-import StudentsRow from "../studentsRow/StudentsRow";
-import SitesDropdown from "../sitesDropdown/SitesDropdown";
-import LoadingSpinner from "../loadingSpinner/LoadingSpinner";
-import Pagination from "../pagination/pagination";
-import { ROLES } from "../../constants/index";
-import EditModal from "../editModal/editModal";
+import StudentsRow from '../studentsRow/StudentsRow';
+import SitesDropdown from '../sitesDropdown/SitesDropdown';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import Pagination from '../pagination/pagination';
+import { ROLES } from '../../constants/index';
+import EditModal from '../editModal/editModal';
 
-import "./StudentsTable.css";
-import Link from "next/link";
-import DeleteModal from "../deleteModal/DeleteModal";
+import './StudentsTable.css';
+import Link from 'next/link';
+import DeleteModal from '../deleteModal/DeleteModal';
+import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 const StudentsTable = () => {
+  const { updateCountsOnStudentDeletion } = useContext(MealSiteContext);
   const [students, setStudents] = useState([]);
   const [sites, setSites] = useState([]);
-  const [selectedSite, setSelectedSite] = useState("");
+  const [selectedSite, setSelectedSite] = useState('');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage, setStudentsPerPage] = useState(10); // You can adjust this number
@@ -74,23 +76,30 @@ const StudentsTable = () => {
   const handleDeleteModalOpen = (student) => {
     setSelectedStudent(student);
     setIsDeleteModalOpen(true);
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
   };
 
   const handleDeleteModalClose = () => {
     setIsDeleteModalOpen(false);
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = 'auto';
   };
 
   const handleEdit = async (originalStudent, editedStudentData, onSuccess) => {
-    setOpenModal("pop-up");
+    // Check if the student is being moved to a different site
+    if (originalStudent.site !== editedStudentData.site) {
+      // Call function to uncheck checkboxes before transferring the student
+      updateCountsOnStudentDeletion(originalStudent.id);
+    }
+
+    setOpenModal('pop-up');
     setStudentsPerPage(10);
 
     const formattedData = {
-      actionType: "edit",
+      actionType: 'edit',
       values: [
         originalStudent.name,
         originalStudent.site,
+        originalStudent.id,
         editedStudentData.name,
         editedStudentData.age,
         editedStudentData.site,
@@ -99,9 +108,9 @@ const StudentsTable = () => {
 
     // console.log(formattedData);
 
-    const PROXY_URL = "https://happy-mixed-gaura.glitch.me/";
+    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
     const GAS_URL =
-      "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec";
+      'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
 
     try {
       const response = await axios.post(
@@ -109,34 +118,44 @@ const StudentsTable = () => {
         JSON.stringify(formattedData),
         {
           headers: {
-            "Content-Type": "application/json",
-            "x-requested-with": "XMLHttpRequest",
+            'Content-Type': 'application/json',
+            'x-requested-with': 'XMLHttpRequest',
           },
         }
       );
 
-      // console.log("success:", response);
-      onSuccess();
+      // console.log(response.data.result);
+      // Check if the response indicates a successful edit
+      if (response.data.result === 'success') {
+        // Assuming 'success' is a field in your response
+        onSuccess('success');
+      } else {
+        // Handle API logical failure here
+        onSuccess('error', response.data.message); // Pass the error message from API
+      }
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      fetchAllData();
     } catch (error) {
-      // console.log("error:", error);
-      setOpenModal("error:", response);
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      // On error, pass an error message
+      onSuccess('error', 'Network or unexpected error occurred.');
+      setOpenModal('error:', response);
+
+      fetchAllData();
     }
   };
 
   const GAS_URL =
-    "https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec";
+    'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
 
   useEffect(() => {
+    fetchAllData();
+  }, []);
+
+  // acabo de crear esta funcion ahora hay que mandarsela a los hijos para que la puedan correr
+  const fetchAllData = () => {
     Promise.all([
-      axios.get(GAS_URL + "?type=students"),
-      axios.get(GAS_URL + "?type=sites"),
+      axios.get(GAS_URL + '?type=students'),
+      axios.get(GAS_URL + '?type=sites'),
     ])
       .then(([studentsResponse, sitesResponse]) => {
         // console.log("Students data:", studentsResponse.data);
@@ -157,29 +176,28 @@ const StudentsTable = () => {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error('Error:', error);
         setLoading(false);
       });
-  }, []);
+  };
 
   return (
     <div className="bg-gray-100 p-0 m-0 box-border flex justify-center items-center">
       <div className="mt-5 mb-12 sm:w-4/5 min-h-[800px] pb-20 table-container">
-        <div className="flex w-full justify-between mt-[75px] mb-[30px] min-h-[50px] flex-col md:flex-row items-center">
-          {/* This div will be full width on mobile and align the button to the end/right */}
-          <div className="w-full flex justify-end md:justify-start md:w-auto -mt-12 md:-mt-[12px]">
+        <div className="flex w-full justify-between items-center mt-[60px] mb-[30px] min-h-[50px] flex-col md:flex-row">
+          <div className="w-full flex justify-end md:justify-start md:w-auto">
             <Link href="/mealCount">
               <Button
                 variant="contained"
                 className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none text-base"
                 style={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  backgroundColor: "#3DED97",
-                  borderRadius: "13px",
-                  minWidth: "130px",
-                  minHeight: "40px",
-                  boxShadow: "none",
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#3DED97',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
                 }}
               >
                 Meal Count
@@ -189,7 +207,7 @@ const StudentsTable = () => {
           {/* This div will center the dropdown and button below the Meal Count button on mobile */}
           <div className="flex flex-row justify-center m-auto items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center text-base gap-4">
             {auth.role !== ROLES.Admin && (
-              <h2 className="title pr-10">{auth.assignedSite}</h2>
+              <h2 className="title pr-4">{auth.assignedSite}</h2>
             )}
             {auth.role === ROLES.Admin && (
               <SitesDropdown
@@ -204,13 +222,13 @@ const StudentsTable = () => {
                 className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none"
                 variant="contained"
                 style={{
-                  textTransform: "capitalize",
-                  fontWeight: "bold",
-                  backgroundColor: "#5D24FF",
-                  borderRadius: "13px",
-                  minWidth: "130px",
-                  minHeight: "40px",
-                  boxShadow: "none",
+                  textTransform: 'capitalize',
+                  fontWeight: 'bold',
+                  backgroundColor: '#5D24FF',
+                  borderRadius: '13px',
+                  minWidth: '130px',
+                  minHeight: '40px',
+                  boxShadow: 'none',
                 }}
               >
                 Add Student
@@ -222,7 +240,9 @@ const StudentsTable = () => {
         {loading ? (
           <div className="flex flex-col justify-center items-center h-96">
             <LoadingSpinner />
-            <h2>Loading Students...</h2>
+            <h2 className="mt-4 text-center text-md text-gray-900">
+              Loading Students...
+            </h2>
           </div>
         ) : (
           <>
@@ -259,10 +279,11 @@ const StudentsTable = () => {
                     .map((student) => (
                       <StudentsRow
                         student={student}
-                        key={student.name}
+                        key={student.id}
                         showSiteColumn={auth.role === ROLES.Admin}
                         birthdate={student.birthdate}
                         onDeleteModalOpen={handleDeleteModalOpen}
+                        fetchAllData={fetchAllData}
                         // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
                     ))}
@@ -278,7 +299,7 @@ const StudentsTable = () => {
                 .map((student) => (
                   <div
                     className="flex flex-col p-4 border-b bg-white rounded-lg mt-2 text-lg relative"
-                    key={student.name}
+                    key={student.id}
                   >
                     <span className="font-bold bg-white rounded-lg text-xl mb-2 block">
                       {student.name}
@@ -295,10 +316,10 @@ const StudentsTable = () => {
                           }
                         }}
                         style={{
-                          fontWeight: "semibold",
-                          color: "#5D24FF",
-                          fontSize: "1.2rem",
-                          marginRight: "10px", // Ajusta el espaciado entre los botones
+                          fontWeight: 'semibold',
+                          color: '#5D24FF',
+                          fontSize: '1.2rem',
+                          marginRight: '10px', // Ajusta el espaciado entre los botones
                         }}
                       >
                         Edit
@@ -310,9 +331,9 @@ const StudentsTable = () => {
                           }
                         }}
                         style={{
-                          fontWeight: "semibold",
-                          color: "#E02424",
-                          fontSize: "1.2rem",
+                          fontWeight: 'semibold',
+                          color: '#E02424',
+                          fontSize: '1.2rem',
                         }}
                       >
                         Delete
@@ -320,7 +341,6 @@ const StudentsTable = () => {
                     </div>
                   </div>
                 ))}
-                
             </div>
             <Pagination
               studentsPerPage={studentsPerPage}
@@ -346,6 +366,7 @@ const StudentsTable = () => {
               isOpen={isDeleteModalOpen}
               onClose={() => handleDeleteModalClose()}
               student={selectedStudent}
+              fetchAllData={fetchAllData}
             />
           </div>
         )}
