@@ -28,8 +28,23 @@ const Pagination = ({
 }) => {
   const pageNumbers = [];
   const totalNumberOfPages = Math.ceil(totalStudents / studentsPerPage);
+  const maxPageNumberVisible = 10; // Adjust based on how many buttons you want to show
+  const pageBuffer = Math.floor(maxPageNumberVisible / 2);
 
-  for (let i = 1; i <= totalNumberOfPages; i++) {
+  let lowerLimit = currentPage - pageBuffer;
+  let upperLimit = currentPage + pageBuffer;
+
+  if (lowerLimit < 1) {
+    upperLimit += 1 - lowerLimit;
+    lowerLimit = 1;
+  }
+  if (upperLimit > totalNumberOfPages) {
+    lowerLimit -= upperLimit - totalNumberOfPages;
+    upperLimit = totalNumberOfPages;
+  }
+  lowerLimit = Math.max(lowerLimit, 1);
+
+  for (let i = lowerLimit; i <= upperLimit; i++) {
     pageNumbers.push(i);
   }
 
@@ -50,7 +65,14 @@ const Pagination = ({
       }
 
       {/* Page Numbers */}
+      {/* Page Numbers */}
       <div className="hidden md:-mt-px md:flex">
+        {currentPage > 1 + pageBuffer && (
+          <>
+            <PaginationButton onClick={() => paginate(1)}>1</PaginationButton>
+            {currentPage > 2 + pageBuffer && <span className="px-2 flex items-center justify-center">...</span>}
+          </>
+        )}
         {pageNumbers.map((number) => (
           <PaginationButton
             key={number}
@@ -60,6 +82,14 @@ const Pagination = ({
             {number}
           </PaginationButton>
         ))}
+        {currentPage < totalNumberOfPages - pageBuffer && (
+          <>
+            {currentPage < totalNumberOfPages - (1 + pageBuffer) && <span className="px-2 flex items-center justify-center">...</span>}
+            <PaginationButton onClick={() => paginate(totalNumberOfPages)}>
+              {totalNumberOfPages}
+            </PaginationButton>
+          </>
+        )}
       </div>
 
       {/* Next Button */}

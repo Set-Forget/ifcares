@@ -72,14 +72,14 @@ const WelcomeCard = ({ date, siteName, isExcluded, isNewDate }) => {
 
   const formattedDate = formatDate(date);
 
-  let cardBackgroundColor = ''; // Default background color for new dates
+  let cardBackgroundColor = 'bg-white'; // Default background color for new dates
   if (!isNewDate) {
     cardBackgroundColor = isExcluded ? 'bg-[#46DC8C]' : 'bg-[#D76565] text-white';
   }
 
   // Card content
   const cardContent = (
-    <div className={`h-20 sm:h-28 flex items-center justify-center shadow-lg p-4 rounded-lg bg-white ${cardBackgroundColor}`}>
+    <div className={`h-20 sm:h-28 flex items-center justify-center shadow-lg p-4 rounded-lg  ${cardBackgroundColor}`}>
       <h5 className={`text-xs lg:text-lg md:text-base sm:text-sm font-medium tracking-tight`}>
         {formattedDate}
       </h5>

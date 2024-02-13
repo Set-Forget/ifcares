@@ -341,7 +341,7 @@ const StudentsTable = () => {
                     </div>
                   </div>
                 ))}
-            </div>
+            </div>    
             <Pagination
               studentsPerPage={studentsPerPage}
               totalStudents={filteredStudents.length}
