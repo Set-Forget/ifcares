@@ -53,8 +53,8 @@ const MealSite = () => {
       try {
         const { data: sitesData } = await axios.get(GAS_URL + '?type=sites');
 
-        if(auth == null){
-          return
+        if (auth == null) {
+          return;
         }
 
         if (auth.role === ROLES.Admin) {
@@ -73,8 +73,8 @@ const MealSite = () => {
       }
     };
 
-    if(auth == null){
-      return
+    if (auth == null) {
+      return;
     }
 
     if (auth.role === ROLES.Admin || !isDataFetched) {
@@ -84,8 +84,8 @@ const MealSite = () => {
 
     // Adding cleanup to reset isDataFetched for admin users
     return () => {
-      if(auth == null){
-        return
+      if (auth == null) {
+        return;
       }
       if (auth.role === ROLES.Admin) {
         setIsDataFetched(false);
@@ -217,25 +217,27 @@ const MealSite = () => {
           <br />
         </div>
       ) : (
-        <Table>
-          <Table.Head>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-              Name of Contracting Entity (CE)
-            </Table.HeadCell>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-              CE ID
-            </Table.HeadCell>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-              Name of Site
-            </Table.HeadCell>
-            <Table.HeadCell className="text-black text-base font-semibold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-              Site #
-            </Table.HeadCell>
-          </Table.Head>
-          <Table.Body className="divide-y">
+        <table className="w-full table-fixed text-center">
+          <thead className="p-6">
+            <tr>
+            <th className="w-2/5 uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black px-4 pl-6">
+                Name of Contracting Entity (CE)
+              </th>
+              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black p-4">
+                CE ID
+              </th>
+              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black p-4">
+                Name of Site
+              </th>
+              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black p-4">
+                Site #
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y">
             <MealSiteRow siteData={siteData} />
-          </Table.Body>
-        </Table>
+          </tbody>
+        </table>
       )}
 
       <br />
