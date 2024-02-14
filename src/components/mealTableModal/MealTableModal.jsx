@@ -109,7 +109,7 @@ const MealTableModal = ({
         // console.log(response.data);
         setToastType('success');
         setTimeout(() => {
-          window.location.reload(); // Refresh the page
+          window.location.assign('/'); // Send to the root
         }, 4000);
       })
       .catch((error) => {
