@@ -95,7 +95,7 @@ const Welcome = () => {
             className="text-transform[capitalize] text-normal font-bold bg-[#46DC8C] text-black rounded-[13px] min-w-[140px] min-h-[40px] shadow-none meal-count-btn"
             style={{
               textTransform: 'capitalize',
-              backgroundColor: '#3DED97',
+              backgroundColor: '#46DC8C',
               borderRadius: '13px',
               minWidth: '140px',
               minHeight: '40px',

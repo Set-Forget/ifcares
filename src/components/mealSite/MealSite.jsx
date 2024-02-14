@@ -177,13 +177,17 @@ const MealSite = () => {
 
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
-      <div className="flex items-center">
+      <div className="flex w-full justify-end">
+      {isLoading && (
+          <div className="mr-4">
+            <LoadingSpinner />
+          </div>
+        )}
         <SitesDropdown
           sites={sites}
           onSiteSelected={handleSiteChange}
           selectedSite={selectedSite}
           additionalStyles={{
-            border: 'solid 1px #3DED97',
             // backgroundColor: '#D3D3D3',
             pointerEvents: dropdownDisabled ? 'none' : 'auto', // Disable pointer events if dropdown is disabled
             // cursor: dropdownDisabled ? 'not-allowed' : 'default',
@@ -191,11 +195,6 @@ const MealSite = () => {
           }}
           disableAllSites={true}
         />
-        {isLoading && (
-          <div className="ml-4">
-            <LoadingSpinner />
-          </div>
-        )}
       </div>
       <br />
       {isMobile ? (

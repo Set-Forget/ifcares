@@ -321,27 +321,21 @@ const MealTable = () => {
         supperCount={globalCounts.supper}
       />
       <br />
-      <div>
-        <Button
-          variant="contained"
+      <div className='w-full flex justify-end'>
+        <button
+          className='text-black font-bold bg-[#46DC8C] text-sm'
           style={{
-            textTransform: 'capitalize',
-            fontWeight: 'bold',
-            backgroundColor: '#3DED97',
             borderRadius: '13px',
-            minWidth: '130px',
+            minWidth: '140px',
             minHeight: '40px',
             boxShadow: 'none',
             marginBottom: '100px',
             marginTop: '10px',
-            position: 'relative',
-            left: '50%',
-            translate: '-50%',
           }}
           onClick={() => handleNextClick(validStudentData)}
         >
           Next
-        </Button>
+        </button>
       </div>
     </>
   );
