@@ -273,7 +273,7 @@ const MealTable = () => {
       </table>
 
       <br />
-      <table className="w-full hoverable">
+      <table className="w-full">
         <thead className="p-6">
           <tr>
             <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] px-4 pl-6">

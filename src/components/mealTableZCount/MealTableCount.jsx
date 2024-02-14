@@ -1,7 +1,7 @@
-import React from "react";
-import { Table } from "flowbite-react";
-import MealTableCountRow from "../mealTableZCountRow/MealTableCountRow";
-import './MealTableCount.css'
+import React from 'react';
+import { Table } from 'flowbite-react';
+import MealTableCountRow from '../mealTableZCountRow/MealTableCountRow';
+import './MealTableCount.css';
 
 const MealTableCount = ({
   attendanceCount,
@@ -11,15 +11,27 @@ const MealTableCount = ({
   supperCount,
 }) => {
   return (
-    <Table>
-      <Table.Head>
-        <Table.HeadCell className="text-black md:text-sm lg:text-lg font-bold leading-relaxed md:max-w-[140px] min-h-[85px] bg-[#A6F7D1] border-b-2 border-black">Total Program Participants</Table.HeadCell>
-        <Table.HeadCell className="text-black md:text-sm lg:text-lg font-bold leading-relaxed md:max-w-[140px] min-h-[85px] bg-[#A6F7D1] border-b-2 border-black">Total breakfasts</Table.HeadCell>
-        <Table.HeadCell className="text-black md:text-sm lg:text-lg font-bold leading-relaxed md:max-w-[140px] min-h-[85px] bg-[#A6F7D1] border-b-2 border-black">Total lunches</Table.HeadCell>
-        <Table.HeadCell className="text-black md:text-sm lg:text-lg font-bold leading-relaxed md:max-w-[140px] min-h-[85px] bg-[#A6F7D1] border-b-2 border-black">Total snacks</Table.HeadCell>
-        <Table.HeadCell className="text-black md:text-sm lg:text-lg font-bold leading-relaxed md:max-w-[140px] min-h-[85px] bg-[#A6F7D1] border-b-2 border-black">Total suppers</Table.HeadCell>
-      </Table.Head>
-      <Table.Body className="divide-y">
+    <table className="w-full text-left">
+      <thead className="p-6">
+        <tr>
+          <th className="uppercase text-black md:text-sm lg:text-base font-semibold leading-relaxed md:max-w-[140px] bg-[#6BE3A3] border-b-2 border-[#CACACA] p-4 pl-6 w-1/4">
+            Total Program Participants
+          </th>
+          <th className="uppercase text-black md:text-sm lg:text-base font-semibold leading-relaxed md:max-w-[140px] bg-[#6BE3A3] border-b-2 border-[#CACACA] p-4 pl-6">
+            Total breakfasts
+          </th>
+          <th className="uppercase text-black md:text-sm lg:text-base font-semibold leading-relaxed md:max-w-[140px] bg-[#6BE3A3] border-b-2 border-[#CACACA] p-4 pl-6">
+            Total lunches
+          </th>
+          <th className="uppercase text-black md:text-sm lg:text-base font-semibold leading-relaxed md:max-w-[140px] bg-[#6BE3A3] border-b-2 border-[#CACACA] p-4 pl-6">
+            Total snacks
+          </th>
+          <th className="uppercase text-black md:text-sm lg:text-base font-semibold leading-relaxed md:max-w-[140px] bg-[#6BE3A3] border-b-2 border-[#CACACA] p-4 pl-6">
+            Total suppers
+          </th>
+        </tr>
+      </thead>
+      <tbody className="divide-y">
         <MealTableCountRow
           attendanceCount={attendanceCount}
           breakfastCount={breakfastCount}
@@ -27,8 +39,8 @@ const MealTableCount = ({
           snackCount={snackCount}
           supperCount={supperCount}
         />
-      </Table.Body>
-    </Table>
+      </tbody>
+    </table>
   );
 };
 
