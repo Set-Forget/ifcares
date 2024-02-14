@@ -171,12 +171,12 @@ const Form = () => {
                 variant="contained"
                 size="small"
                 style={{
-                  fontSize: '16px',
+                  fontSize: '14px',
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
                   backgroundColor: '#5D24FF',
                   borderRadius: '13px',
-                  minWidth: '130px',
+                  minWidth: '140px',
                   minHeight: '40px',
                   boxShadow: 'none',
                 }}

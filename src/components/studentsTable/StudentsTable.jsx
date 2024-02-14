@@ -223,6 +223,7 @@ const StudentsTable = () => {
                 className=" font-bold bg-[#5D24FF] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none"
                 variant="contained"
                 style={{
+                  fontSize: '14px',
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
                   backgroundColor: '#5D24FF',
@@ -251,7 +252,7 @@ const StudentsTable = () => {
               <table className='w-full '>
                 <thead className='text-left '>
                   <tr>
-                    <th className="uppercase text-black text-base font-semibold leading-loose bg-white border-b-2 border-[#1E1E1E] w-[350px] p-2 pl-6">
+                    <th className="uppercase text-black text-base font-semibold leading-loose bg-white border-b-2 border-[#1E1E1E] w-[250px] lg:w-[350px] p-2 pl-6">
                       Student Name
                     </th>
                     <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] p-2 pl-6">
