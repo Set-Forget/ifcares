@@ -4,8 +4,12 @@ import './MealTableRow.css';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
-  const { selectedCheckboxData, handleCheckboxChange, updateGlobalCount, selectedDateCache } =
-    useContext(MealSiteContext);
+  const {
+    selectedCheckboxData,
+    handleCheckboxChange,
+    updateGlobalCount,
+    selectedDateCache,
+  } = useContext(MealSiteContext);
 
   const checkboxState = selectedCheckboxData[student.id] || {
     attendance: false,
@@ -22,10 +26,8 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
     let day = '' + d.getDate();
     const year = d.getFullYear();
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
 
     return [year, month, day].join('-');
   };
@@ -93,28 +95,28 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
 
   useEffect(() => {
     if (selectedDate !== selectedDateCache) {
-    // Reset the checkbox state when the selected date changes
-    const resetCheckboxState = {
-      attendance: false,
-      breakfast: false,
-      lunch: false,
-      snack: false,
-      supper: false,
-    };
-    handleCheckboxChange(student.id, resetCheckboxState);
-  }
+      // Reset the checkbox state when the selected date changes
+      const resetCheckboxState = {
+        attendance: false,
+        breakfast: false,
+        lunch: false,
+        snack: false,
+        supper: false,
+      };
+      handleCheckboxChange(student.id, resetCheckboxState);
+    }
   }, [selectedDate]);
 
   return (
-    <Table.Row>
-      <Table.Cell className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] h-11">
+    <tr>
+      <td className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] p-4 text-center">
         {student.number}
-      </Table.Cell>
-      <Table.Cell className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] h-11">
+      </td>
+      <td className="text-black text-base font-semibold leading-relaxed bg-[#FFFFFF] p-4 pl-6 text-left">
         {student.name}
-      </Table.Cell>
+      </td>
 
-      <Table.Cell className="bg-[#FFFFFF] h-11">
+      <td className="bg-[#FFFFFF] w-[150px] text-center">
         {/* <input
           type="checkbox"
           checked={checkboxState.attendance}
@@ -125,54 +127,59 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
         /> */}
         <Checkbox
           className="green-checkbox"
+          style={{accentColor: '#6BE3A3'}}
           checked={checkboxState.attendance}
           onChange={(event) =>
             handleLocalCheckboxChange('attendance', event.target.checked)
           }
           disabled={selectedDate === null ? true : false}
         />
-      </Table.Cell>
-      <Table.Cell className="bg-[#FFFFFF] h-11">
+      </td>
+      <td className="bg-[#FFFFFF] w-[150px] text-center">
         <Checkbox
-          className="green-checkbox "
+          className="green-checkbox"
+          style={{accentColor: '#6BE3A3'}}
           checked={checkboxState.breakfast}
           onChange={(event) =>
             handleLocalCheckboxChange('breakfast', event.target.checked)
           }
           disabled={!checkboxState.attendance || !mealAvailability.brk}
         />
-      </Table.Cell>
-      <Table.Cell className="bg-[#FFFFFF] h-11">
+      </td>
+      <td className="bg-[#FFFFFF] w-[150px text-center">
         <Checkbox
           className="green-checkbox"
+          style={{accentColor: '#6BE3A3'}}
           checked={checkboxState.lunch}
           onChange={(event) =>
             handleLocalCheckboxChange('lunch', event.target.checked)
           }
           disabled={!checkboxState.attendance || !mealAvailability.lunch}
         />
-      </Table.Cell>
-      <Table.Cell className="bg-[#FFFFFF] h-11">
+      </td>
+      <td className="bg-[#FFFFFF] w-[150px] text-center">
         <Checkbox
           className="green-checkbox"
+          style={{accentColor: '#6BE3A3'}}
           checked={checkboxState.snack}
           onChange={(event) =>
             handleLocalCheckboxChange('snack', event.target.checked)
           }
           disabled={!checkboxState.attendance || !mealAvailability.snk}
         />
-      </Table.Cell>
-      <Table.Cell className="bg-[#FFFFFF] h-11">
+      </td>
+      <td className="bg-[#FFFFFF] w-[150px] text-center">
         <Checkbox
           className="green-checkbox"
+          style={{accentColor: '#6BE3A3'}}
           checked={checkboxState.supper}
           onChange={(event) =>
             handleLocalCheckboxChange('supper', event.target.checked)
           }
           disabled={!checkboxState.attendance || !mealAvailability.sup}
         />
-      </Table.Cell>
-    </Table.Row>
+      </td>
+    </tr>
   );
 };
 

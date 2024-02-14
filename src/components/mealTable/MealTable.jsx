@@ -150,7 +150,7 @@ const MealTable = () => {
     <>
       <div ref={topRef}></div>
       <table className="w-full table-fixed">
-        <thead >
+        <thead>
           <tr>
             <th className="uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4 pl-6">
               Date
@@ -230,7 +230,9 @@ const MealTable = () => {
                       />
                     </div>
                     {time1Error && (
-                      <span style={{ color: '#EA4336' }}>Time In is required</span>
+                      <span style={{ color: '#EA4336' }}>
+                        Time In is required
+                      </span>
                     )}
                   </div>
                 </DemoContainer>
@@ -258,7 +260,9 @@ const MealTable = () => {
                       />
                     </div>
                     {time2Error && (
-                      <span style={{ color: '#EA4336' }}>Time Out is required</span>
+                      <span style={{ color: '#EA4336' }}>
+                        Time Out is required
+                      </span>
                     )}
                   </div>
                 </DemoContainer>
@@ -269,31 +273,33 @@ const MealTable = () => {
       </table>
 
       <br />
-      <Table hoverable>
-        <Table.Head>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-            #
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-            Name of Participant
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
-            At
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
-            Brk
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
-            Lu
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
-            Snk
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black md:text-base lg:text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black w-[150px]">
-            Sup
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
+      <table className="w-full hoverable">
+        <thead className="p-6">
+          <tr>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] px-4 pl-6">
+              #
+            </th>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4 pl-6 text-left">
+              Name of Participant
+            </th>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
+              At
+            </th>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
+              Brk
+            </th>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
+              Lu
+            </th>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
+              Snk
+            </th>
+            <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
+              Sup
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y">
           {validStudentData.map((student) => (
             <MealTableRow
               student={student}
@@ -303,8 +309,8 @@ const MealTable = () => {
               key={student.id}
             />
           ))}
-        </Table.Body>
-      </Table>
+        </tbody>
+      </table>
       <br />
 
       <MealTableCount
