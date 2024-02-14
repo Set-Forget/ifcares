@@ -49,7 +49,7 @@ const MealTable = () => {
 
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
   // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
-  console.log(datesBySite)
+  console.log(datesBySite);
 
   useEffect(() => {
     if (lastTimeIn) {
@@ -149,21 +149,23 @@ const MealTable = () => {
   return (
     <>
       <div ref={topRef}></div>
-      <Table>
-        <Table.Head>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-            Date
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-            In
-          </Table.HeadCell>
-          <Table.HeadCell className="text-black text-lg font-bold leading-relaxed min-h-[85px] bg-[#e8fdf5] border-b-2 border-black">
-            Out
-          </Table.HeadCell>
-        </Table.Head>
-        <Table.Body className="divide-y">
+      <table className="w-full table-fixed">
+        <thead >
           <tr>
-            <Table.Cell className="bg-[#FFFFFF] h-24">
+            <th className="uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4 pl-6">
+              Date
+            </th>
+            <th className="uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4 pl-6">
+              In
+            </th>
+            <th className="uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4 pl-6">
+              Out
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-y">
+          <tr>
+            <td className="bg-[#FFFFFF] p-6 pl-6">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <div className="flex items-center">
@@ -171,7 +173,7 @@ const MealTable = () => {
                       <div
                         className={
                           dateError || dateValidationError
-                            ? 'border border-red-500 rounded-md'
+                            ? 'border border-[#EA4336] rounded-md'
                             : ''
                         }
                       >
@@ -192,7 +194,7 @@ const MealTable = () => {
                         />
                       </div>
                       {(dateError || dateValidationError) && (
-                        <span style={{ color: 'red' }}>
+                        <span style={{ color: '#EA4336' }}>
                           {dateValidationError || 'Date is required'}
                         </span>
                       )}
@@ -205,14 +207,14 @@ const MealTable = () => {
                   </div>
                 </DemoContainer>
               </LocalizationProvider>
-            </Table.Cell>
-            <Table.Cell className="bg-[#FFFFFF] h-24">
+            </td>
+            <td className="bg-[#FFFFFF] p-6 pl-6">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
                   <div className="flex flex-col">
                     <div
                       className={
-                        time1Error ? 'border border-red-500 rounded-md' : ''
+                        time1Error ? 'border border-[#EA4336] rounded-md' : ''
                       }
                     >
                       <TimePicker
@@ -228,19 +230,19 @@ const MealTable = () => {
                       />
                     </div>
                     {time1Error && (
-                      <span style={{ color: 'red' }}>Time In is required</span>
+                      <span style={{ color: '#EA4336' }}>Time In is required</span>
                     )}
                   </div>
                 </DemoContainer>
               </LocalizationProvider>
-            </Table.Cell>
-            <Table.Cell className="bg-[#FFFFFF] h-24">
+            </td>
+            <td className="bg-[#FFFFFF] p-6 pl-6">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['TimePicker']}>
                   <div className="flex flex-col">
                     <div
                       className={
-                        time2Error ? 'border border-red-500 rounded-md' : ''
+                        time2Error ? 'border border-[#EA4336] rounded-md' : ''
                       }
                     >
                       <TimePicker
@@ -256,15 +258,15 @@ const MealTable = () => {
                       />
                     </div>
                     {time2Error && (
-                      <span style={{ color: 'red' }}>Time Out is required</span>
+                      <span style={{ color: '#EA4336' }}>Time Out is required</span>
                     )}
                   </div>
                 </DemoContainer>
               </LocalizationProvider>
-            </Table.Cell>
+            </td>
           </tr>
-        </Table.Body>
-      </Table>
+        </tbody>
+      </table>
 
       <br />
       <Table hoverable>

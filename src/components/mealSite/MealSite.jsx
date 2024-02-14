@@ -220,16 +220,16 @@ const MealSite = () => {
         <table className="w-full table-fixed text-center">
           <thead className="p-6">
             <tr>
-            <th className="w-2/5 uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black px-4 pl-6">
+            <th className="w-2/5 uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] px-4 pl-6">
                 Name of Contracting Entity (CE)
               </th>
-              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black p-4">
+              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4">
                 CE ID
               </th>
-              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black p-4">
+              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4">
                 Name of Site
               </th>
-              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-black p-4">
+              <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4">
                 Site #
               </th>
             </tr>
