@@ -69,8 +69,8 @@ export default function StudentsRow({
         message={toastMessage} // Passed to SavingModal
       />
 
-      <Table.Row className="h-14 bg-white dark:border-gray-700 dark:bg-gray-800 ">
-        <Table.Cell className="text-black text-sm font-semibold leading-relaxed ">
+      <tr className="bg-white">
+        <td className="text-black text-sm font-normal leading-relaxed p-4 pl-6">
           {isEditing ? (
             <input
               type="text"
@@ -83,8 +83,8 @@ export default function StudentsRow({
           ) : (
             student.name
           )}
-        </Table.Cell>
-        <Table.Cell className="text-black text-sm font-semibold leading-relaxed">
+        </td>
+        <td className="text-black text-sm font-normal leading-relaxed p-4 pl-6 max-w-[100px]">
           {isEditing ? (
             <input
               type="number"
@@ -99,9 +99,9 @@ export default function StudentsRow({
           ) : (
             student.age
           )}
-        </Table.Cell>
+        </td>
         {showSiteColumn && (
-          <Table.Cell className="text-black text-sm font-semibold leading-relaxed">
+          <td className="text-black text-sm font-normal leading-relaxed p-4 pl-6 max-w-[150px]">
             {isEditing ? (
               <SitesSelect
                 isStudentsRow={true}
@@ -117,11 +117,11 @@ export default function StudentsRow({
             ) : (
               student.site
             )}
-          </Table.Cell>
+          </td>
         )}
-        <Table.Cell>
+        <td >
           <p
-            className="font-medium text-violet-500 hover:underline dark:text-violet-500 cursor-pointer"
+            className='flex justify-center items-center '
             onClick={() => {
               if (isEditing) {
                 setLoading(true);
@@ -197,23 +197,20 @@ export default function StudentsRow({
               setIsEditing(!isEditing);
             }}
           >
-            <span className="text-[#5d24ff] text-sm font-semibold leading-relaxed">
-              {isEditing ? 'SAVE' : 'EDIT'}
+            <span className="inline-block w-20 rounded-lg border border-[#5D24FF] text-[#5D24FF] text-sm text-center leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#5D24FF]">
+              {isEditing ? 'Save' : 'Edit'}
             </span>
           </p>
-        </Table.Cell>
-        <Table.Cell>
+        </td>
+        <td className=''>
           <button
-            className="text-sm font-semibold leading-relaxed"
-            style={{
-              color: 'rgb(224, 36, 36)',
-            }}
+            className="w-20 text-center rounded-lg border border-[#EA4336] text-[#EA4336] text-sm leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#EA4336]"
             onClick={handleDeleteClick}
           >
-            DELETE
+            Delete
           </button>
-        </Table.Cell>
-      </Table.Row>
+        </td>
+      </tr>
     </>
   );
 }

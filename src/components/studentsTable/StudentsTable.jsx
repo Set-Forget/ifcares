@@ -189,13 +189,14 @@ const StudentsTable = () => {
             <Link href="/mealCount">
               <Button
                 variant="contained"
-                className="text-transform[capitalize] font-bold bg-[#3DED97] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none text-base"
+                className=" font-bold bg-[#46DC8C] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none text-base"
                 style={{
+                  color: '#000000',
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
-                  backgroundColor: '#3DED97',
+                  backgroundColor: '#46DC8C',
                   borderRadius: '13px',
-                  minWidth: '130px',
+                  minWidth: '140px',
                   minHeight: '40px',
                   boxShadow: 'none',
                 }}
@@ -219,14 +220,14 @@ const StudentsTable = () => {
             )}
             <Link href="/addStudent">
               <Button
-                className="text-transform[capitalize] font-bold bg-[#5D24FF] rounded-[13px] min-w-[130px] min-h-[40px] shadow-none"
+                className=" font-bold bg-[#5D24FF] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none"
                 variant="contained"
                 style={{
                   textTransform: 'capitalize',
                   fontWeight: 'bold',
                   backgroundColor: '#5D24FF',
                   borderRadius: '13px',
-                  minWidth: '130px',
+                  minWidth: '140px',
                   minHeight: '40px',
                   boxShadow: 'none',
                 }}
@@ -247,30 +248,31 @@ const StudentsTable = () => {
         ) : (
           <>
             <div className="sm:block hidden w-full">
-              <Table striped>
-                <Table.Head>
-                  <Table.HeadCell className="uppercase text-gray-600 text-lg font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black w-[350px]">
-                    Student Name
-                  </Table.HeadCell>
-                  <Table.HeadCell className="uppercase text-gray-600 text-lg font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black">
-                    Age
-                  </Table.HeadCell>
-                  {auth.role === ROLES.Admin && (
-                    <Table.HeadCell className="uppercase text-gray-600 text-lg font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black">
-                      Site
-                    </Table.HeadCell>
-                  )}
-                  {/* Edit cell */}
-                  <Table.HeadCell className="text-gray-600 text-sm font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black hidden md:table-cell">
-                    <span className="sr-only">Edit</span>
-                  </Table.HeadCell>
-                  {/* Delete cell */}
-                  <Table.HeadCell className="text-gray-600 text-sm font-bold leading-loose min-h-[85px] bg-white border-b-2 border-black hidden md:table-cell">
-                    <span className="sr-only">Delete</span>
-                  </Table.HeadCell>
-                </Table.Head>
+              <table className='w-full '>
+                <thead className='text-left '>
+                  <tr>
+                    <th className="uppercase text-black text-base font-semibold leading-loose bg-white border-b-2 border-[#1E1E1E] w-[350px] p-2 pl-6">
+                      Student Name
+                    </th>
+                    <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] p-2 pl-6">
+                      Age
+                    </th>
+                    {auth.role === ROLES.Admin && (
+                      <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] p-2 pl-6">
+                        Site
+                      </th>
+                    )}
+                    {/* Edit cell */}
+                    <th className="text-black text-base font-bold leading-loose  bg-white border-b-2 border-[#1E1E1E]  md:table-cell p-2 pl-6">
+                      <span className="sr-only">Edit</span>
+                    </th>
+                    <th className="text-black text-base font-bold leading-loose bg-white border-b-2 border-[#1E1E1E]  md:table-cell p-2 pl-6">
+                      <span className="sr-only">Delete</span>
+                    </th>
+                  </tr>
+                </thead>
 
-                <Table.Body className="divide-y">
+                <tbody className="divide-y">
                   {currentStudents
                     .filter(
                       (student) =>
@@ -287,8 +289,8 @@ const StudentsTable = () => {
                         // handleEdit={(editedStudent) => handleEdit(student, editedStudent)}
                       />
                     ))}
-                </Table.Body>
-              </Table>
+                </tbody>
+              </table>
             </div>
             <div className="block sm:hidden ">
               {/* Mobile-friendly list */}
@@ -341,7 +343,7 @@ const StudentsTable = () => {
                     </div>
                   </div>
                 ))}
-            </div>    
+            </div>
             <Pagination
               studentsPerPage={studentsPerPage}
               totalStudents={filteredStudents.length}
