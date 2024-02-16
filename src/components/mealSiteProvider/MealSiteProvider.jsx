@@ -173,7 +173,7 @@ export const MealSiteProvider = ({ children }) => {
   useEffect(() => {
     const GAS_URL = API_BASE_URL;
     axios
-      .get(GAS_URL + '?type=welcomeDates')
+      .get(GAS_URL + '?type=mealCountDays')
       .then((response) => {
         // console.log('Data received:', response.data);
         setDatesBySite(response.data);

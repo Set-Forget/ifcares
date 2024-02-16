@@ -49,7 +49,7 @@ const MealTable = () => {
 
   // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
   // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
-  console.log(datesBySite);
+  // console.log(datesBySite);
 
   useEffect(() => {
     if (lastTimeIn) {

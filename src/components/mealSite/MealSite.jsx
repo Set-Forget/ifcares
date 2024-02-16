@@ -165,12 +165,12 @@ const MealSite = () => {
       // Logic to handle the parameters
       setSelectedSite(queryParams.site);
       let formattedDate = formatDateForPicker(queryParams.date);
-      console.log(formattedDate);
+      // console.log(formattedDate);
       setSelectedDate(formattedDate);
 
-      console.log(
-        `Received date: ${queryParams.date} and site: ${queryParams.site}`
-      );
+      // console.log(
+      //   `Received date: ${queryParams.date} and site: ${queryParams.site}`
+      // );
     }
   }, [queryParams]);
 

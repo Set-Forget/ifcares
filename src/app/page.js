@@ -31,9 +31,9 @@ const Welcome = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(GAS_URL + '?type=welcomeDates')
+      .get(GAS_URL + '?type=homeDates')
       .then((response) => {
-        console.log('Data received:', response.data);
+        // console.log('Data received:', response.data);
         setSitesData(response.data);
         setIsLoading(false);
       })
