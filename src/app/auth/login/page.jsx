@@ -8,6 +8,7 @@ import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from '../../../components/loadingSpinner/LoadingSpinner';
 
 import { useRouter } from 'next/navigation'
+import { API_BASE_URL } from '@/constants';
 
 
 export default function Login() {
@@ -21,7 +22,7 @@ export default function Login() {
   
   // const from = location.state?.from?.pathname || '/home' 
   const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-  const GAS_URL = "https://script.google.com/macros/s/AKfycbydLMqJketiihQlyAnRZB9IeXXsyqHpJga6K_meVD_YuqKVvr5EVLPgO7xKsEXNFK51/exec"
+  const GAS_URL = API_BASE_URL
 
   const handleSubmit = (e) => {
     e.preventDefault()

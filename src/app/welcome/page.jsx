@@ -1,5 +1,4 @@
-'use client'
-
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import './Welcome.css';
@@ -11,18 +10,17 @@ import Link from 'next/link';
 
 import axios from 'axios';
 import WelcomeCalendar from '@/components/welcomeCalendar/WelcomeCalendar';
+import { API_BASE_URL } from '@/constants';
 
 const Welcome = () => {
   const { auth } = useAuth();
   const { name, lastname } = auth;
 
-
   const [sitesData, setSitesData] = useState({});
 
   //get request
   useEffect(() => {
-    const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbyQPDZEu-vBGvKKJ_kXhy-20mLXy5Pcf9xvz4p3x3MWVR2HHLWWKmdmagLnpAfz7ps1/exec';
+    const GAS_URL = API_BASE_URL;
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {

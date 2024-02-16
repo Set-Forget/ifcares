@@ -11,7 +11,7 @@ import StudentsRow from '../studentsRow/StudentsRow';
 import SitesDropdown from '../sitesDropdown/SitesDropdown';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import Pagination from '../pagination/pagination';
-import { ROLES } from '../../constants/index';
+import { API_BASE_URL, ROLES } from '../../constants/index';
 import EditModal from '../editModal/editModal';
 
 import './StudentsTable.css';
@@ -109,8 +109,7 @@ const StudentsTable = () => {
     // console.log(formattedData);
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
+    const GAS_URL = API_BASE_URL;
 
     try {
       const response = await axios.post(
@@ -144,8 +143,7 @@ const StudentsTable = () => {
     }
   };
 
-  const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
+  const GAS_URL = API_BASE_URL;
 
   useEffect(() => {
     fetchAllData();
@@ -249,8 +247,8 @@ const StudentsTable = () => {
         ) : (
           <>
             <div className="sm:block hidden w-full">
-              <table className='w-full '>
-                <thead className='text-left '>
+              <table className="w-full ">
+                <thead className="text-left ">
                   <tr>
                     <th className="uppercase text-black text-base font-semibold leading-loose bg-white border-b-2 border-[#1E1E1E] w-[250px] lg:w-[350px] p-2 pl-6">
                       Student Name

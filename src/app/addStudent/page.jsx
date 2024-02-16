@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Link from 'next/link';
+import { API_BASE_URL } from '@/constants';
 
 const Form = () => {
   let initialValues = {
@@ -42,9 +43,7 @@ const Form = () => {
     setSubmitting(true);
     // console.log(data);
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const GAS_URL =
-      PROXY_URL +
-      'https://script.google.com/macros/s/AKfycbzho1pqmqQxpa2cP1OcKyqE5G1WXhCbqN43xuxAk7I-Lyx8qCorgt3BLU-gw5eN9LZO/exec';
+    const GAS_URL = PROXY_URL + API_BASE_URL;
 
     // Format the date
     const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';

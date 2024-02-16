@@ -5,7 +5,7 @@ import './Welcome.css';
 import { Button } from 'flowbite-react';
 import withAuth from '@/hoc/hocauth';
 import useAuth from '@/hooks/useAuth';
-import { ROLES } from '../constants/index';
+import { API_BASE_URL, ROLES } from '../constants/index';
 import Link from 'next/link';
 
 import axios from 'axios';
@@ -25,8 +25,7 @@ const Welcome = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbyObcbQlgndbklESWMv9BpiXi3drKdg0l01HOKRfldofXzOAq7HhvxA9NB20GDbp0Z9/exec';
+  const GAS_URL = API_BASE_URL;
 
   //get request
   useEffect(() => {
@@ -34,7 +33,7 @@ const Welcome = () => {
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {
-        // console.log('Data received:', response.data);
+        console.log('Data received:', response.data);
         setSitesData(response.data);
         setIsLoading(false);
       })
@@ -129,10 +128,12 @@ const Welcome = () => {
         </Link>
       </div>
       <div className="mb-20">
-        <div className='flex w-full justify-center'>
+        <div className="flex w-full justify-center">
           <div className="welcome-text-container sm:hidden">
             <h3 className="welcome-text">Welcome Back,</h3>
-            <h5 className="full-name-text flex justify-center">{name + ' ' + lastname}</h5>
+            <h5 className="full-name-text flex justify-center">
+              {name + ' ' + lastname}
+            </h5>
           </div>
         </div>
         <div className="relative w-full flex items-center justify-center">

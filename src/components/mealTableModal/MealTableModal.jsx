@@ -5,6 +5,7 @@ import SignatureComponent from '../signatureComponent/SignatureComponent';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import ConfirmationToast from '../confirmationToast/ConfirmationToast';
 import './MealTableModal.css';
+import { API_BASE_URL } from '@/constants';
 
 const MealTableModal = ({
   isOpen,
@@ -93,8 +94,7 @@ const MealTableModal = ({
     // console.log(dataObject);
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const gasUrl =
-      'https://script.google.com/macros/s/AKfycbze70CAwC0_R7QJ41x6Aob23g0TFcsOIBs30r2aAMiDDPvuZ9sGzFFGnvLwUw64eLEb/exec';
+    const gasUrl = API_BASE_URL;
 
     // Send the axios post request with the dataObject as the request body
     axios

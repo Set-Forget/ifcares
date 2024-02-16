@@ -9,6 +9,7 @@ import axios from 'axios';
 import SavingModal from '../savingModal/SavingModal';
 import { useEffect } from 'react';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
+import { API_BASE_URL } from '@/constants';
 
 export default function StudentsRow({
   student,
@@ -119,9 +120,9 @@ export default function StudentsRow({
             )}
           </td>
         )}
-        <td >
+        <td>
           <p
-            className='flex justify-center items-center '
+            className="flex justify-center items-center "
             onClick={() => {
               if (isEditing) {
                 setLoading(true);
@@ -149,8 +150,7 @@ export default function StudentsRow({
                 // console.log(formattedData);
 
                 const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-                const GAS_URL =
-                  'https://script.google.com/macros/s/AKfycbzhTwrLf6U-Di5q0dzJ6u_vxX8qyRreNWz1h1gvs5ZgEGp4Fm8tmVV2LGFgFFNSD3Kd/exec';
+                const GAS_URL = API_BASE_URL;
 
                 axios
                   .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
@@ -202,7 +202,7 @@ export default function StudentsRow({
             </span>
           </p>
         </td>
-        <td className=''>
+        <td className="">
           <button
             className="w-20 text-center rounded-lg border border-[#EA4336] text-[#EA4336] text-sm leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#EA4336]"
             onClick={handleDeleteClick}

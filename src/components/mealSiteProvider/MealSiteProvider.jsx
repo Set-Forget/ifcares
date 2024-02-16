@@ -1,4 +1,5 @@
 'use client';
+import { API_BASE_URL } from '@/constants';
 import axios from 'axios';
 import React, { createContext, useState, useRef, useEffect } from 'react';
 
@@ -76,14 +77,15 @@ export const MealSiteProvider = ({ children }) => {
   const updateCountsOnStudentDeletion = (studentId) => {
     const studentCheckboxState = selectedCheckboxData[studentId];
     if (studentCheckboxState) {
-      ['attendance', 'breakfast', 'lunch', 'snack', 'supper'].forEach((category) => {
-        if (studentCheckboxState[category]) {
-          updateGlobalCount(category, false);
+      ['attendance', 'breakfast', 'lunch', 'snack', 'supper'].forEach(
+        (category) => {
+          if (studentCheckboxState[category]) {
+            updateGlobalCount(category, false);
+          }
         }
-      });
+      );
     }
   };
-  
 
   const topRef = useRef(null); // Create a ref for the top of the component
 
@@ -169,8 +171,7 @@ export const MealSiteProvider = ({ children }) => {
 
   //get request
   useEffect(() => {
-    const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbyQPDZEu-vBGvKKJ_kXhy-20mLXy5Pcf9xvz4p3x3MWVR2HHLWWKmdmagLnpAfz7ps1/exec';
+    const GAS_URL = API_BASE_URL;
     axios
       .get(GAS_URL + '?type=welcomeDates')
       .then((response) => {

@@ -5,7 +5,7 @@ import SitesDropdown from '../sitesDropdown/SitesDropdown';
 import axios from 'axios';
 import './MealSite.css';
 import useAuth from '../../hooks/useAuth';
-import { ROLES } from '../../constants';
+import { API_BASE_URL, ROLES } from '../../constants';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 
 import useIsMobile from '../../hooks/useIsMobile';
@@ -45,8 +45,7 @@ const MealSite = () => {
     resetDateValidationError();
   };
 
-  const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbzZxzM5-3lzifGCQ_5128ySAqqE0lQ1uyr032VlXyuFnwYcJMWq30LTrc6ydT5sEXjp/exec';
+  const GAS_URL = API_BASE_URL;
 
   useEffect(() => {
     const fetchSites = async () => {
@@ -178,7 +177,7 @@ const MealSite = () => {
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
       <div className="flex w-full justify-end">
-      {isLoading && (
+        {isLoading && (
           <div className="mr-4">
             <LoadingSpinner />
           </div>
@@ -219,7 +218,7 @@ const MealSite = () => {
         <table className="w-full table-fixed text-center">
           <thead className="p-6">
             <tr>
-            <th className="w-2/5 uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] px-4 pl-6">
+              <th className="w-2/5 uppercase text-left text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] px-4 pl-6">
                 Name of Contracting Entity (CE)
               </th>
               <th className="uppercase text-black text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] p-4">

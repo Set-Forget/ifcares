@@ -5,24 +5,23 @@ import axios from 'axios';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import DeleteToast from '../deleteToast/DeleteToast';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
+import { API_BASE_URL } from '@/constants';
 
 const DeleteModal = ({ onClose, student, fetchAllData }) => {
-  const { updateCountsOnStudentDeletion } =
-    useContext(MealSiteContext);
+  const { updateCountsOnStudentDeletion } = useContext(MealSiteContext);
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
 
   const handleDeleteStudent = () => {
     setLoading(true);
-    updateCountsOnStudentDeletion(student.id)
+    updateCountsOnStudentDeletion(student.id);
     const deleteData = {
       actionType: 'delete',
       values: [student.name, student.site, student.id],
     };
 
     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const GAS_DELETE_URL =
-      'https://script.google.com/macros/s/AKfycbyl6lFQtIFlkjWZS46vHDW29VUyHetly5Du5zKXmffw7XHhTHdbVR8XMX1p6n4DaKV-/exec';
+    const GAS_DELETE_URL = API_BASE_URL;
 
     axios
       .post(PROXY_URL + GAS_DELETE_URL, JSON.stringify(deleteData), {
