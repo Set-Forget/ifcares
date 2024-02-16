@@ -1,5 +1,6 @@
 'use client';
 import SitesSelect from '@/components/sitesSelect/SitesSelect';
+import withAuth from '@/hoc/hocauth';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
@@ -64,4 +65,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default withAuth(page);
