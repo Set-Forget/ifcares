@@ -167,7 +167,7 @@ const Welcome = () => {
                 Menu
               </button>
             </div>
-            {/* <Link href='/request' className="flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none mr-4">
+            <Link href='/request' className="flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none mr-4">
               <button type="button" className='flex items-center justify-center gap-2'>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +185,7 @@ const Welcome = () => {
                 </svg>
                 Request
               </button>
-            </Link> */}
+            </Link>
             {role === ROLES.Admin && (
               <SitesDropdown
                 sites={sites}
