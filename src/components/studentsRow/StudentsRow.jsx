@@ -71,7 +71,7 @@ export default function StudentsRow({
       />
 
       <tr className="bg-white">
-        <td className="text-black text-sm font-normal leading-relaxed p-4 pl-6">
+        <td className="text-black text-sm font-medium leading-relaxed p-4 pl-6">
           {isEditing ? (
             <input
               type="text"

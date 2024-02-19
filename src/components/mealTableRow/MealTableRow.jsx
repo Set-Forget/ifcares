@@ -112,7 +112,7 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
       <td className="text-black text-base leading-relaxed bg-[#FFFFFF] p-4 text-center">
         {student.number}
       </td>
-      <td className="text-black text-base leading-relaxed bg-[#FFFFFF] p-4 pl-6 text-left">
+      <td className="text-black text-base font-medium leading-relaxed bg-[#FFFFFF] p-4 pl-6 text-left">
         {student.name}
       </td>
 
