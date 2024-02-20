@@ -1,4 +1,5 @@
 'use client';
+import LoadingSpinner from '@/components/loadingSpinner/LoadingSpinner';
 import RequestToast from '@/components/requestToast/RequestToast';
 import SitesSelect from '@/components/sitesSelect/SitesSelect';
 import { API_BASE_URL } from '@/constants';
@@ -24,6 +25,7 @@ const page = () => {
   const [time, setTime] = useState(null);
   const [selectedSite, setSelectedSite] = useState('');
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState('success');
 
@@ -101,6 +103,7 @@ const page = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (validateForm()) {
+      setLoading(true);
       const formData = {
         requestType,
         amount,
@@ -112,11 +115,16 @@ const page = () => {
       axios
         .get(`${API_BASE_URL}?type=request&${queryParams}`)
         .then((response) => {
+          setLoading(false);
           setToastType('success');
           setShowToast(true);
           setTimeout(() => setShowToast(false), 3000);
+          setRequestType('');
+          setAmount('');
+          setTime(null);
         })
         .catch((error) => {
+          setLoading(false);
           setToastType('error');
           setShowToast(true);
           setTimeout(() => setShowToast(false), 3000);
@@ -195,9 +203,9 @@ const page = () => {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={['TimePicker']}>
                     <div
-                      className={
+                      className={`w-full ${
                         errors.time ? 'border border-red-600 rounded-md' : ''
-                      }
+                      }`}
                     >
                       <TimePicker
                         className="w-full"
@@ -233,6 +241,14 @@ const page = () => {
               >
                 Submit
               </button>
+              {loading && (
+                <div className="flex ml-4 gap-4 items-center justify-center">
+                  <LoadingSpinner />
+                  <span className=" text-center text-xs text-gray-900 sm:text-base">
+                    Sending Request
+                  </span>
+                </div>
+              )}
               {showToast && <RequestToast type={toastType} />}
             </div>
           </div>
