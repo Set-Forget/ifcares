@@ -71,7 +71,7 @@ const Form = () => {
           setSubmitting(false);
           setFieldValue('name', initialValues.name, false);
           setFieldValue('age', initialValues.age, false);
-          resetForm();
+          setFieldValue('birthdate', initialValues.birthdate, false);
         } else {
           // console.error('Error in sending data:', response.data.message);
           setToastType('error');
