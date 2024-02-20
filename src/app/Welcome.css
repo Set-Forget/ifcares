@@ -63,7 +63,6 @@
 }
 
 
-
 .welcome-calendar-container{
   margin-top: 20px;
   display: flex;
@@ -75,6 +74,19 @@
 /*Media queries*/
 
 @media screen and (min-width: 780px) {
+
+  .welcome-buttons-container {
+    display: flex;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    justify-content: space-between;
+    margin-top: 80px;
+    margin-bottom: 30px;
+    min-height: 50px;
+    align-items: center;
+  }
   
 
   .welcome-text-container {

@@ -137,7 +137,7 @@ const Welcome = () => {
           </div>
         </div>
         <div className="relative w-full flex items-center justify-center">
-          <div className="mt-4 flex justify-end relative w-4/5">
+          <div className="mt-4 flex justify-end relative md:w-4/5">
             <div className="flex">
               {isDownloading && (
                 <div className="flex flex-col justify-center items-center mr-4">
@@ -148,7 +148,7 @@ const Welcome = () => {
               <button
                 type="button"
                 onClick={handleDownload}
-                className="flex items-center justify-center gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none mr-4"
+                className="flex items-center justify-center gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none mr-4"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -164,10 +164,10 @@ const Welcome = () => {
                     d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
                   />
                 </svg>
-                Menu
+                <span className="hidden md:inline">Menu</span>
               </button>
             </div>
-            <Link href='/request' className="flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none mr-4">
+            <Link href='/request' className="flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none mr-4">
               <button type="button" className='flex items-center justify-center gap-2'>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +183,7 @@ const Welcome = () => {
                     d="M12 4.5v15m7.5-7.5h-15"
                   />
                 </svg>
-                Request
+                <span className="hidden md:inline">Request</span>
               </button>
             </Link>
             {role === ROLES.Admin && (
