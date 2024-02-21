@@ -19,7 +19,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
-const page = () => {
+const Page = () => {
   const [requestType, setRequestType] = useState('');
   const [amount, setAmount] = useState('');
   const [time, setTime] = useState(null);
@@ -258,4 +258,4 @@ const page = () => {
   );
 };
 
-export default withAuth(page);
+export default withAuth(Page);
