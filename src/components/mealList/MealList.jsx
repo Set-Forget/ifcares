@@ -30,7 +30,7 @@ const MealList = () => {
       {isMobile ? (
         <>
           <DateTimePickerMobile></DateTimePickerMobile>
-          <div className="p-4 bg-[#E8FDF5] text-black rounded-t-lg flex justify-between items-center mb-2">
+          <div className="p-4 bg-[#C7F4DC] text-black rounded-t-lg flex justify-between items-center mb-2">
             <span className="header-item w-1/4 px-2 py-1 font-bold"> # </span>
             <span className="header-item w-2/3 px-2 py-1 font-bold">
               {" "}
@@ -48,11 +48,12 @@ const MealList = () => {
             <Button
               variant="contained"
               style={{
+                color: '#000000',
                 textTransform: 'capitalize',
                 fontWeight: 'bold',
-                backgroundColor: '#3DED97',
+                backgroundColor: '#46DC8C',
                 borderRadius: '13px',
-                minWidth: '130px',
+                minWidth: '140px',
                 minHeight: '40px',
                 boxShadow: 'none',
               }}

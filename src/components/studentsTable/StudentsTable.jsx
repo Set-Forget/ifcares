@@ -247,25 +247,25 @@ const StudentsTable = () => {
         ) : (
           <>
             <div className="sm:block hidden w-full">
-              <table className="w-full ">
+              <table className="w-full">
                 <thead className="text-left ">
                   <tr>
-                    <th className="uppercase text-black text-base font-semibold leading-loose bg-white border-b-2 border-[#1E1E1E] w-[250px] lg:w-[350px] p-2 pl-6">
+                    <th className="uppercase text-black text-base font-semibold leading-loose bg-white border-b-2 border-[#1E1E1E] w-3/12 p-2 pl-6">
                       Student Name
                     </th>
-                    <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] p-2 pl-6">
+                    <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] w-1/5 p-2 pl-6">
                       Age
                     </th>
                     {auth.role === ROLES.Admin && (
-                      <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] p-2 pl-6">
+                      <th className="uppercase text-black text-base font-semibold leading-loose  bg-white border-b-2 border-[#1E1E1E] w-1/5 p-2 pl-6">
                         Site
                       </th>
                     )}
                     {/* Edit cell */}
-                    <th className="text-black text-base font-bold leading-loose  bg-white border-b-2 border-[#1E1E1E]  md:table-cell p-2 pl-6">
+                    <th className="text-black text-base font-bold leading-loose  bg-white border-b-2 border-[#1E1E1E]  w-1/8 md:table-cell p-2 pl-6">
                       <span className="sr-only">Edit</span>
                     </th>
-                    <th className="text-black text-base font-bold leading-loose bg-white border-b-2 border-[#1E1E1E]  md:table-cell p-2 pl-6">
+                    <th className="text-black text-base font-bold leading-loose bg-white border-b-2 border-[#1E1E1E]  w-1/8 md:table-cell p-2 pl-6">
                       <span className="sr-only">Delete</span>
                     </th>
                   </tr>

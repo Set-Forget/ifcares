@@ -75,7 +75,7 @@ export default function StudentsRow({
           {isEditing ? (
             <input
               type="text"
-              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 h-14"
+              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 h-14 w-full"
               value={editedStudent.name}
               onChange={(e) =>
                 setEditedStudent({ ...editedStudent, name: e.target.value })
@@ -90,7 +90,7 @@ export default function StudentsRow({
             <input
               type="number"
               // className="border rounded-md px-3 py-2 w-full focus:border-violet-500 focus:outline-none"
-              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 h-14 max-w-[150px]"
+              className="border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:border-violet-500 h-14 w-full min-w-[70px]"
               value={editedStudent.age}
               onChange={(e) =>
                 setEditedStudent({ ...editedStudent, age: e.target.value })
@@ -102,7 +102,7 @@ export default function StudentsRow({
           )}
         </td>
         {showSiteColumn && (
-          <td className="text-black text-sm font-normal leading-relaxed p-4 pl-6 max-w-[150px]">
+          <td className="text-black text-sm font-normal leading-relaxed p-4 pl-6">
             {isEditing ? (
               <SitesSelect
                 isStudentsRow={true}
@@ -121,8 +121,26 @@ export default function StudentsRow({
           </td>
         )}
         <td>
+          <div className='flex flex-row justify-end items-center'>
+          {isEditing && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-5 cursor-pointer mr-0 md:mr-2"
+              onClick={() => setIsEditing(false)}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          )}
           <p
-            className="flex justify-center items-center "
+            className="flex justify-end items-center"
             onClick={() => {
               if (isEditing) {
                 setLoading(true);
@@ -201,14 +219,17 @@ export default function StudentsRow({
               {isEditing ? 'Save' : 'Edit'}
             </span>
           </p>
+          </div>
         </td>
-        <td className="">
-          <button
-            className="w-20 text-center rounded-lg border border-[#EA4336] text-[#EA4336] text-sm leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#EA4336]"
-            onClick={handleDeleteClick}
-          >
-            Delete
-          </button>
+        <td>
+          <p className="flex justify-center items-center">
+            <button
+              className="w-20 text-center rounded-lg border border-[#EA4336] text-[#EA4336] text-sm leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#EA4336]"
+              onClick={handleDeleteClick}
+            >
+              Delete
+            </button>
+          </p>
         </td>
       </tr>
     </>

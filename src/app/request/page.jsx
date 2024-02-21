@@ -151,7 +151,7 @@ const page = () => {
       <div className="w-full flex justify-center items-center">
         <form
           onSubmit={handleSubmit}
-          className="border-2 min-w-[350px] md:min-w-[500px] shadow-xl rounded-2xl bg-white mb-[80px]"
+          className=" min-w-[350px] md:min-w-[500px] shadow-2xl rounded-2xl bg-white mb-[80px]"
         >
           <div className="w-full flex justify-center mt-7 md:mt-10">
             <h2 className="w-4/5 text-xl md:text-2xl self-start not-italic font-extrabold leading-normal">
