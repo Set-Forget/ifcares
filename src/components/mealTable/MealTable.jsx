@@ -173,7 +173,7 @@ const MealTable = () => {
                       <div
                         className={
                           dateError || dateValidationError
-                            ? 'border border-[#EA4336] rounded-md'
+                            ? 'border border-red-600 rounded-md'
                             : ''
                         }
                       >
@@ -194,7 +194,7 @@ const MealTable = () => {
                         />
                       </div>
                       {(dateError || dateValidationError) && (
-                        <span style={{ color: '#EA4336' }}>
+                        <span className='text-xs text-red-600 ml-3 mt-1'>
                           {dateValidationError || 'Date is required'}
                         </span>
                       )}
@@ -214,7 +214,7 @@ const MealTable = () => {
                   <div className="flex flex-col">
                     <div
                       className={
-                        time1Error ? 'border border-[#EA4336] rounded-md' : ''
+                        time1Error ? 'border border-red-600 rounded-md' : ''
                       }
                     >
                       <TimePicker
@@ -230,7 +230,7 @@ const MealTable = () => {
                       />
                     </div>
                     {time1Error && (
-                      <span style={{ color: '#EA4336' }}>
+                      <span className='text-xs text-red-600 ml-3 mt-1'>
                         Time In is required
                       </span>
                     )}
@@ -244,7 +244,7 @@ const MealTable = () => {
                   <div className="flex flex-col">
                     <div
                       className={
-                        time2Error ? 'border border-[#EA4336] rounded-md' : ''
+                        time2Error ? 'border border-red-600 rounded-md' : ''
                       }
                     >
                       <TimePicker
@@ -260,7 +260,7 @@ const MealTable = () => {
                       />
                     </div>
                     {time2Error && (
-                      <span style={{ color: '#EA4336' }}>
+                      <span className='text-xs text-red-600 ml-3 mt-1'>
                         Time Out is required
                       </span>
                     )}

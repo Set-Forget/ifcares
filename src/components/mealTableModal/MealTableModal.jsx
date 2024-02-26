@@ -166,19 +166,20 @@ const MealTableModal = ({
                 onGenerateSign={generateSign}
                 ref={signatureComponentRef}
               />
-              {isSignatureEmpty && (
-                <p className="absolute text-red-600 text-xs left-1/2 -translate-x-1/2 pt-1">
-                  Please Sign
-                </p>
-              )}
 
               <br />
               <br />
               <div className="flex justify-center gap-4">
-                <Button color="green" onClick={handleFormSubmit}>
+                <button
+                  className="border border-[#46DC8C] bg[#ffffff] rounded text-black px-3 py-2 hover:bg-[#46DC8C] hover:font-medium"
+                  onClick={handleFormSubmit}
+                >
                   SUBMIT
-                </Button>
+                </button>
               </div>
+              {isSignatureEmpty && (
+                <p className=" text-red-600 text-xs my-2">Please Sign</p>
+              )}
             </div>
           )}
         </Modal.Body>

@@ -33,7 +33,7 @@ const SignatureComponent = ({ onGenerateSign }, ref) => {
           border: 'solid black 1px',
           width: isMobile ? 300 : 400,
           maxWidth: '400px',
-          margin: '0 auto',
+          margin: '10px auto',
         }}
       >
         <SignatureCanvas
@@ -45,14 +45,9 @@ const SignatureComponent = ({ onGenerateSign }, ref) => {
           ref={signatureRef}
         />
       </div>
-      <br />
+
       <button
-        style={{
-          border: 'solid 1px red',
-          padding: '5px',
-          borderRadius: '5px',
-          width: '60px',
-        }}
+        className='text-sm border border-[#EA4336] rounded-md px-3 py-2 hover:bg-[#EA4336] hover:text-white'
         onClick={() => ref.current.clear()}
       >
         Clear
