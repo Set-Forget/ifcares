@@ -178,7 +178,7 @@ const MealSite = () => {
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
       <div className="flex w-full justify-end">
         {isLoading && (
-          <div className="mr-4">
+          <div className="mr-4 flex items-center">
             <LoadingSpinner />
           </div>
         )}
