@@ -5,10 +5,10 @@ const FormToast = ({ type, message }) => {
     return (
       <div
         id="toast-success"
-        className="flex items-center p-2 mb-2 text-gray-500 bg-white rounded-lg shadow max-w-52 md:p-4"
+        className=" flex items-center p-2 mb-2 text-gray-500 bg-white rounded-lg shadow md:p-2"
         role="alert"
       >
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 text-green-500 bg-green-100 rounded-lg md:w-8 md:h-8">
+        <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 text-green-500 bg-green-100 rounded-lg md:w-6 md:h-6">
           <svg
             className="w-4 h-4 md:w-5 md:h-5"
             aria-hidden="true"
@@ -20,7 +20,7 @@ const FormToast = ({ type, message }) => {
           </svg>
           <span className="sr-only">Check icon</span>
         </div>
-        <div className="ms-3 text-xs font-normal md:text-sm">
+        <div className="ms-3 text-xs font-normal">
           Student added successfully!
         </div>
       </div>
@@ -36,10 +36,10 @@ const FormToast = ({ type, message }) => {
     return (
       <div
         id="toast-danger"
-        className="flex items-center p-2 mb-2 text-gray-500 bg-white rounded-lg shadow max-w-52 md:p-4"
+        className="flex items-center p-2 mb-2 text-gray-500 bg-white rounded-lg shadow md:p-2"
         role="alert"
       >
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 text-red-500 bg-red-100 rounded-lg md:w-8 md:h-8">
+        <div className="inline-flex items-center justify-center flex-shrink-0 w-5 h-5 text-red-500 bg-red-100 rounded-lg md:w-6 md:h-6">
           <svg
             className="w-4 h-4 md:w-5 md:h-5"
             aria-hidden="true"
@@ -51,7 +51,7 @@ const FormToast = ({ type, message }) => {
           </svg>
           <span className="sr-only">Error icon</span>
         </div>
-        <div className="ms-3 text-xs font-normal md:text-sm">{errorMessage}</div>
+        <div className="ms-3 text-xs font-normal">{errorMessage}</div>
       </div>
     );
   }
