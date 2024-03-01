@@ -85,6 +85,10 @@
     min-height: 50px;
     align-items: center;
   }
+
+  .welcome-calendar-container{
+    margin-top: 0px;
+  }
   
 
   .welcome-text-container {
