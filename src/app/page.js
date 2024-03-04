@@ -138,7 +138,7 @@ const Welcome = () => {
         </div>
         <div className="relative w-full flex items-center justify-center">
           <div className="mt-10 md:mt-4 flex justify-end relative md:w-4/5">
-            <div className="flex">
+            <div className="flex items-center">
               {isDownloading && (
                 <div className="flex flex-col justify-center items-center mr-4 hidden sm:block">
                   <LoadingSpinner />
