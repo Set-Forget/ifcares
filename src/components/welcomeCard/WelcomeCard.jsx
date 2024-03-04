@@ -80,7 +80,7 @@ const WelcomeCard = ({ date, siteName, isExcluded, isNewDate }) => {
   // Card content
   const cardContent = (
     <div className={`h-20 sm:h-28 flex items-center justify-center shadow-lg p-4 rounded-lg  ${cardBackgroundColor}`}>
-      <h5 className={`text-xs lg:text-lg md:text-base sm:text-sm font-medium tracking-tight`}>
+      <h5 className={`text-xs sm:text-sm  md:text-base lg:text-lg font-medium tracking-tight text-center`}>
         {formattedDate}
       </h5>
     </div>
