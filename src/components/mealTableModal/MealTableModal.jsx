@@ -91,38 +91,41 @@ const MealTableModal = ({
       },
     };
 
-    // console.log(dataObject);
+    console.log(dataObject);
 
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const gasUrl = API_BASE_URL;
-
-    // Send the axios post request with the dataObject as the request body
-    axios
-      .post(PROXY_URL + gasUrl, JSON.stringify(dataObject), {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-requested-with': 'XMLHttpRequest',
-        },
-      })
-      .then((response) => {
-        // Handle the response from the GAS web app
-        // console.log(response.data);
-        setToastType('success');
-        setTimeout(() => {
-          window.location.assign('/'); // Send to the root
-        }, 4000);
+    fetch(API_BASE_URL, {
+      redirect: 'follow',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(dataObject),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.result == 'success') {
+          setIsLoading(false);
+          setToastType('success');
+          setTimeout(() => {
+            window.location.assign('/'); // Send to the root
+          }, 4000);
+        }
+        if (data.result == 'error') {
+          setIsLoading(false);
+          setToastType('error');
+          setTimeout(() => {
+            window.location.assign('/'); // Send to the root
+          }, 4000);
+        }
       })
       .catch((error) => {
-        // Handle the error from the GAS web app
+        setIsLoading(false);
         console.error(error);
-        setToastType('error');
+        setToastType('unknown');
         setTimeout(() => {
           window.location.reload(); // Refresh the page
         }, 4000);
-      })
-      .finally(() => {
-        // Set the loading state back to false once you get a response or an error
-        setIsLoading(false);
       });
   };
 

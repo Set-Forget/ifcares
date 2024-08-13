@@ -15,10 +15,10 @@ const inter = Inter({ subsets: ['latin'] })
 export default function RootLayout({ children }) {
   const pathname = usePathname()
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <AuthProvider>
         <MealSiteProvider>
-          <body className={inter.className}>
+          <body className={inter.className} suppressHydrationWarning={true}>
             <If condition={!pathname.includes("login")}>
               <Then>
                 <Header/>
