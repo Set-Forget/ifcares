@@ -27,7 +27,7 @@ const Welcome = () => {
 
   const GAS_URL = API_BASE_URL;
 
-  //get request from apps script
+  //get request
   useEffect(() => {
     setIsLoading(true);
     axios
