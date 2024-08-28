@@ -10,12 +10,22 @@ const MealTableCountRow = ({
   snackCount,
   supperCount,
 }) => {
-  const { globalCounts, selectedDate, selectedDateCache, resetGlobalCounts } =
-    useContext(MealSiteContext); // Use context
+  const {
+    globalCounts,
+    selectedDate,
+    selectedDateCache,
+    resetGlobalCounts,
+    updateCountsForSavedMeal,
+    checkSavedMealCounts
+  } = useContext(MealSiteContext); // Use context
 
   useEffect(() => {
     if (selectedDate !== selectedDateCache) {
       resetGlobalCounts();
+      let data = checkSavedMealCounts();
+      if (data) {
+        updateCountsForSavedMeal(data)
+      }
     }
   }, [selectedDate]);
 

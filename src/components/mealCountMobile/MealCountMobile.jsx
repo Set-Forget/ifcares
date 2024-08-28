@@ -2,14 +2,24 @@ import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
 import React, { useContext, useEffect } from 'react';
 
 const MealCountMobile = () => {
-  const { globalCounts, selectedDate, selectedDateCache, resetGlobalCounts } =
-    useContext(MealSiteContext);
+  const {
+    globalCounts,
+    selectedDate,
+    selectedDateCache,
+    resetGlobalCounts,
+    updateCountsForSavedMeal,
+    checkSavedMealCounts,
+  } = useContext(MealSiteContext);
 
-    useEffect(() => {
-        if (selectedDate !== selectedDateCache) {
-          resetGlobalCounts()
-        }
-      }, [selectedDate])
+  useEffect(() => {
+    if (selectedDate !== selectedDateCache) {
+      resetGlobalCounts();
+      let data = checkSavedMealCounts();
+      if (data) {
+        updateCountsForSavedMeal(data);
+      }
+    }
+  }, [selectedDate]);
 
   return (
     <div className="w-full rounded-lg bg-white my-4 shadow p-4">

@@ -112,6 +112,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
           <div className="grid grid-cols-5 gap-4 p-4 bg-[#E8FDF5]">
           <label className="flex items-center space-x-2">
             <Checkbox
+            style={{accentColor: '#6BE3A3'}}
               checked={checkboxState.attendance}
               onChange={(e) => handleLocalCheckboxChange('attendance', e.target.checked)}
               disabled={selectedDate === null ? true : false}
@@ -120,6 +121,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
           </label>
           <label className="flex items-center space-x-2">
             <Checkbox
+            style={{accentColor: '#6BE3A3'}}
               checked={checkboxState.breakfast}
               onChange={(e) => handleLocalCheckboxChange('breakfast', e.target.checked)}
               disabled={!checkboxState.attendance || !mealAvailability.brk}
@@ -128,6 +130,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
           </label>
           <label className="flex items-center space-x-2">
             <Checkbox
+            style={{accentColor: '#6BE3A3'}}
               checked={checkboxState.lunch}
               onChange={(e) => handleLocalCheckboxChange('lunch', e.target.checked)}
               disabled={!checkboxState.attendance || !mealAvailability.lunch}
@@ -136,6 +139,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
           </label>
           <label className="flex items-center space-x-2">
             <Checkbox
+            style={{accentColor: '#6BE3A3'}}
               checked={checkboxState.snack}
               onChange={(e) => handleLocalCheckboxChange('snack', e.target.checked)}
               disabled={!checkboxState.attendance || !mealAvailability.snk}
@@ -144,6 +148,7 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
           </label>
           <label className="flex items-center space-x-2">
             <Checkbox
+            style={{accentColor: '#6BE3A3'}}
               checked={checkboxState.supper}
               onChange={(e) => handleLocalCheckboxChange('supper', e.target.checked)}
               disabled={!checkboxState.attendance || !mealAvailability.sup}

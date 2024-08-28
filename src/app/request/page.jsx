@@ -132,7 +132,7 @@ const Page = () => {
     }
   };
 
-  const showNumberInput = ['Sporks', 'Meal Increase', 'Meal Decrease'].includes(
+  const showNumberInput = ['Sporks', 'Meal Increase', 'Meal Decrease', 'Condiments', 'Special Meals', 'Dietary Restrictions'].includes(
     requestType
   );
   const showTimePicker = requestType === 'Change approved meal service time';
@@ -173,10 +173,13 @@ const Page = () => {
                 >
                   <MenuItem value={'Sporks'}>Sporks</MenuItem>
                   <MenuItem value={'Meal Increase'}>Meal Increase</MenuItem>
-                  <MenuItem value={'Meal Decrease'}>Meal Decrese</MenuItem>
+                  <MenuItem value={'Meal Decrease'}>Meal Decrease</MenuItem>
                   <MenuItem value={'Change approved meal service time'}>
                     Change approved meal service time
                   </MenuItem>
+                  <MenuItem value={'Condiments'}>Condiments</MenuItem>
+                  <MenuItem value={'Special Meals'}>Special Meals</MenuItem>
+                  <MenuItem value={'Dietary Restrictions'}>Dietary Restrictions</MenuItem>
                 </Select>
                 {errors.requestType && (
                   <FormHelperText error>{errors.requestType}</FormHelperText>
@@ -242,10 +245,10 @@ const Page = () => {
                 Submit
               </button>
               {loading && (
-                <div className="flex ml-4 gap-4 items-center justify-center">
+                <div className="flex ml-6 gap-6 items-center justify-center">
                   <LoadingSpinner />
-                  <span className=" text-center text-xs text-gray-900 sm:text-base">
-                    Sending Request
+                  <span className=" text-center text-xs text-gray-900 md:text-sm">
+                    Sending Request...
                   </span>
                 </div>
               )}

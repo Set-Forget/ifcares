@@ -6,6 +6,7 @@ import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import ConfirmationToast from '../confirmationToast/ConfirmationToast';
 import './MealTableModal.css';
 import { API_BASE_URL } from '@/constants';
+import dayjs from 'dayjs';
 
 const MealTableModal = ({
   isOpen,
@@ -32,6 +33,10 @@ const MealTableModal = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
+
+  const formatDateForLocalStorage = (date) => {
+    return dayjs(date).format('YYYY-MM-DD');
+  };
 
   const handleFormSubmit = () => {
     setIsLoading(true);
@@ -78,6 +83,27 @@ const MealTableModal = ({
     const formattedDate = selectedDate.toISOString();
     const formattedTime1 = formatTime(selectedTime1);
     const formattedTime2 = formatTime(selectedTime2);
+
+    // remove the saved meal count from the storage
+    // Retrieve existing data from localStorage
+    const savedMealCounts =
+      JSON.parse(localStorage.getItem('savedMealCounts')) || [];
+
+    const dateForStorage = formatDateForLocalStorage(formattedDate);
+
+    // Find the index of the entry with matching site and date
+    const matchingIndex = savedMealCounts.findIndex(
+      (item) =>
+        item.selectedSite === selectedSite &&
+        item.selectedDate === dateForStorage
+    );
+
+    // If a match is found, remove it from the savedMealCounts
+    if (matchingIndex !== -1) {
+      savedMealCounts.splice(matchingIndex, 1); // Remove the specific item
+      // Update localStorage with the modified array
+      localStorage.setItem('savedMealCounts', JSON.stringify(savedMealCounts));
+    }
 
     const dataObject = {
       actionType: 'mealCount',

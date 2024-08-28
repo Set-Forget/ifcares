@@ -2,6 +2,7 @@
 import { API_BASE_URL } from '@/constants';
 import axios from 'axios';
 import React, { createContext, useState, useRef, useEffect } from 'react';
+import dayjs from 'dayjs';
 
 export const MealSiteContext = createContext();
 
@@ -85,6 +86,63 @@ export const MealSiteProvider = ({ children }) => {
         }
       );
     }
+  };
+
+  // como hay una saved Meal en el local Storage updateamos los counts
+  const updateCountsForSavedMeal = (data) => {
+  
+    Object.keys(data).forEach((studentId) => {
+      // Check if the student exists in the studentData array
+      const studentExists = studentData.some(student => student.id === studentId);
+      
+      // Skip if the student does not exist in studentData
+      if (!studentExists) return;
+  
+      // Pass the relevant data for each student to the function
+      updateCountsOnSavedMealCounts(studentId, data[studentId]);
+    });
+  };
+  
+  // Modify the function to accept the student's data directly
+  const updateCountsOnSavedMealCounts = (studentId, studentData) => {
+    // Use the studentData instead of selectedCheckboxData
+    if (studentData) {
+      ['attendance', 'breakfast', 'lunch', 'snack', 'supper'].forEach(
+        (category) => {
+          if (studentData[category]) {
+            updateGlobalCount(category, true);
+          }
+        }
+      );
+    }
+  };
+
+  const formatDateForLocalStorage = (date) => {
+    return dayjs(date).format('YYYY-MM-DD');
+  };
+  // funcion que checkea
+  const checkSavedMealCounts = () => {
+    if (selectedSite && selectedDate) {
+      const formattedDate = formatDateForLocalStorage(selectedDate);
+
+      // Retrieve existing data from localStorage
+      const savedMealCounts =
+        JSON.parse(localStorage.getItem('savedMealCounts')) || [];
+
+      // Find if there's an existing entry for the selected site and date
+      const matchingEntry = savedMealCounts.find(
+        (item) =>
+          item.selectedSite === selectedSite &&
+          item.selectedDate === formattedDate
+      );
+
+      // If a matching entry is found, set the checkbox data
+      if (matchingEntry) {
+        setSelectedCheckboxData(matchingEntry.data);
+        return matchingEntry.data;
+      }
+    }
+    return false;
   };
 
   const topRef = useRef(null); // Create a ref for the top of the component
@@ -203,6 +261,10 @@ export const MealSiteProvider = ({ children }) => {
         selectedTime2,
         setSelectedTime2,
         selectedCheckboxData,
+        setSelectedCheckboxData,
+        updateCountsForSavedMeal,
+        updateCountsOnSavedMealCounts,
+        checkSavedMealCounts,
         handleCheckboxChange,
         updateCountsOnStudentDeletion,
         updateGlobalCount,

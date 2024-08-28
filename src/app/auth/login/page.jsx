@@ -47,7 +47,11 @@ export default function Login() {
       .then(({ data: response }) => {
         const { result, message, data } = response;
         if (result === 'success') {
+          const currentTime = new Date().getTime();
+          const expirationTime =
+            currentTime + 2 * 60 * 60 * 1000;
           setLoading(false);
+          data.expirationTime = expirationTime
           setAuth(data);
           localStorage.setItem('user', JSON.stringify(data));
           router.push('/');
@@ -107,25 +111,6 @@ export default function Login() {
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600 block w-full p-2.5"
                   required=""
                 />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-purple-300 "
-                      style={{ accentColor: '#9333ea' }}
-                      required=""
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="remember" className="text-gray-500">
-                      Remember me
-                    </label>
-                  </div>
-                </div>
               </div>
               <button
                 disabled={loading}
