@@ -1,6 +1,4 @@
-import { Table } from 'flowbite-react';
 import MealTableRow from '../mealTableRow/MealTableRow';
-import { Button } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import MealTableCount from '../mealTableZCount/MealTableCount';
 import './MealTable.css';
@@ -13,10 +11,9 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 //time select
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
-import axios from 'axios';
-import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 
 const MealTable = () => {
+  const [showMessage, setShowMessage] = useState('');
   const {
     studentData,
     selectedSite,
@@ -31,6 +28,7 @@ const MealTable = () => {
     setSelectedTime1,
     selectedTime2,
     setSelectedTime2,
+    selectedCheckboxData,
     globalCounts,
     dateError,
     setDateError,
@@ -40,16 +38,10 @@ const MealTable = () => {
     setTime2Error,
     handleNextClick,
     dateValidationError,
-    setDateValidationError,
     topRef,
   } = useContext(MealSiteContext);
 
   const validStudentData = Array.isArray(studentData) ? studentData : [];
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // const minTime = dayjs().hour(8).minute(5).second(0).millisecond(0);
-  // const maxTime = dayjs().hour(19).minute(0).second(0).millisecond(0);
-  // console.log(datesBySite);
 
   useEffect(() => {
     if (lastTimeIn) {
@@ -77,58 +69,6 @@ const MealTable = () => {
     return date;
   }
 
-  // post request with the dates
-  // const postSelectedDate = async (date) => {
-  //   setIsLoading(true);
-  //   if (selectedSite && date) {
-  //     setSelectedDate(date);
-
-  //     const formattedDate = date.toISOString(); // Format the date
-
-  //     // console.log(formattedDate);
-  //     // console.log(selectedSite);
-
-  //     const dataObject = {
-  //       actionType: 'dates', // Set the action type for your API
-  //       values: {
-  //         site: selectedSite,
-  //         date: formattedDate,
-  //       },
-  //     };
-
-  //     const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-  //     const gasUrl =
-  //       'https://script.google.com/macros/s/AKfycbxwfq6r4ZHfN6x66x2Ew-U16ZWnt0gfrhScaZmsNpyKufbRj2n1Zc3UH8ZEFXbA-F8V/exec';
-
-  //     try {
-  //       const response = await axios.post(
-  //         PROXY_URL + gasUrl,
-  //         JSON.stringify(dataObject),
-  //         {
-  //           headers: {
-  //             'Content-Type': 'application/json',
-  //             'x-requested-with': 'XMLHttpRequest',
-  //           },
-  //         }
-  //       );
-
-  //       // Handle the response
-  //       if (response.data.result === 'error') {
-  //         // console.log('Error Response:', response.data.message);
-  //         setDateValidationError(response.data.message);
-  //       } else {
-  //         // console.log('no error', response.data.array);
-  //         setDateValidationError('');
-  //       }
-  //     } catch (error) {
-  //       // Handle errors
-  //       console.error(error);
-  //       setDateValidationError('Error occurred while validating the date');
-  //     }
-  //   }
-  //   setIsLoading(false);
-  // };
-
   const shouldDisableDate = (date) => {
     if (!selectedSite || !datesBySite[selectedSite]) {
       // If no site is selected or if there's no data for the selected site
@@ -145,6 +85,96 @@ const MealTable = () => {
       setSelectedDateCache(selectedDate);
     }
   }, [selectedDate]);
+
+  // save functionality
+  const handleSave = () => {
+    if (!selectedSite) {
+      setShowMessage('site');
+      setTimeout(() => {
+        setShowMessage('');
+      }, 3000);
+      return;
+    }
+    if (!selectedDate) {
+      setShowMessage('date');
+      setTimeout(() => {
+        setShowMessage('');
+      }, 3000);
+      return;
+    }
+
+    const formattedDate = formatDateForLocalStorage(selectedDate);
+
+    // Retrieve existing data from localStorage
+    const savedMealCounts =
+      JSON.parse(localStorage.getItem('savedMealCounts')) || [];
+
+    // Find if there's an existing entry for the selected site and date
+    const existingIndex = savedMealCounts.findIndex(
+      (item) =>
+        item.selectedSite === selectedSite &&
+        item.selectedDate === formattedDate
+    );
+
+    const newEntry = {
+      selectedSite,
+      selectedDate: formattedDate,
+      data: selectedCheckboxData,
+    };
+
+    if (existingIndex !== -1) {
+      // Replace the existing entry
+      savedMealCounts[existingIndex] = newEntry;
+    } else {
+      // Add the new entry
+      savedMealCounts.push(newEntry);
+    }
+
+    // Save the updated array back to localStorage
+    localStorage.setItem('savedMealCounts', JSON.stringify(savedMealCounts));
+    setShowMessage('success');
+    setTimeout(() => {
+      setShowMessage('');
+    }, 3000);
+  };
+
+  const formatDateForLocalStorage = (date) => {
+    return dayjs(date).format('YYYY-MM-DD');
+  };
+
+  const errorIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-5"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6 18 18 6M6 6l12 12"
+      />
+    </svg>
+  );
+
+  const successIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-5"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m4.5 12.75 6 6 9-13.5"
+      />
+    </svg>
+  );
 
   return (
     <>
@@ -194,7 +224,7 @@ const MealTable = () => {
                         />
                       </div>
                       {(dateError || dateValidationError) && (
-                        <span className='text-xs text-red-600 ml-3 mt-1'>
+                        <span className="text-xs text-red-600 ml-3 mt-1">
                           {dateValidationError || 'Date is required'}
                         </span>
                       )}
@@ -230,7 +260,7 @@ const MealTable = () => {
                       />
                     </div>
                     {time1Error && (
-                      <span className='text-xs text-red-600 ml-3 mt-1'>
+                      <span className="text-xs text-red-600 ml-3 mt-1">
                         Time In is required
                       </span>
                     )}
@@ -260,7 +290,7 @@ const MealTable = () => {
                       />
                     </div>
                     {time2Error && (
-                      <span className='text-xs text-red-600 ml-3 mt-1'>
+                      <span className="text-xs text-red-600 ml-3 mt-1">
                         Time Out is required
                       </span>
                     )}
@@ -321,15 +351,50 @@ const MealTable = () => {
         supperCount={globalCounts.supper}
       />
       <br />
-      <div className='w-full flex justify-end'>
+      <div className="flex w-full justify-between items-center mb-20">
+        <div className="flex flex-col items-start font-bold gap-2">
+          <button
+            className="flex items-center gap-2 bg-[#FACA1F] rounded-[13px] px-4 md:px-6 min-h-[40px] shadow-none"
+            onClick={handleSave}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 32 32"
+            >
+              <path
+                fill="currentColor"
+                d="m27.71 9.29l-5-5A1 1 0 0 0 22 4H6a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V10a1 1 0 0 0-.29-.71M12 6h8v4h-8Zm8 20h-8v-8h8Zm2 0v-8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8H6V6h4v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6.41l4 4V26Z"
+              />
+            </svg>
+            Save
+          </button>
+          {showMessage && showMessage == 'success' && (
+            <span className="absolute mt-12 text-xs text-green-600 flex items-center gap-1">
+              {successIcon} Meal count saved!
+            </span>
+          )}
+          {showMessage && showMessage == 'site' && (
+            <span className="absolute mt-12 text-xs text-red-600 flex items-center gap-1">
+              {errorIcon}
+              Select site to save
+            </span>
+          )}
+          {showMessage && showMessage == 'date' && (
+            <span className="absolute mt-12 text-xs text-red-600 flex items-center gap-1">
+              {errorIcon}
+              Select date to save
+            </span>
+          )}
+        </div>
         <button
-          className='text-black font-bold bg-[#46DC8C] text-sm'
+          className="text-black font-bold bg-[#46DC8C] text-sm"
           style={{
             borderRadius: '13px',
             minWidth: '140px',
             minHeight: '40px',
             boxShadow: 'none',
-            marginBottom: '100px',
             marginTop: '10px',
           }}
           onClick={() => handleNextClick(validStudentData)}

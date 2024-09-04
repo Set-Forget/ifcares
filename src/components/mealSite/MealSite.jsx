@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Table } from 'flowbite-react';
 import MealSiteRow from '../mealSiteRow/MealSiteRow';
 import SitesDropdown from '../sitesDropdown/SitesDropdown';
 import axios from 'axios';
@@ -17,18 +16,15 @@ const MealSite = () => {
   const [sites, setSites] = useState([]);
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [showMessage, setShowMessage] = useState('');
 
   const {
     selectedSite,
     setSelectedSite,
-    selectedDate,
     setSelectedDate,
     setLastTimeIn,
     setLastTimeOut,
     siteData,
     setSiteData,
-    selectedCheckboxData,
     setStudentData,
     resetGlobalCounts,
     resetSelectedCheckboxData,
@@ -46,8 +42,6 @@ const MealSite = () => {
     resetSelectedCheckboxData();
     resetSelectedDate(); // Reset the date picker value
     resetDateValidationError();
-    // setFoundSavedMealCount(false);
-    // setAlreadyCounted(false);
   };
 
   const GAS_URL = API_BASE_URL;
@@ -143,6 +137,7 @@ const MealSite = () => {
       fetchStudentForSelectedSite(selectedSite);
     }
   }, [selectedSite]);
+
   const [dropdownDisabled, setdropdownDisabled] = useState(null);
   useEffect(() => {
     if (auth != null) {
@@ -165,10 +160,6 @@ const MealSite = () => {
     return dayjs(dateStr);
   }
 
-  const formatDateForLocalStorage = (date) => {
-    return dayjs(date).format('YYYY-MM-DD');
-  };
-
   useEffect(() => {
     if (queryParams.site && queryParams.date) {
       // Logic to handle the parameters
@@ -183,130 +174,9 @@ const MealSite = () => {
     }
   }, [queryParams]);
 
-  const handleSave = () => {
-    if (!selectedSite) {
-      setShowMessage('site');
-      setTimeout(() => {
-        setShowMessage('');
-      }, 3000);
-      return;
-    }
-    if (!selectedDate) {
-      setShowMessage('date');
-      setTimeout(() => {
-        setShowMessage('');
-      }, 3000);
-      return;
-    }
-
-    const formattedDate = formatDateForLocalStorage(selectedDate);
-
-    // Retrieve existing data from localStorage
-    const savedMealCounts =
-      JSON.parse(localStorage.getItem('savedMealCounts')) || [];
-
-    // Find if there's an existing entry for the selected site and date
-    const existingIndex = savedMealCounts.findIndex(
-      (item) =>
-        item.selectedSite === selectedSite &&
-        item.selectedDate === formattedDate
-    );
-
-    const newEntry = {
-      selectedSite,
-      selectedDate: formattedDate,
-      data: selectedCheckboxData,
-    };
-
-    if (existingIndex !== -1) {
-      // Replace the existing entry
-      savedMealCounts[existingIndex] = newEntry;
-    } else {
-      // Add the new entry
-      savedMealCounts.push(newEntry);
-    }
-
-    // Save the updated array back to localStorage
-    localStorage.setItem('savedMealCounts', JSON.stringify(savedMealCounts));
-    setShowMessage('success');
-    setTimeout(() => {
-      setShowMessage('');
-    }, 3000);
-  };
-
-  const errorIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M6 18 18 6M6 6l12 12"
-      />
-    </svg>
-  );
-
-  const successIcon = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className="w-5"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="m4.5 12.75 6 6 9-13.5"
-      />
-    </svg>
-  );
-
   return (
     <div className="relative left-1/2 -translate-x-1/2 w-4/5">
-      <div className="flex w-full justify-between items-center mb-4">
-        <div className="flex flex-col items-start font-bold gap-2">
-          <button
-            className="flex items-center gap-2 bg-[#FACA1F] rounded-[13px] px-4 md:px-6 min-h-[40px] shadow-none"
-            onClick={handleSave}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
-              viewBox="0 0 32 32"
-            >
-              <path
-                fill="currentColor"
-                d="m27.71 9.29l-5-5A1 1 0 0 0 22 4H6a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V10a1 1 0 0 0-.29-.71M12 6h8v4h-8Zm8 20h-8v-8h8Zm2 0v-8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8H6V6h4v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6.41l4 4V26Z"
-              />
-            </svg>
-            Save
-          </button>
-          {showMessage && showMessage == 'success' && (
-            <span className="absolute mt-12 text-xs text-green-600 flex items-center gap-1">
-              {successIcon} Meal count saved!
-            </span>
-          )}
-          {showMessage && showMessage == 'site' && (
-            <span className="absolute mt-12 text-xs text-red-600 flex items-center gap-1">
-              {errorIcon}
-              Select site to save
-            </span>
-          )}
-          {showMessage && showMessage == 'date' && (
-            <span className="absolute mt-12 text-xs text-red-600 flex items-center gap-1">
-              {errorIcon}
-              Select date to save
-            </span>
-          )}
-        </div>
+      <div className="flex w-full justify-end items-center mb-4">
         <div className="flex justify-end w-[250px]">
           {isLoading && (
             <div className="mr-4 flex items-center">
