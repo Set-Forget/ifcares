@@ -90,10 +90,10 @@ const StudentsTable = () => {
       // Call function to uncheck checkboxes before transferring the student
       updateCountsOnStudentDeletion(originalStudent.id);
     }
-
+  
     setOpenModal('pop-up');
     setStudentsPerPage(10);
-
+  
     const formattedData = {
       actionType: 'edit',
       values: [
@@ -105,40 +105,39 @@ const StudentsTable = () => {
         editedStudentData.site,
       ],
     };
-
-    // console.log(formattedData);
-
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const GAS_URL = API_BASE_URL;
-
+  
     try {
-      const response = await axios.post(
-        PROXY_URL + GAS_URL,
-        JSON.stringify(formattedData),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'x-requested-with': 'XMLHttpRequest',
-          },
+      // Making the fetch request using async/await
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(formattedData),
+      });
+  
+      // Checking if the response is OK (status in the range 200-299)
+      if (response.ok) {
+        const responseData = await response.json();
+  
+        // Check if the response indicates a successful edit
+        if (responseData.result === 'success') {
+          onSuccess('success');
+        } else {
+          onSuccess('error', responseData.message); // Pass the error message from API
         }
-      );
-
-      // console.log(response.data.result);
-      // Check if the response indicates a successful edit
-      if (response.data.result === 'success') {
-        // Assuming 'success' is a field in your response
-        onSuccess('success');
       } else {
-        // Handle API logical failure here
-        onSuccess('error', response.data.message); // Pass the error message from API
+        // Handle cases where response is not OK
+        onSuccess('error', 'Failed to edit student. Try again later.');
       }
-
+  
       fetchAllData();
     } catch (error) {
-      // On error, pass an error message
+      // Handle network or unexpected errors
       onSuccess('error', 'Network or unexpected error occurred.');
-      setOpenModal('error:', response);
-
+      setOpenModal('error');
+  
       fetchAllData();
     }
   };

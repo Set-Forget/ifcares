@@ -60,6 +60,74 @@ export default function StudentsRow({
     ? 'row-style' // Default style class
     : 'row-style-big'; // Apply a different style when site column is not shown
 
+  const handleEditStudent = async () => {
+    setLoading(true);
+
+    // Check if the student is being moved to a different site
+    if (student.site !== editedStudent.site) {
+      // Call function to uncheck checkboxes before transferring the student
+      updateCountsOnStudentDeletion(student.id);
+    }
+
+    setOpenModal('pop-up');
+
+    const formattedData = {
+      actionType: 'edit',
+      values: [
+        student.name,
+        student.site,
+        student.id,
+        editedStudent.name,
+        editedStudent.age,
+        editedStudent.site,
+      ],
+    };
+
+    // const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+    // const GAS_URL = API_BASE_URL;
+
+    try {
+      // Making the fetch request using async/await
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(formattedData),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+
+        if (responseData.result === 'success') {
+          setToastType('success');
+          setToastMessage('Student edited successfully.');
+        } else {
+          setToastType('error');
+          setToastMessage(
+            responseData.message ||
+              'Student could not be updated. Try again later.'
+          );
+        }
+      } else {
+        setToastType('error');
+        setToastMessage('An error occurred. Try again later.');
+      }
+    } catch (error) {
+      // Handle network or unexpected errors
+      setToastType('error');
+      setToastMessage('An error occurred. Try again later.');
+    } finally {
+      setLoading(false);
+      setOpenModal(toastType);
+      fetchAllData();
+      setTimeout(() => {
+        setOpenModal(null); // Hide the toast after a few seconds
+      }, 3000);
+    }
+  };
+
   return (
     <>
       <SavingModal
@@ -121,104 +189,37 @@ export default function StudentsRow({
           </td>
         )}
         <td>
-          <div className='flex flex-row justify-end items-center'>
-          {isEditing && (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-5 h-5 cursor-pointer mr-0 md:mr-2"
-              onClick={() => setIsEditing(false)}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18 18 6M6 6l12 12"
-              />
-            </svg>
-          )}
-          <p
-            className="flex justify-end items-center"
-            onClick={() => {
-              if (isEditing) {
-                setLoading(true);
-
-                // Check if the student is being moved to a different site
-                if (student.site !== editedStudent.site) {
-                  // Call function to uncheck checkboxes before transferring the student
-                  updateCountsOnStudentDeletion(student.id);
+          <div className="flex flex-row justify-end items-center">
+            {isEditing && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 cursor-pointer mr-0 md:mr-2"
+                onClick={() => setIsEditing(false)}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            )}
+            <p
+              className="flex justify-end items-center"
+              onClick={() => {
+                if (isEditing) {
+                  handleEditStudent();
                 }
-
-                setOpenModal('pop-up');
-
-                const formattedData = {
-                  actionType: 'edit',
-                  values: [
-                    student.name,
-                    student.site,
-                    student.id,
-                    editedStudent.name,
-                    editedStudent.age,
-                    editedStudent.site,
-                  ],
-                };
-
-                // console.log(formattedData);
-
-                const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-                const GAS_URL = API_BASE_URL;
-
-                axios
-                  .post(PROXY_URL + GAS_URL, JSON.stringify(formattedData), {
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'x-requested-with': 'XMLHttpRequest',
-                    },
-                  })
-                  .then((response) => {
-                    if (response.data.result === 'success') {
-                      setToastType('success');
-                      setToastMessage('Student edited successfully.');
-                    } else {
-                      setToastType('error');
-                      setToastMessage(
-                        response.data.message ||
-                          'Student could not be updated. Try again later.'
-                      );
-                    }
-                    setLoading(false);
-                    setOpenModal(toastType);
-                    fetchAllData();
-                    setTimeout(() => {
-                      setOpenModal(null);
-                    }, 3000);
-
-                    // hacer lo del refresh
-                    // Handle successful response
-                  })
-                  .catch((error) => {
-                    setToastType('error');
-                    setToastMessage('An error occurred. Try again later.');
-                    // console.log("error:", error);
-                    setLoading(false);
-                    setOpenModal('error');
-                    fetchAllData();
-                    setTimeout(() => {
-                      setOpenModal(null); // Hide the toast after a few seconds
-                    }, 3000);
-
-                    // Handle errors
-                  });
-              }
-              setIsEditing(!isEditing);
-            }}
-          >
-            <span className="inline-block w-20 rounded-lg border border-[#5D24FF] text-[#5D24FF] text-sm text-center leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#5D24FF]">
-              {isEditing ? 'Save' : 'Edit'}
-            </span>
-          </p>
+                setIsEditing(!isEditing);
+              }}
+            >
+              <span className="inline-block w-20 rounded-lg border border-[#5D24FF] text-[#5D24FF] text-sm text-center leading-relaxed py-2 px-3 ml-2 cursor-pointer hover:text-white hover:bg-[#5D24FF]">
+                {isEditing ? 'Save' : 'Edit'}
+              </span>
+            </p>
           </div>
         </td>
         <td>

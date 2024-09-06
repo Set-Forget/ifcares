@@ -47,7 +47,7 @@ const SignatureComponent = ({ onGenerateSign }, ref) => {
       </div>
 
       <button
-        className='text-sm border border-[#EA4336] rounded-md px-3 py-2 hover:bg-[#EA4336] hover:text-white'
+        className='text-sm border border-[#EA4336] rounded-md px-3 py-2 hover:bg-[#EA4336] hover:text-white transition-all'
         onClick={() => ref.current.clear()}
       >
         Clear

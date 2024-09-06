@@ -39,11 +39,8 @@ const Form = () => {
     setFieldValue('customError', '');
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     setSubmitting(true);
-    // console.log(data);
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const GAS_URL = PROXY_URL + API_BASE_URL;
 
     // Format the date
     const formattedDate = selectedDate ? selectedDate.format('YYYY-MM-DD') : '';
@@ -53,39 +50,39 @@ const Form = () => {
       values: [data.name, data.age, data.site, formattedDate],
     };
 
-    // console.log(formattedData);
-
-    axios
-      .post(GAS_URL, JSON.stringify(formattedData), {
+    try {
+      // Making the fetch request using async/await
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        redirect: 'follow',
         headers: {
-          'Content-Type': 'application/json',
-          'x-requested-with': 'XMLHttpRequest',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
-        mode: 'no-cors',
-      })
-      .then((response) => {
-        if (response.data.result === 'success') {
-          // console.log('Data sent successfully');
-          setToastType('success');
-          setShowToast(true); // Show toast message
-          setSubmitting(false);
-          setFieldValue('name', initialValues.name, false);
-          setFieldValue('age', initialValues.age, false);
-          setFieldValue('birthdate', initialValues.birthdate, false);
-        } else {
-          // console.error('Error in sending data:', response.data.message);
-          setToastType('error');
-          setShowToast(true); // Show toast message
-          setToastMessage(response.data.message);
-          setSubmitting(false);
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        setToastType('error');
+        body: JSON.stringify(formattedData),
+      });
+
+      // Handling the response
+      const responseData = await response.json();
+
+      if (responseData.result === 'success') {
+        setToastType('success');
         setShowToast(true); // Show toast message
         setSubmitting(false);
-      });
+        setFieldValue('name', initialValues.name, false);
+        setFieldValue('age', initialValues.age, false);
+        setFieldValue('birthdate', initialValues.birthdate, false);
+      } else {
+        setToastType('error');
+        setShowToast(true); // Show toast message
+        setToastMessage(responseData.message);
+        setSubmitting(false);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setToastType('error');
+      setShowToast(true); // Show toast message
+      setSubmitting(false);
+    }
   };
 
   const {

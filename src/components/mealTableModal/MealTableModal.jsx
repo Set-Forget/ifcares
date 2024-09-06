@@ -200,7 +200,7 @@ const MealTableModal = ({
               <br />
               <div className="flex justify-center gap-4">
                 <button
-                  className="border border-[#46DC8C] bg[#ffffff] rounded text-black px-3 py-2 hover:bg-[#46DC8C] hover:font-medium"
+                  className="border border-[#46DC8C] bg[#ffffff] rounded text-black px-3 py-2 hover:bg-[#46DC8C] hover:font-medium transition-all"
                   onClick={handleFormSubmit}
                 >
                   SUBMIT

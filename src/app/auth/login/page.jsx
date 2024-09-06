@@ -22,45 +22,92 @@ export default function Login() {
 
   // const from = location.state?.from?.pathname || '/home'
   const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-  const GAS_URL = API_BASE_URL;
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setError(null);
+  //   setLoading(true);
+  //   const email = emailRef.current.value;
+  //   const password = passwordRef.current.value;
+
+  //   const body = {
+  //     actionType: 'login',
+  //     email,
+  //     password,
+  //   };
+
+  //   axios
+  //     .post(PROXY_URL + GAS_URL, JSON.stringify(body), {
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'x-requested-with': 'XMLHttpRequest',
+  //       },
+  //     })
+  //     .then(({ data: response }) => {
+  //       const { result, message, data } = response;
+  //       if (result === 'success') {
+  //         const currentTime = new Date().getTime();
+  //         const expirationTime =
+  //           currentTime + 2 * 60 * 60 * 1000;
+  //         setLoading(false);
+  //         data.expirationTime = expirationTime
+  //         setAuth(data);
+  //         localStorage.setItem('user', JSON.stringify(data));
+  //         router.push('/');
+  //       } else {
+  //         setError(message);
+  //         setLoading(false);
+  //       }
+  //     });
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-
+  
     const body = {
       actionType: 'login',
       email,
       password,
     };
-
-    axios
-      .post(PROXY_URL + GAS_URL, JSON.stringify(body), {
+  
+    try {
+      // Making the fetch request using async/await
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        redirect: 'follow',
         headers: {
-          'Content-Type': 'application/json',
-          'x-requested-with': 'XMLHttpRequest',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
-      })
-      .then(({ data: response }) => {
-        const { result, message, data } = response;
-        if (result === 'success') {
-          const currentTime = new Date().getTime();
-          const expirationTime =
-            currentTime + 2 * 60 * 60 * 1000;
-          setLoading(false);
-          data.expirationTime = expirationTime
-          setAuth(data);
-          localStorage.setItem('user', JSON.stringify(data));
-          router.push('/');
-        } else {
-          setError(message);
-          setLoading(false);
-        }
+        body: JSON.stringify(body),
       });
+  
+      const data = await response.json();
+  
+      const { result, message, data: responseData } = data;
+      if (result === 'success') {
+        const currentTime = new Date().getTime();
+        const expirationTime = currentTime + 2 * 60 * 60 * 1000; // 2 hours
+        responseData.expirationTime = expirationTime;
+        setLoading(false);
+        setAuth(responseData);
+        localStorage.setItem('user', JSON.stringify(responseData));
+        router.push('/');
+      } else {
+        setError(message);
+        setLoading(false);
+      }
+    } catch (error) {
+      // Handle any network or unexpected errors
+      setError('An error occurred. Please try again.');
+      setLoading(false);
+    }
   };
+  
 
   useEffect(() => {
     emailRef.current.focus();

@@ -12,6 +12,7 @@ import axios from 'axios';
 import WelcomeCalendar from '@/components/welcomeCalendar/WelcomeCalendar';
 import SitesDropdown from '@/components/sitesDropdown/SitesDropdown';
 import LoadingSpinner from '@/components/loadingSpinner/LoadingSpinner';
+import FileDownloadButton from '@/components/fileDownloadButton/FileDownloadButton';
 
 const Welcome = () => {
   const { auth } = useAuth();
@@ -24,6 +25,8 @@ const Welcome = () => {
   const [sitesData, setSitesData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [loadingFiles, setLoadingFiles] = useState(false)
 
   const GAS_URL = API_BASE_URL;
 
@@ -53,6 +56,20 @@ const Welcome = () => {
         // console.error('Error fetching data:', error);
       });
   }, []);
+
+  useEffect(()=> {
+    setLoadingFiles(true)
+    axios
+      .get(API_BASE_URL + '?type=listFiles')
+      .then((response) => {
+        setFiles(response.data);
+        setLoadingFiles(false)
+      })
+      .catch((error) => {
+        console.error('Error fetching files:', error);
+        setLoadingFiles(false)
+      });
+  }, [])
 
   function handleDownload() {
     setIsDownloading(true);
@@ -144,8 +161,8 @@ const Welcome = () => {
                   <LoadingSpinner />
                 </div>
               )}
-
-              <button
+              {/* Button that downloads menu --------- */}
+              {/* <button
                 type="button"
                 onClick={handleDownload}
                 className="flex flex-col md:flex-row items-center justify-center gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none mr-4"
@@ -165,7 +182,9 @@ const Welcome = () => {
                   />
                 </svg>
                 <span className="text-xs md:text-sm">Menu</span>
-              </button>
+              </button> */}
+              <FileDownloadButton files={files} loadingFiles={loadingFiles}/>
+              {/* Button that downloads menu --------- */}
             </div>
             <Link href='/request' className={`flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none ${role === ROLES.Admin ? 'mr-4' : ''}`}>
               <button type="button" className='flex flex-col md:flex-row items-center justify-center gap-2'>

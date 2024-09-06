@@ -5,17 +5,17 @@ import useAuth from '../../hooks/useAuth';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import SavingToast from '../savingToast/SavingToast';
 
-const Input = ({ label, id, value, onChange, disabled }) => {
+const Input = ({ label, id, value, onChange, disabled, classes }) => {
   return (
-    <div className="mt-10 space-y-8  sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:pb-0">
+    <div className={`space-y-8  sm:space-y-0 sm:divide-y sm:divide-gray-900/10 ${classes}`}>
       <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
         <label
           htmlFor="first-name"
-          className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
+          className="text-left block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
         >
           {label}
         </label>
-        <div className="mt-2 sm:col-span-2 sm:mt-0">
+        <div className="mt-1 sm:col-span-2 sm:mt-0">
           <input
             value={value}
             onChange={onChange}
@@ -23,7 +23,7 @@ const Input = ({ label, id, value, onChange, disabled }) => {
             name={id}
             id={id}
             disabled={disabled}
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:outline-none sm:max-w-xs sm:text-sm sm:leading-6"
           />
         </div>
       </div>
@@ -33,21 +33,21 @@ const Input = ({ label, id, value, onChange, disabled }) => {
 
 const SelectInput = ({ label, id, value, options, onChange }) => {
   return (
-    <div className="mt-10 space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:pb-0">
+    <div className="mb-10 mt-5 space-y-8 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:pb-0">
       <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
         <label
           htmlFor={id}
-          className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
+          className="text-left block text-sm font-medium leading-6 text-gray-900 ml-1"
         >
           {label}
         </label>
-        <div className="mt-2 sm:col-span-2 sm:mt-0">
+        <div className="mt-1 sm:col-span-2 sm:mt-0">
           <select
             value={value}
             onChange={onChange}
             name={id}
             id={id}
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 focus:outline-none sm:max-w-xs sm:text-sm sm:leading-6"
           >
             {options.map((option) => (
               <option key={option.value} value={option.value}>
@@ -119,7 +119,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-sm sm:p-6">
-                <div>
+                <div className='px-6'>
                   <div className="mt-3 text-center sm:mt-5">
                     <form>
                       <Input
@@ -127,6 +127,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                         id="name"
                         value={editedStudent.name}
                         onChange={handleChange}
+                        classes={''}
                       ></Input>
                       <Input
                         label="Age"
@@ -134,6 +135,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                         value={editedStudent.age}
                         onChange={handleChange}
                         disabled={student.birthdate != ''}
+                        classes={'mt-5'}
                       ></Input>
                       {auth.role === ROLES.Admin && (
                         <SelectInput
@@ -147,10 +149,10 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                     </form>
                   </div>
                 </div>
-                <div className="mt-5 sm:mt-6 flex gap-10">
+                <div className="mt-5 flex gap-10 px-6 pb-4">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition-all"
                     onClick={() => {
                       setLoading(true);
                       setSuccessMessage(true);
@@ -169,7 +171,7 @@ export default function EditModal({ student, isOpen, onClose, onSave, sites }) {
                   </button>
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="inline-flex w-full justify-center rounded-md bg-gray-300 text-gray-700 px-3 py-2 text-sm font-semibold shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 transition-all"
                     onClick={() => onClose()}
                   >
                     Cancel

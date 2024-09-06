@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import axios from 'axios';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
@@ -12,39 +11,51 @@ const DeleteModal = ({ onClose, student, fetchAllData }) => {
   const [loading, setLoading] = useState(false);
   const [toastType, setToastType] = useState(null);
 
-  const handleDeleteStudent = () => {
+  const handleDeleteStudent = async () => {
     setLoading(true);
     updateCountsOnStudentDeletion(student.id);
+  
     const deleteData = {
       actionType: 'delete',
       values: [student.name, student.site, student.id],
     };
-
-    const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
-    const GAS_DELETE_URL = API_BASE_URL;
-
-    axios
-      .post(PROXY_URL + GAS_DELETE_URL, JSON.stringify(deleteData), {
+  
+    // const PROXY_URL = 'https://happy-mixed-gaura.glitch.me/';
+    // const GAS_DELETE_URL = API_BASE_URL;
+  
+    try {
+      // Making the fetch request using async/await
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        redirect: 'follow',
         headers: {
-          'Content-Type': 'application/json',
-          'x-requested-with': 'XMLHttpRequest',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
-      })
-      .then((response) => {
-        // console.log("Student deleted successfully:", response.data);
-        setLoading(false);
-        setToastType('success');
-        fetchAllData();
-        setTimeout(handleCloseModal, 3000);
-      })
-      .catch((error) => {
-        // console.error("Error deleting student:", error);
-        setLoading(false);
-        setToastType('error');
-        fetchAllData();
-        setTimeout(handleCloseModal, 3000);
+        body: JSON.stringify(deleteData),
       });
+  
+      // Checking if the response is OK (status in the range 200-299)
+      if (response.ok) {
+        // Assuming that we want to set the response to success only if we get a successful status
+        const responseData = await response.json();
+        // console.log("Student deleted successfully:", responseData);
+        setToastType('success');
+      } else {
+        // If response is not OK, set the error
+        // console.error("Error in deleting student:", response);
+        setToastType('error');
+      }
+    } catch (error) {
+      // Handle any network or unexpected errors
+      // console.error("Error deleting student:", error);
+      setToastType('error');
+    } finally {
+      setLoading(false);
+      fetchAllData();
+      setTimeout(handleCloseModal, 3000);
+    }
   };
+  
 
   const handleCloseModal = () => {
     onClose && onClose();
