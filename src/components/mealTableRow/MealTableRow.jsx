@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useEffect } from 'react';
+import React, { useContext, useMemo, useEffect, useState } from 'react';
 import { Checkbox, Table } from 'flowbite-react';
 import './MealTableRow.css';
 import { MealSiteContext } from '../mealSiteProvider/MealSiteProvider';
@@ -18,6 +18,7 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
     snack: false,
     supper: false,
   };
+  const [highlightAttendance, setHighlightAttendance] = useState(false);
 
   // format date from js object to string
   const formatDate = (date) => {
@@ -107,6 +108,15 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
     }
   }, [selectedDate]);
 
+  // Function to handle clicks on disabled checkboxes
+  const handleDisabledCheckboxClick = (e) => {
+    // Prevent default checkbox click action
+    e.preventDefault();
+    // Highlight the attendance checkbox
+    setHighlightAttendance(true);
+    setTimeout(() => setHighlightAttendance(false), 2000);
+  };
+
   return (
     <tr>
       <td className="text-black text-base leading-relaxed bg-[#FFFFFF] p-4 text-center">
@@ -117,17 +127,16 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
       </td>
 
       <td className="bg-[#FFFFFF] w-[150px] text-center">
-        {/* <input
-          type="checkbox"
-          checked={checkboxState.attendance}
-          className="checkbox checkbox-lg checkbox-primary"
-          onChange={(event) =>
-            handleLocalCheckboxChange('attendance', event.target.checked)
-          }
-        /> */}
         <Checkbox
-          className="green-checkbox"
-          style={{accentColor: '#6BE3A3'}}
+          className={`green-checkbox w-5 h-5 ${
+            highlightAttendance
+              ? 'ring-2 ring-inset ring-red-600 transition-all'
+              : ''
+          } 
+          ${
+            selectedDate === null ? 'cursor-not-allowed' : 'cursor-pointer'
+          }`}
+          style={{ accentColor: '#6BE3A3' }}
           checked={checkboxState.attendance}
           onChange={(event) =>
             handleLocalCheckboxChange('attendance', event.target.checked)
@@ -136,48 +145,104 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
         />
       </td>
       <td className="bg-[#FFFFFF] w-[150px] text-center">
-        <Checkbox
-          className="green-checkbox"
-          style={{accentColor: '#6BE3A3'}}
-          checked={checkboxState.breakfast}
-          onChange={(event) =>
-            handleLocalCheckboxChange('breakfast', event.target.checked)
+        <div
+          onClick={
+            !checkboxState.attendance ? handleDisabledCheckboxClick : undefined
           }
-          disabled={!checkboxState.attendance || !mealAvailability.brk}
-        />
+          style={{ display: 'inline-block', width: '100%', height: '100%' }}
+        >
+          <Checkbox
+            className={`green-checkbox w-5 h-5 ${
+              checkboxState.attendance && mealAvailability.brk
+                ? 'ring-2 ring-inset ring-[#6BE3A3] cursor-pointer'
+                : 'cursor-not-allowed'
+            }`}
+            style={{
+              accentColor: '#6BE3A3',
+              pointerEvents: checkboxState.attendance ? 'auto' : 'none',
+            }}
+            checked={checkboxState.breakfast}
+            onChange={(event) =>
+              handleLocalCheckboxChange('breakfast', event.target.checked)
+            }
+            disabled={!checkboxState.attendance || !mealAvailability.brk}
+          />
+        </div>
       </td>
       <td className="bg-[#FFFFFF] w-[150px text-center">
-        <Checkbox
-          className="green-checkbox"
-          style={{accentColor: '#6BE3A3'}}
-          checked={checkboxState.lunch}
-          onChange={(event) =>
-            handleLocalCheckboxChange('lunch', event.target.checked)
+        <div
+          onClick={
+            !checkboxState.attendance ? handleDisabledCheckboxClick : undefined
           }
-          disabled={!checkboxState.attendance || !mealAvailability.lunch}
-        />
+          style={{ display: 'inline-block', width: '100%', height: '100%' }}
+        >
+          <Checkbox
+            className={`green-checkbox w-5 h-5 ${
+              checkboxState.attendance && mealAvailability.lunch
+                ? 'ring-2 ring-inset ring-[#6BE3A3] cursor-pointer'
+                : 'cursor-not-allowed'
+            }`}
+            style={{
+              accentColor: '#6BE3A3',
+              pointerEvents: checkboxState.attendance ? 'auto' : 'none',
+            }}
+            checked={checkboxState.lunch}
+            onChange={(event) =>
+              handleLocalCheckboxChange('lunch', event.target.checked)
+            }
+            disabled={!checkboxState.attendance || !mealAvailability.lunch}
+          />
+        </div>
       </td>
       <td className="bg-[#FFFFFF] w-[150px] text-center">
-        <Checkbox
-          className="green-checkbox"
-          style={{accentColor: '#6BE3A3'}}
-          checked={checkboxState.snack}
-          onChange={(event) =>
-            handleLocalCheckboxChange('snack', event.target.checked)
+        <div
+          onClick={
+            !checkboxState.attendance ? handleDisabledCheckboxClick : undefined
           }
-          disabled={!checkboxState.attendance || !mealAvailability.snk}
-        />
+          style={{ display: 'inline-block', width: '100%', height: '100%' }}
+        >
+          <Checkbox
+            className={`green-checkbox w-5 h-5 ${
+              checkboxState.attendance && mealAvailability.snk
+                ? 'ring-2 ring-inset ring-[#6BE3A3] cursor-pointer'
+                : 'cursor-not-allowed'
+            }`}
+            style={{
+              accentColor: '#6BE3A3',
+              pointerEvents: checkboxState.attendance ? 'auto' : 'none',
+            }}
+            checked={checkboxState.snack}
+            onChange={(event) =>
+              handleLocalCheckboxChange('snack', event.target.checked)
+            }
+            disabled={!checkboxState.attendance || !mealAvailability.snk}
+          />
+        </div>
       </td>
       <td className="bg-[#FFFFFF] w-[150px] text-center">
-        <Checkbox
-          className="green-checkbox"
-          style={{accentColor: '#6BE3A3'}}
-          checked={checkboxState.supper}
-          onChange={(event) =>
-            handleLocalCheckboxChange('supper', event.target.checked)
+        <div
+          onClick={
+            !checkboxState.attendance ? handleDisabledCheckboxClick : undefined
           }
-          disabled={!checkboxState.attendance || !mealAvailability.sup}
-        />
+          style={{ display: 'inline-block', width: '100%', height: '100%' }}
+        >
+          <Checkbox
+            className={`green-checkbox w-5 h-5 ${
+              checkboxState.attendance && mealAvailability.sup
+                ? 'ring-2 ring-inset ring-[#6BE3A3] cursor-pointer'
+                : 'cursor-not-allowed'
+            }`}
+            style={{
+              accentColor: '#6BE3A3',
+              pointerEvents: checkboxState.attendance ? 'auto' : 'none',
+            }}
+            checked={checkboxState.supper}
+            onChange={(event) =>
+              handleLocalCheckboxChange('supper', event.target.checked)
+            }
+            disabled={!checkboxState.attendance || !mealAvailability.sup}
+          />
+        </div>
       </td>
     </tr>
   );

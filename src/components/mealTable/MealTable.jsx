@@ -176,6 +176,23 @@ const MealTable = () => {
     </svg>
   );
 
+  const questionMarkIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-5 h-5"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+      />
+    </svg>
+  );
+
   return (
     <>
       <div ref={topRef}></div>
@@ -313,7 +330,19 @@ const MealTable = () => {
               Name of Participant
             </th>
             <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
-              At
+              <div className='flex items-center justify-center'>
+                At
+                <button className="relative group pl-2">
+                  {questionMarkIcon}
+                  <span className="group-hover:opacity-100 group-hover:visible transition-opacity bg-white px-1 text-sm text-black rounded-md absolute -translate-x-1/3 translate-y-full opacity-0 invisible mx-auto z-50 top-[-10px]">
+                    <div className="flex flex-col p-2 text-xs">
+                      <span className="truncate">
+                        AT must be checked for the other ones to activate
+                      </span>
+                    </div>
+                  </span>
+                </button>
+              </div>
             </th>
             <th className="uppercase text-black md:text-base font-semibold leading-relaxed bg-[#C7F4DC] border-b-2 border-[#CACACA] w-[150px] p-4">
               Brk
@@ -389,13 +418,12 @@ const MealTable = () => {
           )}
         </div>
         <button
-          className="text-black font-bold bg-[#46DC8C] text-sm"
+          className="text-black font-bold bg-[#46DC8C] text-sm self-center"
           style={{
             borderRadius: '13px',
             minWidth: '140px',
             minHeight: '40px',
             boxShadow: 'none',
-            marginTop: '10px',
           }}
           onClick={() => handleNextClick(validStudentData)}
         >
