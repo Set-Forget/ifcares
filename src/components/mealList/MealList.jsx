@@ -146,7 +146,7 @@ const MealList = () => {
           <div className="flex w-full justify-between items-center mb-10">
             <div className="flex flex-col items-start font-bold gap-2">
               <button
-                className="flex items-center gap-2 bg-[#FACA1F] rounded-[13px] px-6 min-h-[40px] shadow-none"
+                className="flex items-center gap-2 bg-[#FACA1F] rounded-[13px] px-3 min-h-[40px] shadow-none text-sm"
                 onClick={handleSave}
               >
                 <svg
@@ -160,7 +160,7 @@ const MealList = () => {
                     d="m27.71 9.29l-5-5A1 1 0 0 0 22 4H6a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V10a1 1 0 0 0-.29-.71M12 6h8v4h-8Zm8 20h-8v-8h8Zm2 0v-8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8H6V6h4v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6.41l4 4V26Z"
                   />
                 </svg>
-                Save
+                Save for Later
               </button>
               {showMessage && showMessage == 'success' && (
                 <span className="absolute mt-12 text-xs text-green-600 flex items-center gap-1">

@@ -104,6 +104,23 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
     setTimeout(() => setHighlightAttendance(false), 2000);
   };
 
+  const questionMarkIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-5 h-5"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
+      />
+    </svg>
+  );
+
   return (
     <div className="w-full rounded-lg bg-white mb-4 shadow">
       <div className="p-4 bg-[#E8FDF5] text-black rounded-t-lg flex justify-between items-center">
@@ -141,7 +158,18 @@ const MealCard = ({ student, selectedSite, selectedDate, datesBySite }) => {
               }
               disabled={selectedDate === null ? true : false}
             />
-            <span className="text-sm">AT</span>
+            <span className="text-sm flex items-center">AT
+            <button className="relative group pl-1">
+                  {questionMarkIcon}
+                  <span className="group-hover:opacity-100 group-hover:visible transition-opacity bg-white px-1 text-sm text-black rounded-md absolute -translate-x-1/3 translate-y-full opacity-0 invisible mx-auto z-50 top-[-10px]">
+                    <div className="flex flex-col p-2 text-xs">
+                      <span className="truncate">
+                        AT must be checked for the other meals to activate
+                      </span>
+                    </div>
+                  </span>
+                </button>
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <div

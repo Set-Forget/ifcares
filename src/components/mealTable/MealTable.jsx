@@ -337,7 +337,7 @@ const MealTable = () => {
                   <span className="group-hover:opacity-100 group-hover:visible transition-opacity bg-white px-1 text-sm text-black rounded-md absolute -translate-x-1/3 translate-y-full opacity-0 invisible mx-auto z-50 top-[-10px]">
                     <div className="flex flex-col p-2 text-xs">
                       <span className="truncate">
-                        AT must be checked for the other ones to activate
+                        AT must be checked for the other meals to activate
                       </span>
                     </div>
                   </span>
@@ -397,7 +397,7 @@ const MealTable = () => {
                 d="m27.71 9.29l-5-5A1 1 0 0 0 22 4H6a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V10a1 1 0 0 0-.29-.71M12 6h8v4h-8Zm8 20h-8v-8h8Zm2 0v-8a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8H6V6h4v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6.41l4 4V26Z"
               />
             </svg>
-            Save
+            Save for Later
           </button>
           {showMessage && showMessage == 'success' && (
             <span className="absolute mt-12 text-xs text-green-600 flex items-center gap-1">
