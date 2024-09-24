@@ -81,7 +81,7 @@ function FileDownloadButton({ files, loadingFiles }) {
       <button
         type="button"
         onClick={handleMenuClick}
-        className="flex flex-col md:flex-row items-center justify-center gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none mr-4"
+        className="flex flex-col md:flex-row items-center justify-center md:gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none mr-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@ function FileDownloadButton({ files, loadingFiles }) {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-5 h-5 md:w-6 md:h-6"
+          className="w-4 h-4 md:w-6 md:h-6"
         >
           <path
             strokeLinecap="round"

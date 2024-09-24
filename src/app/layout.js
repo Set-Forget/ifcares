@@ -17,28 +17,30 @@ export default function RootLayout({ children }) {
   const pathname = usePathname()
   const router = useRouter();
 
-  useEffect(() => {
-    const checkSessionExpiration = () => {
-      const user = JSON.parse(localStorage.getItem('user'));
+  // // funcion para desloguear al usuario cuando pasan mas de 2 horas
+  // useEffect(() => {
+  //   const checkSessionExpiration = () => {
+  //     const user = JSON.parse(localStorage.getItem('user'));
 
-      if (user && user.expirationTime) {
-        const currentTime = new Date().getTime();
-        if (currentTime > user.expirationTime) {
-          localStorage.removeItem('user');
-          // You can also clear your authentication state here
-          router.push('/auth/login'); // Redirect to login page
-        }
-      }
-    };
+  //     if (user && user.expirationTime) {
+  //       const currentTime = new Date().getTime();
+  //       if (currentTime > user.expirationTime) {
+  //         localStorage.removeItem('user');
+  //         // You can also clear your authentication state here
+  //         router.push('/auth/login'); // Redirect to login page
+  //       }
+  //     }
+  //   };
 
-    // Set interval to check every 10 minutes (600,000 milliseconds)
-    const interval = setInterval(() => {
-      checkSessionExpiration();
-    }, 600000); // 600,000 milliseconds = 10 minutes
+  //   // Set interval to check every 10 minutes (600,000 milliseconds)
+  //   const interval = setInterval(() => {
+  //     checkSessionExpiration();
+  //   }, 600000); // 600,000 milliseconds = 10 minutes
 
-    // Cleanup the interval on unmount
-    return () => clearInterval(interval);
-  }, [router]);
+  //   // Cleanup the interval on unmount
+  //   return () => clearInterval(interval);
+  // }, [router]);
+
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <AuthProvider>

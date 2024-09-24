@@ -227,17 +227,40 @@ export const MealSiteProvider = ({ children }) => {
 
   const [datesBySite, setDatesBySite] = useState({});
 
-  //get request
+  // //get request
+  // useEffect(() => {
+  //   const GAS_URL = API_BASE_URL;
+  //   axios
+  //     .get(GAS_URL + '?type=mealCountDays')
+  //     .then((response) => {
+  //       // console.log('Data received:', response.data);
+  //       // setDatesBySite(response.data);
+  //       console.log('mealCountDays')
+  //       console.log(response.data)
+  //     })
+  //     .catch((error) => {
+  //       // console.error('Error fetching data:', error);
+  //     });
+  // }, []);
+
+  const [sitesData, setSitesData] = useState({});
+  const [sitesDataLoading, setSitesDataLoading] = useState(false)
+  
   useEffect(() => {
-    const GAS_URL = API_BASE_URL;
+    setSitesDataLoading(true);
     axios
-      .get(GAS_URL + '?type=mealCountDays')
+      .get(API_BASE_URL + '?type=allMeals')
       .then((response) => {
         // console.log('Data received:', response.data);
-        setDatesBySite(response.data);
+        setSitesData(response.data);
+        setDatesBySite(response.data)
+        // console.log('homeDates')
+        // console.log(response.data)
+        setSitesDataLoading(false);
       })
       .catch((error) => {
         // console.error('Error fetching data:', error);
+        setSitesDataLoading(false);
       });
   }, []);
 
@@ -293,6 +316,8 @@ export const MealSiteProvider = ({ children }) => {
         setDateValidationError,
         topRef,
         resetAllStates,
+        sitesData,
+        sitesDataLoading
       }}
     >
       {children}

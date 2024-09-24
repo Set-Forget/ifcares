@@ -35,17 +35,24 @@ const Page = () => {
   };
 
   const handleAmountChange = (event) => {
-    const value = event.target.value;
+    let value = event.target.value;
+    
+    // Automatically set the value to 1 if the input is 0 or less
+    if (value !== '' && Number(value) <= 0) {
+      value = 1;
+    }
+    
     setAmount(value);
-    if (
-      value !== '' &&
-      (!Number.isInteger(Number(value)) || Number(value) <= 0)
-    ) {
+    
+    // Validate and set errors if the value is invalid
+    if (value !== '' && (!Number.isInteger(Number(value)) || Number(value) <= 0)) {
       setErrors({ ...errors, amount: 'Please enter a valid amount' });
     } else {
       setErrors({ ...errors, amount: '' });
     }
   };
+  
+  
 
   const handleTimeChange = (newValue) => {
     setTime(newValue);
@@ -132,7 +139,7 @@ const Page = () => {
     }
   };
 
-  const showNumberInput = ['Sporks', 'Meal Increase', 'Meal Decrease', 'Condiments', 'Special Meals', 'Dietary Restrictions'].includes(
+  const showNumberInput = ['Sporks', 'Meal Increase', 'Meal Decrease', 'Condiments', 'Special Meals', 'Dietary Restrictions', 'Amount of milk on hand'].includes(
     requestType
   );
   const showTimePicker = requestType === 'Change approved meal service time';
@@ -180,6 +187,7 @@ const Page = () => {
                   <MenuItem value={'Condiments'}>Condiments</MenuItem>
                   <MenuItem value={'Special Meals'}>Special Meals</MenuItem>
                   <MenuItem value={'Dietary Restrictions'}>Dietary Restrictions</MenuItem>
+                  <MenuItem value={'Amount of milk on hand'}>Amount of milk on hand</MenuItem>
                 </Select>
                 {errors.requestType && (
                   <FormHelperText error>{errors.requestType}</FormHelperText>

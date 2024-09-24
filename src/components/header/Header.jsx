@@ -45,7 +45,7 @@ const Header = () => {
           </svg>
         </Link>
       </div>
-      <div className="text-sm sm:text-base md:text-xs text-left md:text-right">
+      <div className="text-sm ml-2 md:ml-0 sm:text-base md:text-xs text-left md:text-right">
         <p>{`${authData.name} ${authData.lastname}`}</p>
         <p className="truncate w-48 xs:w-auto xs:no-truncate">
           {authData.email}

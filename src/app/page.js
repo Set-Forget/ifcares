@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Welcome.css';
 import { Button } from 'flowbite-react';
 import withAuth from '@/hoc/hocauth';
@@ -13,38 +13,22 @@ import WelcomeCalendar from '@/components/welcomeCalendar/WelcomeCalendar';
 import SitesDropdown from '@/components/sitesDropdown/SitesDropdown';
 import LoadingSpinner from '@/components/loadingSpinner/LoadingSpinner';
 import FileDownloadButton from '@/components/fileDownloadButton/FileDownloadButton';
+import { MealSiteContext } from '@/components/mealSiteProvider/MealSiteProvider';
 
 const Welcome = () => {
   const { auth } = useAuth();
   const { name, lastname, role, assignedSite } = auth;
+  const { sitesData, sitesDataLoading } = useContext(MealSiteContext);
 
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState(
     role === ROLES.Admin ? '' : assignedSite
   );
-  const [sitesData, setSitesData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-  const [isDownloading, setIsDownloading] = useState(false);
+
   const [files, setFiles] = useState([]);
-  const [loadingFiles, setLoadingFiles] = useState(false)
+  const [loadingFiles, setLoadingFiles] = useState(false);
 
   const GAS_URL = API_BASE_URL;
-
-  //get request
-  useEffect(() => {
-    setIsLoading(true);
-    axios
-      .get(GAS_URL + '?type=homeDates')
-      .then((response) => {
-        // console.log('Data received:', response.data);
-        setSitesData(response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // console.error('Error fetching data:', error);
-        setIsLoading(false);
-      });
-  }, []);
 
   useEffect(() => {
     axios
@@ -53,54 +37,23 @@ const Welcome = () => {
         setSites(response.data);
       })
       .catch((error) => {
-        // console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
       });
   }, []);
 
-  useEffect(()=> {
-    setLoadingFiles(true)
+  useEffect(() => {
+    setLoadingFiles(true);
     axios
       .get(API_BASE_URL + '?type=listFiles')
       .then((response) => {
         setFiles(response.data);
-        setLoadingFiles(false)
+        setLoadingFiles(false);
       })
       .catch((error) => {
         console.error('Error fetching files:', error);
-        setLoadingFiles(false)
+        setLoadingFiles(false);
       });
-  }, [])
-
-  function handleDownload() {
-    setIsDownloading(true);
-    axios
-      .get(GAS_URL + '?type=downloadPdf')
-      .then((response) => {
-        const data = response.data;
-
-        // Convert base64 to a Blob
-        const byteCharacters = atob(data.bytes);
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-        const fileBlob = new Blob([byteArray], { type: data.mimeType });
-
-        // Create a link and trigger download
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(fileBlob);
-        link.download = data.fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        setIsDownloading(false);
-      })
-      .catch((error) => {
-        console.error('Download error:', error);
-        setIsDownloading(false);
-      });
-  }
+  }, []);
 
   return (
     <div className="welcome-body">
@@ -144,7 +97,7 @@ const Welcome = () => {
           </Button>
         </Link>
       </div>
-      <div className="mb-20">
+      <div className="mb-28">
         <div className="flex w-full justify-center">
           <div className="welcome-text-container sm:hidden">
             <h3 className="welcome-text">Welcome Back,</h3>
@@ -153,19 +106,20 @@ const Welcome = () => {
             </h5>
           </div>
         </div>
-        <div className="relative w-full flex items-center justify-center">
-          <div className="mt-10 md:mt-4 flex justify-end relative md:w-4/5">
+        <div className="relative w-full flex md:items-center justify-center">
+          <div className="mt-10 md:mt-4 flex justify-center md:justify-end w-full md:w-4/5">
             <div className="flex md:items-center">
-              {isDownloading && (
-                <div className="flex flex-col justify-center items-center mr-4 hidden sm:block">
-                  <LoadingSpinner />
-                </div>
-              )}
-              {/* Button that downloads menu --------- */}
-              {/* <button
+              <FileDownloadButton files={files} loadingFiles={loadingFiles} />
+            </div>
+            <Link
+              href="/request"
+              className={`flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none ${
+                role === ROLES.Admin ? 'mr-4' : ''
+              }`}
+            >
+              <button
                 type="button"
-                onClick={handleDownload}
-                className="flex flex-col md:flex-row items-center justify-center gap-2 text-white text-sm text-transform[capitalize] font-semibold bg-[#5D24FF] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none mr-4"
+                className="flex flex-col md:flex-row items-center justify-center md:gap-2"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -173,28 +127,7 @@ const Welcome = () => {
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-5 h-5 md:w-6 md:h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                  />
-                </svg>
-                <span className="text-xs md:text-sm">Menu</span>
-              </button> */}
-              <FileDownloadButton files={files} loadingFiles={loadingFiles}/>
-              {/* Button that downloads menu --------- */}
-            </div>
-            <Link href='/request' className={`flex items-center justify-center gap-1 text-black text-sm text-transform[capitalize] font-bold bg-[#FACA1F] rounded-[13px] min-w-[70px] md:min-w-[140px] min-h-[40px] shadow-none ${role === ROLES.Admin ? 'mr-4' : ''}`}>
-              <button type="button" className='flex flex-col md:flex-row items-center justify-center gap-2'>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-5 h-5 md:w-6 md:h-6"
+                  className="w-4 h-4 md:w-6 md:h-6"
                 >
                   <path
                     strokeLinecap="round"
@@ -206,16 +139,18 @@ const Welcome = () => {
               </button>
             </Link>
             {role === ROLES.Admin && (
-              <SitesDropdown
-                sites={sites}
-                onSiteSelected={setSelectedSite}
-                selectedSite={selectedSite}
-                className="text-base md:text-2xl h-auto md:h-28 relative"
-              />
+              <div className='flex items-center'>
+                <SitesDropdown
+                  sites={sites}
+                  onSiteSelected={setSelectedSite}
+                  selectedSite={selectedSite}
+                  className="text-base md:text-2xl h-auto md:h-28 relative"
+                />
+              </div>
             )}
           </div>
         </div>
-        {isLoading ? (
+        {sitesDataLoading ? (
           <div className="flex flex-col justify-center items-center h-96">
             <LoadingSpinner />
             <h2 className="mt-4">Loading Dates...</h2>

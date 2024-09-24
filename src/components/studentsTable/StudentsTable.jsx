@@ -182,11 +182,11 @@ const StudentsTable = () => {
     <div className="bg-gray-100 p-0 m-0 box-border flex justify-center items-center">
       <div className="mt-5 mb-12 sm:w-4/5 min-h-[800px] pb-20 table-container">
         <div className="flex w-full justify-between items-center mt-[60px] mb-[30px] min-h-[50px] flex-col md:flex-row">
-          <div className="w-full flex justify-end md:justify-start md:w-auto">
+          <div className="w-full flex justify-end md:justify-start md:w-auto px-4 sm:px-0">
             <Link href="/mealCount">
               <Button
                 variant="contained"
-                className=" font-bold bg-[#46DC8C] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none text-base"
+                className="font-bold bg-[#46DC8C] rounded-[13px] min-w-[140px] min-h-[40px] shadow-none text-base"
                 style={{
                   color: '#000000',
                   textTransform: 'capitalize',
@@ -203,7 +203,7 @@ const StudentsTable = () => {
             </Link>
           </div>
           {/* This div will center the dropdown and button below the Meal Count button on mobile */}
-          <div className="flex flex-row justify-center m-auto items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center text-base gap-4">
+          <div className="flex flex-row justify-between m-auto px-4 sm:px-0 items-center w-full mt-4 md:justify-end md:mt-0 md:flex-row md:items-center text-base gap-4">
             {auth.role !== ROLES.Admin && (
               <h2 className="title pr-4">{auth.assignedSite}</h2>
             )}

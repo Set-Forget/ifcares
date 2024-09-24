@@ -54,7 +54,7 @@ const SitesDropdown = ({
         padding: '16px',
         ...additionalStyles,
       }}
-      className="dropdown-label h-15 md:h-10"
+      className="dropdown-label h-16 md:h-10"
     >
       <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
         {!disableAllSites && !allSitesSelected && (
@@ -67,7 +67,7 @@ const SitesDropdown = ({
         )}
         {sites.map((site) => (
           <Dropdown.Item
-            className="flex items-center justify-start bg-white py-2 px-4 text-sm text-gray-700 cursor-pointer w-full hover:bg-gray-100 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white meal-count-btn"
+            className="flex items-center justify-start text-left bg-white py-2 px-4 text-sm text-gray-700 cursor-pointer w-full hover:bg-gray-100 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white meal-count-btn"
             key={site.spreadsheetId}
             onClick={() => handleSiteSelection(site.name)}
           >
