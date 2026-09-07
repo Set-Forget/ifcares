@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { ChevronLeft, ChevronRight, Download, FileText, Layers, Loader2, Send } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, FileText, Layers, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import Protected from '@/components/auth/Protected';
 import AppShell from '@/components/shell/AppShell';
@@ -12,7 +12,6 @@ import { SiteSwitcher } from '@/components/shell/SiteSwitcher';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ActionSheet, Fab, SheetAction } from '@/components/ui/mobile';
-import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 import { EmptyState, ErrorState } from '@/components/ui/states';
 import EmailPdfDialog from '@/components/reports/EmailPdfDialog';
@@ -48,7 +47,6 @@ function ReportsScreen() {
     month: Number(today.slice(5, 7)),
   }));
   const [busyDate, setBusyDate] = useState('');
-  const [bulk, setBulk] = useState(null);
   const [emailing, setEmailing] = useState(false);
 
   const siteList = useCachedGet(SITES_PATH);
@@ -112,33 +110,13 @@ function ReportsScreen() {
     }
   };
 
-  // One request at a time: 20+ parallel PDF renders would hammer the server and
-  // the browser blocks the burst of downloads anyway.
-  const downloadMonth = async () => {
-    setBulk({ done: 0, total: submitted.length });
-    let failures = 0;
-    for (const date of submitted) {
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        const blob = await fetchPdf(site, date);
-        saveBlob(blob, `MealCount_${site.replace(/[^\w-]+/g, '_')}_${date}.pdf`);
-      } catch {
-        failures += 1;
-      }
-      setBulk((prev) => ({ ...prev, done: prev.done + 1 }));
-    }
-    setBulk(null);
-    // Chrome asks for permission the first time a page saves several files in a
-    // row, and silently drops the rest until it is granted. Say so, instead of
-    // leaving the admin wondering where the other forms went.
-    if (failures === 0) {
-      toast.success(`Downloaded ${submitted.length} forms`, {
-        description: 'If only the first one was saved, allow multiple downloads for this site in the browser.',
-      });
-    } else {
-      toast.warning(`Downloaded ${submitted.length - failures} forms, ${failures} failed`);
-    }
-  };
+  // The month as one document: the cover sheet and every daily form behind it.
+  // There used to be a second button that saved each day's form as its own
+  // file; once the month PDF carried the forms themselves it only duplicated
+  // this one under a name that read the same.
+  const monthPdfHref = site
+    ? `/api/reports/monthly?site=${encodeURIComponent(site)}&year=${cursor.year}&month=${cursor.month}`
+    : '';
 
   return (
     <AppShell width="wide">
@@ -155,10 +133,10 @@ function ReportsScreen() {
                 <SheetAction
                   icon={FileText}
                   plain
-                  href={`/api/reports/monthly?site=${encodeURIComponent(site)}&year=${cursor.year}&month=${cursor.month}`}
-                  hint={`${monthLabel(cursor.year, cursor.month)} ${cursor.year}`}
+                  href={monthPdfHref}
+                  hint={`${monthLabel(cursor.year, cursor.month)} ${cursor.year}, every daily form in one file`}
                 >
-                  Monthly forms
+                  Month PDF
                 </SheetAction>
               )}
               {site && submitted.length > 0 && (
@@ -176,26 +154,18 @@ function ReportsScreen() {
                   Consolidated claims
                 </Link>
               </Button>
-              {site && (
-                <Button variant="outline" asChild>
-                  <a
-                    href={`/api/reports/monthly?site=${encodeURIComponent(site)}&year=${cursor.year}&month=${cursor.month}`}
-                  >
-                    <FileText />
-                    Monthly forms
-                  </a>
-                </Button>
-              )}
               {site && submitted.length > 0 && (
                 <Button variant="outline" onClick={() => setEmailing(true)}>
                   <Send />
                   Email the month
                 </Button>
               )}
-              {submitted.length > 0 && (
-                <Button onClick={downloadMonth} loading={Boolean(bulk)}>
-                  {!bulk && <Download />}
-                  {bulk ? `Downloading ${bulk.done} of ${bulk.total}` : `Download the month (${submitted.length})`}
+              {site && (
+                <Button asChild>
+                  <a href={monthPdfHref}>
+                    <FileText />
+                    Month PDF
+                  </a>
                 </Button>
               )}
             </>
@@ -234,15 +204,6 @@ function ReportsScreen() {
           </div>
         )}
 
-        {bulk && (
-          <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4">
-            <span className="flex items-center gap-2 text-[13px] font-medium text-foreground">
-              <Loader2 className="h-4 w-4 animate-spin text-primary" />
-              Preparing the forms one by one. Keep this tab open.
-            </span>
-            <Progress value={(bulk.done / Math.max(1, bulk.total)) * 100} label="Download progress" />
-          </div>
-        )}
 
         {error && <ErrorState title="Couldn't load the reports" message={error} onRetry={load} />}
 
@@ -331,9 +292,9 @@ function ReportsScreen() {
         )}
       </div>
 
-      {submitted.length > 0 && (
-        <Fab icon={Download} onClick={downloadMonth}>
-          {bulk ? `${bulk.done} of ${bulk.total}` : `Download ${submitted.length}`}
+      {site && submitted.length > 0 && (
+        <Fab icon={FileText} href={monthPdfHref} plain>
+          Month PDF
         </Fab>
       )}
 

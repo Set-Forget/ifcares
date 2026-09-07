@@ -419,8 +419,14 @@ function InboxScreen() {
 
                   <StatusBadge status={request.status} />
 
+                  {/* On the desk this row is a five column grid, and the note
+                      spans all five on a second line. It has to be placed
+                      after the buttons, or it takes the buttons' cell and
+                      pushes "Reopen" to the start of the next line, under the
+                      note and far from its row. On a phone the DOM order
+                      stands: the note first, then what to do about it. */}
                   {request.responseComment && (
-                    <span className="col-span-full flex flex-col gap-1 rounded-sm bg-muted px-2.5 py-1.5">
+                    <span className="col-span-full flex flex-col gap-1 rounded-sm bg-muted px-2.5 py-1.5 lg:order-last">
                       <span className="text-[12px] leading-relaxed text-foreground">{request.responseComment}</span>
                       {request.respondedBy && (
                         <span className="text-[11px] text-muted-foreground">

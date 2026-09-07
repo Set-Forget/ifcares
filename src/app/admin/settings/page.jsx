@@ -109,19 +109,25 @@ function RemindersScreen() {
             )}
 
             <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-4 md:p-5">
-              <label className="flex items-center justify-between gap-4">
+              {/* Not a label: a label hands every click on the heading to its
+                  control, so reading the sentence with the mouse switched the
+                  reminders on and off. The switch names itself instead. */}
+              <div className="flex items-center justify-between gap-4">
                 <span className="flex flex-col gap-0.5">
-                  <span className="text-[14px] font-semibold text-foreground">Send the daily reminder</span>
+                  <span id="reminder-enabled-label" className="text-[14px] font-semibold text-foreground">
+                    Send the daily reminder
+                  </span>
                   <span className="text-[12.5px] text-muted-foreground">
                     Each site staff member hears only about their own sites.
                   </span>
                 </span>
                 <Switch
+                  aria-labelledby="reminder-enabled-label"
                   checked={settings.enabled}
                   disabled={saving}
                   onCheckedChange={(checked) => save({ enabled: checked })}
                 />
-              </label>
+              </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Time of day" htmlFor="reminder-hour" hint="In the program's timezone.">
@@ -165,9 +171,9 @@ function RemindersScreen() {
                 It belongs next to the reminder because both answer the same
                 question - who hears from this app without opening it. */}
             <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-4 md:p-5">
-              <label className="flex items-center justify-between gap-4">
+              <div className="flex items-center justify-between gap-4">
                 <span className="flex flex-col gap-0.5">
-                  <span className="text-[14px] font-semibold text-foreground">
+                  <span id="request-notify-label" className="text-[14px] font-semibold text-foreground">
                     Tell someone when a request comes in
                   </span>
                   <span className="text-[12.5px] text-muted-foreground">
@@ -175,13 +181,14 @@ function RemindersScreen() {
                   </span>
                 </span>
                 <Switch
+                  aria-labelledby="request-notify-label"
                   checked={settings.requestNotify?.enabled ?? true}
                   disabled={saving}
                   onCheckedChange={(checked) =>
                     save({ requestNotify: { ...settings.requestNotify, enabled: checked } })
                   }
                 />
-              </label>
+              </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="To" htmlFor="request-to" hint="Comma separated.">

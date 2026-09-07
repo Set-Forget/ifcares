@@ -273,7 +273,7 @@ export function ChipRow({ options, value, onChange, ariaLabel, className }) {
  * scrolled away from, and it keeps its label: a bare plus asks the reader to
  * remember what this particular screen creates.
  */
-export function Fab({ icon: Icon, children, onClick, href, className }) {
+export function Fab({ icon: Icon, children, onClick, href, plain = false, className }) {
   const classes = cn(
     'fixed right-4 z-30 flex h-[52px] items-center gap-2 rounded-full bg-primary pl-4 pr-5',
     'text-[14.5px] font-semibold text-primary-foreground shadow-e3 outline-none',
@@ -290,6 +290,15 @@ export function Fab({ icon: Icon, children, onClick, href, className }) {
     </>
   );
 
+  // `plain` is for a file the server builds (a PDF): a plain anchor lets the
+  // browser download it, where the router would try to render it as a page.
+  if (href && plain) {
+    return (
+      <a href={href} className={classes}>
+        {body}
+      </a>
+    );
+  }
   if (href) {
     return (
       <Link href={href} className={classes}>
