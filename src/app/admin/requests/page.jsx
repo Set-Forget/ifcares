@@ -395,12 +395,19 @@ function InboxScreen() {
                 <div
                   key={request.id}
                   className={cn(
-                    'flex flex-col gap-3 px-4 py-3.5 transition-colors hover:bg-accent/30',
+                    'flex flex-col gap-2 px-4 py-3.5 transition-colors hover:bg-accent/30',
                     'lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_120px_110px_260px] lg:items-center lg:gap-4'
                   )}
                 >
+                  {/* Below the desk width the row is a card: the status beside
+                      the title, the site and the date on one muted line, then
+                      the note and the buttons. Stacking every cell on its own
+                      line read as a list of unrelated facts on a tablet. */}
                   <div className="flex min-w-0 flex-col gap-0.5">
-                    <span className="truncate text-[14px] font-semibold text-foreground">{request.type}</span>
+                    <span className="flex items-start justify-between gap-3">
+                      <span className="min-w-0 truncate text-[14px] font-semibold text-foreground">{request.type}</span>
+                      <StatusBadge status={request.status} className="shrink-0 lg:hidden" />
+                    </span>
                     <span className="text-[12px] text-muted-foreground">
                       {requestDetail(request)}, {request.requestedBy}
                     </span>
@@ -409,15 +416,19 @@ function InboxScreen() {
                     )}
                   </div>
 
-                  <span className="truncate text-[13px] text-muted-foreground lg:block">
-                    {shortSiteName(request.site)}
-                  </span>
+                  <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 lg:contents">
+                    <span className="truncate text-[13px] text-muted-foreground lg:block">
+                      {shortSiteName(request.site)}
+                    </span>
+                    <span aria-hidden="true" className="text-[12px] text-muted-foreground lg:hidden">
+                      &middot;
+                    </span>
+                    <span className="text-[12.5px] tabular-nums text-muted-foreground">
+                      {requestDate(request.createdAt)}
+                    </span>
+                  </div>
 
-                  <span className="text-[12.5px] tabular-nums text-muted-foreground">
-                    {requestDate(request.createdAt)}
-                  </span>
-
-                  <StatusBadge status={request.status} />
+                  <StatusBadge status={request.status} className="hidden lg:inline-flex" />
 
                   {/* On the desk this row is a five column grid, and the note
                       spans all five on a second line. It has to be placed
