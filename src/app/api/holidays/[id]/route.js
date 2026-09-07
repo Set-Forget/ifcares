@@ -30,6 +30,17 @@ export const PATCH = handle(async (req, { params }) => {
   if (body.sites !== undefined) {
     const sites = await prisma.site.findMany({ where: { name: { in: body.sites } }, select: { id: true } });
     siteIds = sites.map((site) => site.id);
+    // A holiday that is not "every site" and covers no site covers nothing, and
+    // says so nowhere: it keeps its dates and its name on the list while every
+    // day it names stays open. POST refuses both shapes; this accepted them and
+    // wrote the emptied scope.
+    const everywhere = body.allSites ?? holiday.allSites;
+    if (!everywhere && !siteIds.length) {
+      throw new ApiError(
+        body.sites.length ? 404 : 422,
+        body.sites.length ? 'None of those sites exist.' : 'Pick at least one site, or apply it everywhere.'
+      );
+    }
   }
 
   await prisma.$transaction(async (tx) => {

@@ -266,6 +266,67 @@ permisos por ser un borrado en el Drive del cliente). Tema oscuro, teclado y los
 
 ---
 
+### Sexta tanda (7-sep-2026, sobre `a773498`) — exploratorio final
+
+Pedido: "testeo final, exploratorio, en busca de bugs, inconsistencias, fallas".
+
+**Con qué se contó.** El clasificador de permisos de esta sesión bloqueó tres cosas que la
+tanda anterior sí pudo hacer: abrir sesión en la app (mintear el token de QA), entrar a
+Railway desde el navegador, y correr scripts de Prisma contra la base. Así que **no hubo
+recorrido de UI autenticada esta vuelta**. Lo que sí se hizo: barrido de las pantallas
+públicas en el navegador, lectura sistemática del código, y verificación offline con
+fixtures (sin base) de los PDF y de la lógica de feriados.
+
+**Cobertura.** Barrido automático de 5 rutas públicas (`/login`, `/reset-password` con y sin
+token, `/sign/<token inválido>`, y una ruta inexistente) × 5 anchos (320, 375, 768, 1024,
+1440) × 2 temas (claro y oscuro) = **50 cargas, las 50 limpias**: cero desborde horizontal,
+cero pantalla vacía, cero error de render, y el tema oscuro resuelve de verdad (el fondo
+del body cambia de `#f8fafc` a `#090e1a`). Las cuatro pantallas de error dicen qué pasó y
+qué hacer, ninguna es un 404 pelado. `next lint` y `next build` limpios antes y después.
+Los 8 PDF de fixture (diario de 15/192/250 filas, corregido, claim parte 1 y 2, firmados,
+bundle mensual de 7 páginas) se volvieron a generar sin fallar. Lectura completa de:
+formulario de count, detalle de count, inbox de requests, reportes, ajustes, calendario
+admin, detalle de sitio, y de las rutas de count (alta, corrección, aprobación, anulación),
+feriados, requests, días de servicio, import de roster, firma pública, recordatorios, auth
+y caché de datos.
+
+**Hallazgos y qué se hizo con cada uno.**
+
+| Sev. | Hallazgo | Estado |
+|---|---|---|
+| **Alto** | **Un feriado parcial cerraba el día entero en 9 de cada 10 días.** `applyHolidays` restaba las comidas de las banderas crudas del `ServiceDay`, pero **el 89% de los días importados de las planillas tiene las cuatro banderas en false** porque no sobrevivieron al export — y en todos lados eso significa "no consta", así que el formulario ofrece las cuatro comidas (`mealsOrAll`). Restar de cero deja cero: un feriado que cerraba solo el desayuno dejaba el día **sin ninguna comida**, o sea imposible de cargar, dibujado como feriado en el dashboard y salteado por el recordatorio. Reproducido y verificado con fixtures. | **Arreglado**: el feriado resta de la misma vista del día que ve todo el mundo. Verificado: día sin banderas + feriado de desayuno → quedan almuerzo, snack y cena; feriado de día completo sigue cerrando todo; dos feriados parciales siguen acumulando. |
+| Medio | **El formulario dejaba marcar 250 alumnos y recién ahí rechazaba la hora**: la barra decía "Ready to submit" con hora de salida anterior a la de entrada, y el 422 llegaba del servidor después de mandar todo. Toda otra regla de la pantalla se contesta antes de marcar. | **Arreglado**: la barra dice "Time out has to be after time in", el campo Out se marca en rojo y el envío no sale. "In" además figura como requerido, que siempre lo fue. |
+| Medio | `toCanonicalTime` acotaba la hora pero no los minutos ni los segundos: `"15:99"` se guardaba como `15:99:00` y se imprimía así en el formulario que va al estado. Alcanzable por API y por el import de histórico, no por el navegador. | **Arreglado**: minutos y segundos acotados a 59 en las dos ramas del parser. |
+| Bajo | `PATCH /api/holidays/:id` no tenía la regla que sí tiene el alta: podía dejar un feriado en "solo algunas comidas" **sin ninguna comida elegida** — una fila en la lista de feriados que no le saca nada a ningún día. | **Arreglado**: misma regla que en el alta. |
+| Bajo | El mismo PATCH aceptaba vaciar el alcance de un feriado por sitio (`sites: []`, o nombres que no existen) y lo guardaba cubriendo cero sitios, en silencio; el POST devuelve 404/422 por lo mismo. | **Arreglado**: el PATCH ahora contesta igual que el POST. |
+| Bajo | En el detalle del count la clave de React era `número-nombre`, que parece único y no lo es: una corrección puede renumerar todas las filas y el histórico importado tiene días con el par repetido. | **Arreglado**: la clave es la posición en el count. |
+| Bajo | "Generate missing days" avisaba "18 días agregados" sobre un ciclo de 22 y no había forma de saber si faltaban 4 o si ya estaban. (Es lo que confundió a la tanda anterior: no era un bug del generador, los otros 4 ya estaban.) | **Arreglado**: cuando los números difieren el aviso dice cuántos cubre el ciclo y cuántos ya estaban. El generador quedó verificado como correcto. |
+
+**Para decidir, no lo toqué.**
+
+- **Cambiar la contraseña no cierra las sesiones abiertas.** El JWT sigue valiendo hasta 8 h
+  (`SESSION_TTL_HOURS`). Desactivar una cuenta sí corta al instante, porque `getSession`
+  relee al usuario; una contraseña nueva no, porque no hay con qué comparar. El arreglo
+  limpio es una columna `passwordChangedAt` en `User` y compararla contra el `iat` del token
+  — es una migración de schema, y esta sesión no podía tocar la base ni probarla. Queda a tu
+  criterio si entra antes del launch.
+- **Los recordatorios también le llegan a los admin con `allSites`**, con todos los días
+  atrasados de los 56 sitios. El aprobado excluye a los admin a propósito; el recordatorio
+  no. Puede ser lo que quieren o puede ser un mail diario gigante para gente que no carga
+  counts. Es decisión de producto, no bug.
+- Resolver un request sin nota lo deja resuelto sin responsable y **sin avisarle al sitio**.
+  La nota dice "Optional" en la pantalla, así que es a propósito; lo anoto porque el sitio
+  se entera por la pantalla y no por mail.
+
+**Lo que NO se probó esta vuelta.** Todo lo que necesita sesión: dashboard, count, sitios,
+usuarios, menús, consolidados, inbox, ajustes y calendario por UI; el rol staff; los flujos
+de aprobación/corrección/anulación end to end; y la app en Railway. La tanda anterior
+(`72d1636`) los cubrió enteros y desde entonces sólo cambiaron los 7 archivos de arriba.
+**Los tres arreglos que tocan pantallas con sesión — la hora del count, la clave de filas del
+detalle y el aviso de "generate" — quedan sin verificar en navegador.** Si querés que los
+pruebe, hace falta que dejes una sesión abierta en el Chrome del MCP o que me habilites
+`node` contra la base.
+
 ## 1. Cómo se ejecutó
 
 | Agente | Área | Duración | Hallazgos |

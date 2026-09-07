@@ -356,12 +356,23 @@ function MealCountScreen() {
   if (!timeOut) missing.push('time out');
   if (markedCount === 0) missing.push('attendance');
   if (!signed && !correcting) missing.push('signature');
-  const canSubmit = missing.length === 0 && !submitting;
+  // Both are "HH:MM" from a time input, so comparing them as strings compares
+  // the clock - the same rule the API applies. It belongs here as well because
+  // every other rule on this screen is answered before the roster is marked,
+  // and this one was answered afterwards: the bar said "ready to submit", and
+  // the day came back rejected once the whole thing had been sent.
+  const backwardsTimes = Boolean(timeIn) && Boolean(timeOut) && timeOut <= timeIn;
+  const canSubmit = missing.length === 0 && !backwardsTimes && !submitting;
 
   const submit = async () => {
     if (missing.length > 0) {
       setAttempted(true);
       toast.error(`Still missing: ${missing.join(', ')}.`);
+      return;
+    }
+    if (backwardsTimes) {
+      setAttempted(true);
+      toast.error('Time out has to be after time in.');
       return;
     }
     setSubmitting(true);
@@ -541,8 +552,20 @@ function MealCountScreen() {
         <section className="flex flex-col gap-2.5">
           <SectionLabel icon={Clock}>Service time</SectionLabel>
           <div className="grid grid-cols-2 gap-2.5 md:max-w-md">
-            <TimeField label="In" value={timeIn} onChange={setTimeIn} invalid={attempted && !timeIn} />
-            <TimeField label="Out" value={timeOut} onChange={setTimeOut} invalid={attempted && !timeOut} required />
+            <TimeField
+              label="In"
+              value={timeIn}
+              onChange={setTimeIn}
+              invalid={attempted && !timeIn}
+              required
+            />
+            <TimeField
+              label="Out"
+              value={timeOut}
+              onChange={setTimeOut}
+              invalid={attempted && (!timeOut || backwardsTimes)}
+              required
+            />
           </div>
         </section>
 
@@ -733,11 +756,13 @@ function MealCountScreen() {
       {/* Submit bar: sits above the phone tab bar, inline from md up. */}
       <div className="fixed inset-x-0 bottom-0 z-30 border-t px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] pt-2.5 glass-bar md:static md:mt-6 md:border-0 md:bg-transparent md:p-0 md:backdrop-blur-none">
         <div className="mx-auto flex max-w-screen-xl flex-col gap-2 md:flex-row md:items-center md:justify-between">
-          {missing.length > 0 ? (
+          {missing.length > 0 || backwardsTimes ? (
             <p className="flex items-center gap-1.5 text-[12.5px] font-medium text-muted-foreground md:text-[13px]">
               <AlertCircle className={cn('h-4 w-4', attempted ? 'text-destructive' : 'text-muted-foreground')} />
               <span className={cn(attempted && 'text-destructive-text')}>
-                Still missing: {missing.join(', ')}
+                {missing.length > 0
+                  ? `Still missing: ${missing.join(', ')}`
+                  : 'Time out has to be after time in'}
               </span>
             </p>
           ) : (

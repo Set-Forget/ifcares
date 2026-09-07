@@ -285,14 +285,29 @@ export const holidayCreateSchema = z.object(holidayFields).refine(
   { message: 'Pick at least one meal, or apply it to the whole day.', path: ['allMeals'] }
 );
 
-export const holidayUpdateSchema = z.object({
-  ...holidayFields,
-  name: holidayFields.name.optional(),
-  startDate: ymd.optional(),
-  endDate: ymd.optional(),
-  allSites: z.boolean().optional(),
-  allMeals: z.boolean().optional(),
-});
+// Same rule as create: a holiday that closes nothing is not a holiday. The
+// screen has always enforced it; the update schema did not, so a PATCH could
+// turn an existing one into a row that shows on the holiday list and subtracts
+// no meal from any day.
+export const holidayUpdateSchema = z
+  .object({
+    ...holidayFields,
+    name: holidayFields.name.optional(),
+    startDate: ymd.optional(),
+    endDate: ymd.optional(),
+    allSites: z.boolean().optional(),
+    allMeals: z.boolean().optional(),
+  })
+  .refine(
+    (value) =>
+      value.allMeals === undefined ||
+      value.allMeals ||
+      value.brk ||
+      value.lunch ||
+      value.snk ||
+      value.sup,
+    { message: 'Pick at least one meal, or apply it to the whole day.', path: ['allMeals'] }
+  );
 
 export const consolidatedSchema = z.object({
   kind: z.enum(['claim-part1', 'claim-part2']),

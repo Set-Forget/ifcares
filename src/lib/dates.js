@@ -91,10 +91,13 @@ export function toCanonicalTime(value) {
     const period = ampm[4] ? ampm[4].toUpperCase() : null;
     if (period === 'PM' && h < 12) h += 12;
     if (period === 'AM' && h === 12) h = 0;
-    if (h > 23) return '';
+    // The hour was bounded and the other two were not, so "15:99" survived as a
+    // time and printed that way on the form that goes to the state. A browser
+    // never sends one; the API and the history import both can.
+    if (h > 23 || Number(min) > 59 || Number(sec) > 59) return '';
     return `${String(h).padStart(2, '0')}:${min}:${sec}`;
   }
-  const embedded = s.match(/(\d{2}):(\d{2}):(\d{2})/);
+  const embedded = s.match(/([01]\d|2[0-3]):([0-5]\d):([0-5]\d)/);
   return embedded ? `${embedded[1]}:${embedded[2]}:${embedded[3]}` : '';
 }
 

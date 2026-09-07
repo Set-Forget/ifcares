@@ -168,8 +168,13 @@ function CountDetailScreen() {
   const entries = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!count) return [];
-    if (!q) return count.entries;
-    return count.entries.filter(
+    // The row's position in the count is what identifies it. Number and name
+    // together looked unique and are not: a correction may renumber every row,
+    // and the imported history holds days where two rows carry the same pair -
+    // which is a duplicate React key, and two rows that swap under a search.
+    const rows = count.entries.map((entry, index) => ({ ...entry, rowKey: index }));
+    if (!q) return rows;
+    return rows.filter(
       (entry) => entry.name.toLowerCase().includes(q) || String(entry.number) === q
     );
   }, [count, query]);
@@ -433,7 +438,7 @@ function CountDetailScreen() {
 
                 <div className="divide-y divide-border">
                   {entries.map((entry) => (
-                    <div key={`${entry.number}-${entry.name}`}>
+                    <div key={entry.rowKey}>
                       {/* A phone has 330px for a name and five columns. Five
                           columns won, and every second name was "Jonathan ...".
                           Here the name gets the width and the marks say only

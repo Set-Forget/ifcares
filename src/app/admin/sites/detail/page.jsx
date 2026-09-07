@@ -290,11 +290,21 @@ function SiteDetailScreen() {
       const res = await apiPut(`/api/sites/${record.id}`, {});
       invalidate(ALL_MEALS_PATH);
       loadRecord();
+      // The count added on its own is not checkable: "18 days added" on a cycle
+      // that asks for 22 reads exactly like a generator that dropped four, when
+      // the other four were already on the calendar. Saying both numbers when
+      // they differ turns it back into something an administrator can verify.
       toast.success(
         res.added
           ? `${res.added} service ${res.added === 1 ? 'day' : 'days'} added`
           : 'The calendar already matches the cycle',
-        { id: pending }
+        {
+          id: pending,
+          description:
+            res.added && res.expected && res.added !== res.expected
+              ? `The cycle covers ${res.expected} service days; the other ${res.expected - res.added} were already there.`
+              : undefined,
+        }
       );
     } catch (err) {
       toast.error(err.message, { id: pending });

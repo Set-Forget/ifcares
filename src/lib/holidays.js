@@ -1,4 +1,5 @@
 import { prisma } from '@/lib/db';
+import { mealsOrAll } from '@/lib/calendar';
 import { dateToYmd } from '@/lib/dates';
 
 // Holidays are subtracted when the calendar is read, never written into it. One
@@ -50,7 +51,20 @@ export function applyHolidays(meals, holidays, siteId, ymd) {
 
   for (const holiday of holidays) {
     if (!covers(holiday, siteId, ymd)) continue;
-    name = name || holiday.name;
+    if (!name) {
+      name = holiday.name;
+      // What a holiday subtracts FROM has to be the same day everybody else
+      // sees. A day carrying four false flags is not a day that serves nothing:
+      // 89% of the service days imported from the spreadsheets look like that
+      // because the flags did not survive the export, and `mealsOrAll` is why
+      // the count form still offers all four meals on them.
+      //
+      // Subtracting from the raw flags instead meant nothing was left the moment
+      // anything was taken, so a holiday closing breakfast alone closed the
+      // WHOLE day on nine days out of ten: no count could be filed, the
+      // dashboard drew it as a holiday and the overdue reminder skipped it.
+      remaining = { ...mealsOrAll(remaining) };
+    }
     if (holiday.allMeals) return { meals: null, holiday: name };
     for (const key of MEAL_KEYS) {
       if (holiday[key]) remaining[key] = false;
