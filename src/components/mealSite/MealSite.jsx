@@ -17,6 +17,8 @@ const MealSite = () => {
   const [sites, setSites] = useState([]);
   const { auth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [siteDataError, setSiteDataError] = useState(false);
+  const [studentDataError, setStudentDataError] = useState(false);
 
   const {
     selectedSite,
@@ -98,34 +100,58 @@ const MealSite = () => {
     };
   }, [auth, isDataFetched, setIsDataFetched]);
 
-  const fetchDataForSelectedSite = (site) => {
-    setIsLoading(true);
-    // Make an API request with the selected site as a parameter
-    axios
-      .get(GAS_URL + `?type=siteData&site=${site}`)
-      .then((response) => {
-        // Apps Script contesta 200 con una pagina HTML de error cuando se
-        // pasa de cuota o el deployment falla, asi que response.data puede
-        // ser un string. Guardarlo rompia la pantalla mas adelante.
-        const data = response.data;
-        if (!data || typeof data !== 'object') {
-          throw new Error('siteData: unexpected response from the backend');
+  // Apps Script se cae de a ratos: devuelve 404/500, corta la conexion, o
+  // contesta 200 con una pagina HTML de error cuando esta pasado de cuota.
+  // Un solo fallo dejaba la pantalla sin datos y sin explicacion, asi que
+  // reintentamos igual que fetchAllMeals antes de darnos por vencidos.
+  const GAS_ATTEMPTS = 3;
+  const GAS_RETRY_DELAYS = [2000, 5000];
+
+  const fetchFromGasWithRetry = async (url, isValidResponse) => {
+    let lastError;
+
+    for (let attempt = 1; attempt <= GAS_ATTEMPTS; attempt++) {
+      try {
+        const response = await axios.get(url, { timeout: 60 * 1000 });
+        if (!isValidResponse(response.data)) {
+          throw new Error('unexpected response from the backend');
         }
-        setSiteData(data);
-        setLastTimeIn(data.lastTimeIn);
-        setLastTimeOut(data.lastTimeOut);
-      })
-      .catch((error) => {
-        console.error('Error fetching site data:', error);
-        logErrorMonitoring({
-          function_name: 'fetchDataForSelectedSite - MealSite',
-          error: error,
-          row_error: error?.stack,
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
+        return response.data;
+      } catch (error) {
+        lastError = error;
+        if (attempt < GAS_ATTEMPTS) {
+          await new Promise((resolve) =>
+            setTimeout(resolve, GAS_RETRY_DELAYS[attempt - 1])
+          );
+        }
+      }
+    }
+
+    throw lastError;
+  };
+
+  const fetchDataForSelectedSite = async (site) => {
+    setIsLoading(true);
+    setSiteDataError(false);
+    try {
+      const data = await fetchFromGasWithRetry(
+        GAS_URL + `?type=siteData&site=${site}`,
+        (value) => value && typeof value === 'object'
+      );
+      setSiteData(data);
+      setLastTimeIn(data.lastTimeIn);
+      setLastTimeOut(data.lastTimeOut);
+    } catch (error) {
+      console.error('Error fetching site data:', error);
+      setSiteDataError(true);
+      logErrorMonitoring({
+        function_name: 'fetchDataForSelectedSite - MealSite',
+        error: error,
+        row_error: error?.stack,
       });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // When the selected site changes, fetch data for the new site
@@ -135,31 +161,35 @@ const MealSite = () => {
     }
   }, [selectedSite]);
 
-  const fetchStudentForSelectedSite = (site) => {
+  const fetchStudentForSelectedSite = async (site) => {
     setIsLoading(true);
-    // Make an API request with the selected site as a parameter
-    axios
-      .get(GAS_URL + `?type=studentData&site=${site}`)
-      .then((response) => {
-        // Idem siteData: solo aceptamos el array de alumnos. Si guardamos el
-        // HTML de error, el roster queda como string y cualquier consumidor
-        // que lo trate como array tira una excepcion que tumba la pagina.
-        if (!Array.isArray(response.data)) {
-          throw new Error('studentData: unexpected response from the backend');
-        }
-        setStudentData(response.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching site data:', error);
-        logErrorMonitoring({
-          function_name: 'fetchStudentForSelectedSite - MealSite',
-          error: error,
-          row_error: error?.stack,
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
+    setStudentDataError(false);
+    try {
+      // Solo aceptamos el array de alumnos. Si guardaramos el HTML de error,
+      // el roster queda como string y cualquier consumidor que lo trate como
+      // array tira una excepcion que tumba la pagina.
+      const data = await fetchFromGasWithRetry(
+        GAS_URL + `?type=studentData&site=${site}`,
+        (value) => Array.isArray(value)
+      );
+      setStudentData(data);
+    } catch (error) {
+      console.error('Error fetching student data:', error);
+      setStudentDataError(true);
+      logErrorMonitoring({
+        function_name: 'fetchStudentForSelectedSite - MealSite',
+        error: error,
+        row_error: error?.stack,
       });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const retryFailedFetches = () => {
+    if (!selectedSite) return;
+    if (siteDataError) fetchDataForSelectedSite(selectedSite);
+    if (studentDataError) fetchStudentForSelectedSite(selectedSite);
   };
 
   useEffect(() => {
@@ -276,6 +306,28 @@ const MealSite = () => {
       )}
 
       <br />
+      {(studentDataError || siteDataError) && (
+        <div className="w-full rounded-lg bg-red-50 border border-red-300 p-4 mb-4">
+          <p className="text-sm text-red-700 font-semibold">
+            {studentDataError
+              ? "The participant list could not be loaded, so this meal count can't be submitted yet."
+              : 'The site information could not be loaded.'}{' '}
+            <button
+              type="button"
+              onClick={retryFailedFetches}
+              disabled={isLoading}
+              className="underline font-bold"
+            >
+              {isLoading ? 'Retrying...' : 'Retry'}
+            </button>
+          </p>
+          <p className="text-xs text-red-700 mt-1">
+            This is a temporary problem with the server, not with your device.
+            Anything you already saved with &ldquo;Save for Later&rdquo; is
+            still on this device.
+          </p>
+        </div>
+      )}
       <MealList></MealList>
     </div>
   );
