@@ -185,15 +185,22 @@ export const MealSiteProvider = ({ children }) => {
   const countsSyncRef = useRef({ site: null, date: null, restored: false });
 
   const syncCountsForSelectedDate = () => {
-    const dateKey = selectedDate ? formatDateForLocalStorage(selectedDate) : null;
     const lastSync = countsSyncRef.current;
+
+    // Comparamos selectedDate POR IDENTIDAD, igual que MealCard y
+    // MealTableRow, que limpian sus checkboxes cuando
+    // selectedDate !== selectedDateCache. Volver al mismo dia desde el
+    // calendario del home crea un dayjs nuevo: los rows se limpian igual,
+    // asi que nosotros tenemos que volver a aplicar lo guardado o quedan
+    // los totales con las casillas vacias. Comparar por 'YYYY-MM-DD' hacia
+    // justamente eso.
     const isNewSelection =
-      lastSync.site !== selectedSite || lastSync.date !== dateKey;
+      lastSync.site !== selectedSite || lastSync.date !== selectedDate;
 
     if (isNewSelection) {
       countsSyncRef.current = {
         site: selectedSite,
-        date: dateKey,
+        date: selectedDate,
         restored: false,
       };
       resetGlobalCounts();
@@ -205,10 +212,11 @@ export const MealSiteProvider = ({ children }) => {
     }
 
     // Misma selección: sólo nos falta el reintento de cuando el roster llegó
-    // después de que se eligió la fecha.
+    // después de que se eligió la fecha. Usamos checkSavedMealCounts (y no
+    // la lectura pura) porque los rows recien montados ya se limpiaron.
     if (lastSync.restored) return;
 
-    const savedData = readSavedMealCounts();
+    const savedData = checkSavedMealCounts();
     if (savedData && updateCountsForSavedMeal(savedData)) {
       countsSyncRef.current.restored = true;
     }
