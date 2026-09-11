@@ -104,9 +104,16 @@ const MealSite = () => {
     axios
       .get(GAS_URL + `?type=siteData&site=${site}`)
       .then((response) => {
-        setSiteData(response.data);
-        setLastTimeIn(response.data.lastTimeIn);
-        setLastTimeOut(response.data.lastTimeOut);
+        // Apps Script contesta 200 con una pagina HTML de error cuando se
+        // pasa de cuota o el deployment falla, asi que response.data puede
+        // ser un string. Guardarlo rompia la pantalla mas adelante.
+        const data = response.data;
+        if (!data || typeof data !== 'object') {
+          throw new Error('siteData: unexpected response from the backend');
+        }
+        setSiteData(data);
+        setLastTimeIn(data.lastTimeIn);
+        setLastTimeOut(data.lastTimeOut);
       })
       .catch((error) => {
         console.error('Error fetching site data:', error);
@@ -134,6 +141,12 @@ const MealSite = () => {
     axios
       .get(GAS_URL + `?type=studentData&site=${site}`)
       .then((response) => {
+        // Idem siteData: solo aceptamos el array de alumnos. Si guardamos el
+        // HTML de error, el roster queda como string y cualquier consumidor
+        // que lo trate como array tira una excepcion que tumba la pagina.
+        if (!Array.isArray(response.data)) {
+          throw new Error('studentData: unexpected response from the backend');
+        }
         setStudentData(response.data);
       })
       .catch((error) => {

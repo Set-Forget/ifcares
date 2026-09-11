@@ -62,6 +62,57 @@ export default function Login() {
   //     });
   // };
 
+  // El backend es Apps Script: cuando esta saturado (todos los sitios cargan
+  // el meal count a la misma hora) contesta 200 con una pagina HTML de error,
+  // o corta la conexion. Antes eso salia como "An error occurred. Please try
+  // again." y el usuario tenia que reintentar a mano una y otra vez.
+  // El login es solo lectura, asi que reintentar es seguro.
+  const LOGIN_ATTEMPTS = 3;
+  const LOGIN_RETRY_DELAYS = [1500, 4000];
+
+  const postLogin = async (body) => {
+    // Abort the request if the backend takes too long, so the user
+    // gets feedback instead of an endless spinner
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 45 * 1000);
+
+    try {
+      const response = await fetch(API_BASE_URL, {
+        method: 'POST',
+        redirect: 'follow',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      });
+
+      const text = await response.text();
+      try {
+        return JSON.parse(text);
+      } catch (parseError) {
+        throw new Error('The server returned an unexpected response.');
+      }
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  };
+
+  const postLoginWithRetry = async (body) => {
+    for (let attempt = 1; attempt <= LOGIN_ATTEMPTS; attempt++) {
+      try {
+        return await postLogin(body);
+      } catch (error) {
+        // Un timeout que ya consumio 45s no se reintenta: el usuario prefiere
+        // el aviso a esperar otros 45.
+        if (attempt === LOGIN_ATTEMPTS || error?.name === 'AbortError') throw error;
+        await new Promise((resolve) =>
+          setTimeout(resolve, LOGIN_RETRY_DELAYS[attempt - 1])
+        );
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -76,24 +127,8 @@ export default function Login() {
       password,
     };
 
-    // Abort the request if the backend takes too long, so the user
-    // gets feedback instead of an endless spinner
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45 * 1000);
-
     try {
-      // Making the fetch request using async/await
-      const response = await fetch(API_BASE_URL, {
-        method: 'POST',
-        redirect: 'follow',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify(body),
-        signal: controller.signal,
-      });
-
-      const data = await response.json();
+      const data = await postLoginWithRetry(body);
 
       const { result, message, data: responseData } = data;
       if (result === 'success') {
@@ -127,8 +162,6 @@ export default function Login() {
         setError('An error occurred. Please try again.');
       }
       setLoading(false);
-    } finally {
-      clearTimeout(timeoutId);
     }
   };
 

@@ -89,20 +89,40 @@ export const MealSiteProvider = ({ children }) => {
     }
   };
 
-  // como hay una saved Meal en el local Storage updateamos los counts
+  // como hay una saved Meal en el local Storage updateamos los counts.
+  // studentData arranca como '' y recién pasa a ser un array cuando responde
+  // ?type=studentData, así que esto se llama muchas veces sin roster todavía
+  // (el deep link /mealCount?site=&date= setea la fecha en el mismo mount en
+  // que dispara el fetch). Sin roster no podemos saber qué alumnos guardados
+  // siguen inscriptos, así que devolvemos false y el caller reintenta cuando
+  // llega. Recalcula los totales de cero en vez de ir sumando, así reintentar
+  // no duplica los counts.
   const updateCountsForSavedMeal = (data) => {
+    if (!Array.isArray(studentData) || !data) return false;
+
+    const rosterIds = new Set(studentData.map((student) => student.id));
+    const counts = {
+      attendance: 0,
+      breakfast: 0,
+      lunch: 0,
+      snack: 0,
+      supper: 0,
+    };
+
     Object.keys(data).forEach((studentId) => {
-      // Check if the student exists in the studentData array
-      const studentExists = studentData.some(
-        (student) => student.id === studentId
-      );
-
       // Skip if the student does not exist in studentData
-      if (!studentExists) return;
+      if (!rosterIds.has(studentId)) return;
 
-      // Pass the relevant data for each student to the function
-      updateCountsOnSavedMealCounts(studentId, data[studentId]);
+      const savedCheckboxes = data[studentId];
+      if (!savedCheckboxes) return;
+
+      Object.keys(counts).forEach((category) => {
+        if (savedCheckboxes[category]) counts[category] += 1;
+      });
     });
+
+    setGlobalCounts(counts);
+    return true;
   };
 
   // Modify the function to accept the student's data directly
@@ -122,34 +142,82 @@ export const MealSiteProvider = ({ children }) => {
   const formatDateForLocalStorage = (date) => {
     return dayjs(date).format('YYYY-MM-DD');
   };
+  // Lee el "Save for Later" del sitio/fecha elegidos, sin tocar estado.
+  // localStorage puede tener JSON corrupto (o estar bloqueado en modo
+  // incógnito), y eso no puede tumbar la pantalla de meal count.
+  const readSavedMealCounts = () => {
+    if (!selectedSite || !selectedDate) return false;
+
+    const formattedDate = formatDateForLocalStorage(selectedDate);
+
+    let savedMealCounts = [];
+    try {
+      savedMealCounts = JSON.parse(localStorage.getItem('savedMealCounts')) || [];
+    } catch (error) {
+      return false;
+    }
+    if (!Array.isArray(savedMealCounts)) return false;
+
+    // Find if there's an existing entry for the selected site and date
+    const matchingEntry = savedMealCounts.find(
+      (item) =>
+        item &&
+        item.selectedSite === selectedSite &&
+        item.selectedDate === formattedDate
+    );
+
+    return matchingEntry ? matchingEntry.data : false;
+  };
+
   // funcion que checkea
   const checkSavedMealCounts = () => {
-    if (selectedSite && selectedDate) {
-      const formattedDate = formatDateForLocalStorage(selectedDate);
+    const savedData = readSavedMealCounts();
 
-      // Retrieve existing data from localStorage
-      const savedMealCounts =
-        JSON.parse(localStorage.getItem('savedMealCounts')) || [];
+    // If a matching entry is found, set the checkbox data
+    if (savedData) setSelectedCheckboxData(savedData);
 
-      // Find if there's an existing entry for the selected site and date
-      const matchingEntry = savedMealCounts.find(
-        (item) =>
-          item.selectedSite === selectedSite &&
-          item.selectedDate === formattedDate
-      );
+    return savedData;
+  };
 
-      // If a matching entry is found, set the checkbox data
-      if (matchingEntry) {
-        setSelectedCheckboxData(matchingEntry.data);
-        return matchingEntry.data;
+  // Restaura los counts guardados para el sitio/fecha actual. Se llama tanto
+  // al cambiar de fecha como cuando termina de llegar el roster, así que
+  // recuerda qué selección ya restauró para no pisar lo que marcó el usuario.
+  const countsSyncRef = useRef({ site: null, date: null, restored: false });
+
+  const syncCountsForSelectedDate = () => {
+    const dateKey = selectedDate ? formatDateForLocalStorage(selectedDate) : null;
+    const lastSync = countsSyncRef.current;
+    const isNewSelection =
+      lastSync.site !== selectedSite || lastSync.date !== dateKey;
+
+    if (isNewSelection) {
+      countsSyncRef.current = {
+        site: selectedSite,
+        date: dateKey,
+        restored: false,
+      };
+      resetGlobalCounts();
+      const savedData = checkSavedMealCounts();
+      if (savedData && updateCountsForSavedMeal(savedData)) {
+        countsSyncRef.current.restored = true;
       }
+      return;
     }
-    return false;
+
+    // Misma selección: sólo nos falta el reintento de cuando el roster llegó
+    // después de que se eligió la fecha.
+    if (lastSync.restored) return;
+
+    const savedData = readSavedMealCounts();
+    if (savedData && updateCountsForSavedMeal(savedData)) {
+      countsSyncRef.current.restored = true;
+    }
   };
 
   const topRef = useRef(null); // Create a ref for the top of the component
 
   const resetAllStates = () => {
+    countsSyncRef.current = { site: null, date: null, restored: false };
     setSelectedSite('');
     setSiteData('');
     setIsDataFetched(false);
@@ -263,6 +331,11 @@ export const MealSiteProvider = ({ children }) => {
         const response = await axios.get(API_BASE_URL + '?type=allMeals', {
           timeout: 60 * 1000,
         });
+        // Apps Script puede contestar 200 con HTML de error; en ese caso
+        // reintentamos en vez de dejar el calendario con un string adentro.
+        if (!response.data || typeof response.data !== 'object') {
+          throw new Error('allMeals: unexpected response from the backend');
+        }
         setSitesData(response.data);
         setDatesBySite(response.data);
         setSitesDataLoading(false);
@@ -313,6 +386,7 @@ export const MealSiteProvider = ({ children }) => {
         updateCountsForSavedMeal,
         updateCountsOnSavedMealCounts,
         checkSavedMealCounts,
+        syncCountsForSelectedDate,
         handleCheckboxChange,
         updateCountsOnStudentDeletion,
         updateGlobalCount,

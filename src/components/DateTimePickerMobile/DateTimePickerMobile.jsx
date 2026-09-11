@@ -63,7 +63,9 @@ const DateTimePickerMobile = () => {
     }
 
     const formattedDate = dayjs(date).format('YYYY-MM-DD');
-    const validDatesForSite = Object.keys(datesBySite[selectedSite].validDates);
+    const validDatesForSite = Object.keys(
+      datesBySite[selectedSite].validDates || {}
+    );
     return !validDatesForSite.includes(formattedDate);
   };
 
@@ -79,6 +81,9 @@ const DateTimePickerMobile = () => {
   }, [lastTimeIn, lastTimeOut]);
 
   function formatTimeForPicker(dateTimeStr) {
+    // Ver MealTable: el horario puede no venir como string.
+    if (typeof dateTimeStr !== 'string') return null;
+
     // Extract the time part using a regular expression
     const timeMatch = dateTimeStr.match(/\d{2}:\d{2}:\d{2}/);
     if (!timeMatch) return null;

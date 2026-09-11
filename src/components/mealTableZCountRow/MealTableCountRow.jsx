@@ -13,21 +13,15 @@ const MealTableCountRow = ({
   const {
     globalCounts,
     selectedDate,
-    selectedDateCache,
-    resetGlobalCounts,
-    updateCountsForSavedMeal,
-    checkSavedMealCounts
+    studentData,
+    syncCountsForSelectedDate,
   } = useContext(MealSiteContext); // Use context
 
+  // Ver MealCountMobile: studentData en las deps reintenta la restauración
+  // cuando el roster llega después de que se eligió la fecha.
   useEffect(() => {
-    if (selectedDate !== selectedDateCache) {
-      resetGlobalCounts();
-      let data = checkSavedMealCounts();
-      if (data) {
-        updateCountsForSavedMeal(data)
-      }
-    }
-  }, [selectedDate]);
+    syncCountsForSelectedDate();
+  }, [selectedDate, studentData]);
 
   return (
     <tr>

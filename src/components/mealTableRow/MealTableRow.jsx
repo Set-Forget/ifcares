@@ -37,7 +37,7 @@ const MealTableRow = ({ student, selectedSite, selectedDate, datesBySite }) => {
   const mealAvailability = useMemo(() => {
     const formattedDate = formatDate(selectedDate); // Format the selected date
     const siteData = datesBySite[selectedSite];
-    return siteData?.validDates[formattedDate] || {};
+    return siteData?.validDates?.[formattedDate] || {};
   }, [selectedSite, selectedDate, datesBySite]);
 
   const handleLocalCheckboxChange = (category, checked) => {

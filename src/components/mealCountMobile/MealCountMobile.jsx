@@ -5,21 +5,16 @@ const MealCountMobile = () => {
   const {
     globalCounts,
     selectedDate,
-    selectedDateCache,
-    resetGlobalCounts,
-    updateCountsForSavedMeal,
-    checkSavedMealCounts,
+    studentData,
+    syncCountsForSelectedDate,
   } = useContext(MealSiteContext);
 
+  // studentData va en las deps: si la fecha se elige antes de que llegue el
+  // roster (deep link desde el calendario, o conexión lenta), la restauración
+  // del "Save for Later" se reintenta acá cuando el roster aparece.
   useEffect(() => {
-    if (selectedDate !== selectedDateCache) {
-      resetGlobalCounts();
-      let data = checkSavedMealCounts();
-      if (data) {
-        updateCountsForSavedMeal(data);
-      }
-    }
-  }, [selectedDate]);
+    syncCountsForSelectedDate();
+  }, [selectedDate, studentData]);
 
   return (
     <div className="w-full rounded-lg bg-white my-4 shadow p-4">
